@@ -37,7 +37,7 @@ type ForInitialState = {
 
 export const registerUser = createAsyncThunk<RegisterResponse,FormForRegister >('user/registerUser', async ({ username, password, email }) => {
     try {
-      const { data } = await axios.post('/register', { username, password, email });
+      const { data } = await axios.post('/auth/register', { username, password, email });
       return data;
     } catch (error) {
       console.log(error);
@@ -47,7 +47,7 @@ export const registerUser = createAsyncThunk<RegisterResponse,FormForRegister >(
 
 export const loginUser = createAsyncThunk<LoginResponse, FormForLogin>('user/loginUser', async ({ password, email }) => {
     try {
-        const { data } = await axios.post('/login', { password, email });
+        const { data } = await axios.post('/auth/login', { password, email });
         
         if (data.token) {
             window.localStorage.setItem('token', data.token)
@@ -60,6 +60,8 @@ export const loginUser = createAsyncThunk<LoginResponse, FormForLogin>('user/log
     }
 });
 
+
+
 const initialState: ForInitialState  = {
     user: null,
     token: null,
@@ -70,7 +72,16 @@ const initialState: ForInitialState  = {
 const userSlice = createSlice({
     name: 'user',
     initialState,
-    reducers: {},
+    reducers: {
+        logOut(state) {
+            state.user = null
+            state.token = null
+            state.status = 'Вы вышли из аккаунта'
+        },
+        clearStatus(state) {
+            state.status = null
+        }
+    },
     extraReducers: (builder) => {
         builder
             //Registration
@@ -100,6 +111,7 @@ const userSlice = createSlice({
     }
 })
 
+export const { logOut, clearStatus } = userSlice.actions
 
 export const checkIsAuth = (state: Token): boolean => Boolean(state.token) 
 

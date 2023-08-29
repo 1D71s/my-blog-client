@@ -2,7 +2,7 @@ import React from 'react'
 
 const Me = () => {
   return (
-    <div>
+    <div className='cont-me'>
       Me
     </div>
   )

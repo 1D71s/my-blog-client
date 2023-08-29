@@ -1,7 +1,10 @@
 body {
     margin: 0;
     padding: 0;
-    height: 2000px;
+    min-height: 100vh;
+    max-width: 1200px;
+    border: 1px solid rgb(220, 220, 220);
+    margin: 0 auto;
 }
 
 .login {
@@ -11,4 +14,8 @@ body {
     margin-top: 100px;
     border: 1px solid rgb(205, 205, 205);
     padding: 30px;
+}
+
+.cont-me  {
+    margin-top: 300px;
 }

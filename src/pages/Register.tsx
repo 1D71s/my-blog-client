@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from '../hooks'
 import { useNavigate } from 'react-router-dom'
 import { registerUser } from '../redux/userSlice'
 import { toast } from 'react-toastify'
-
+import { clearStatus } from '../redux/userSlice'
 
 const Register = () => {
 
@@ -17,8 +17,11 @@ const Register = () => {
   const status = useAppSelector(state => state.auth.status)
 
   useEffect(() => {
-    if (status) toast(status)
-    if (status === 'Регистрация прошла успешно') navigate('/')
+    if (status === 'Регистрация прошла успешно') {
+      toast(status)
+      navigate('/')
+      dispatch(clearStatus())
+    }
   }, [status])
 
   const registration = async () => {

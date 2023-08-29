@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from '../hooks'
 import { useNavigate } from 'react-router-dom'
 import { loginUser } from '../redux/userSlice'
 import { toast } from 'react-toastify'
+import { clearStatus } from '../redux/userSlice'
 
 const Login = () => {
   
@@ -25,8 +26,11 @@ const Login = () => {
   };
 
   useEffect(() => {
-    if (status) toast(status)
-    if (status === 'Вы вошли в систему') navigate('/')
+    if (status === 'Вы вошли в систему') {
+      toast(status)
+      navigate('/')
+      dispatch(clearStatus())
+    }
   }, [status])
   
 
