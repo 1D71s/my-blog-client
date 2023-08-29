@@ -35,7 +35,7 @@ const Register = () => {
   
 
   return (
-    <div>
+    <div className='login'>
       <div>
         <div>
           <div>Логин:</div>

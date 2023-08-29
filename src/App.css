@@ -1,0 +1,14 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 2000px;
+}
+
+.login {
+    display: block;
+    max-width: 200px;
+    margin: 0 auto;
+    margin-top: 100px;
+    border: 1px solid rgb(205, 205, 205);
+    padding: 30px;
+}

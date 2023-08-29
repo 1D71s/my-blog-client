@@ -31,7 +31,7 @@ const Login = () => {
   
 
   return (
-    <div>
+    <div className='login'>
       <div>
         <div>
           <div>Email:</div>
