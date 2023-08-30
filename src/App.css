@@ -7,15 +7,45 @@ body {
     margin: 0 auto;
 }
 
-.login {
-    display: block;
-    max-width: 200px;
+.cont-login {
+    display: flex;
+    max-width: 500px;
+    justify-content: center;
     margin: 0 auto;
     margin-top: 100px;
     border: 1px solid rgb(205, 205, 205);
-    padding: 30px;
+    padding: 40px;
+    padding-left: 15px;
+    padding-right: 15px;
+    color: gray;
+    border-radius: 10px;
 }
 
 .cont-me  {
     margin-top: 300px;
+}
+
+.el {
+    margin-bottom: 10px;
+}
+
+.btn-form {
+    color: white;
+    background: black;
+    padding: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border: none;
+    border-radius: 5px;
+}
+
+.cont-btn {
+    margin-top: 15px;
+}
+
+.input-auth {
+    height: 40px;
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid gray;
 }

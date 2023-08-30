@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { loginUser } from '../redux/userSlice'
 import { toast } from 'react-toastify'
 import { clearStatus } from '../redux/userSlice'
+import { getMe } from '../redux/userSlice'
 
 const Login = () => {
   
@@ -15,36 +16,34 @@ const Login = () => {
 
   const status = useAppSelector(state => state.auth.status)
 
-
   const logIn = async () => {
     const form = {
       email,
       password,
     };
     dispatch(loginUser(form))
-    console.log(form)
   };
 
   useEffect(() => {
     if (status === 'Вы вошли в систему') {
       toast(status)
+      dispatch(getMe())
       navigate('/')
       dispatch(clearStatus())
     }
   }, [status])
   
-
   return (
-    <div className='login'>
+    <div className='cont-login'>
       <div>
         <div>
-          <div>Email:</div>
-          <input type="email" onChange={e => setEmail(e.target.value)} />
-          <div>Пароль:</div>
-          <input type="password" onChange={e => setPassword(e.target.value)}/>
+          <div className='el'>Email:</div>
+          <input className='el input-auth' type="email" onChange={e => setEmail(e.target.value)} />
+          <div className='el'>Пароль:</div>
+          <input className='el input-auth' type="password" onChange={e => setPassword(e.target.value)}/>
         </div>
-        <div>
-          <button onClick={logIn}>Войти</button>
+        <div className='cont-btn'>
+          <button className='btn-form' onClick={logIn}>Войти</button>
         </div>
       </div>
     </div>

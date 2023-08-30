@@ -35,6 +35,14 @@ type ForInitialState = {
     status: null | string 
 }
 
+type User = {
+    _id: string,
+    username: string,
+    email: string,
+    password: string,
+    token: string
+}
+
 export const registerUser = createAsyncThunk<RegisterResponse,FormForRegister >('user/registerUser', async ({ username, password, email }) => {
     try {
       const { data } = await axios.post('/auth/register', { username, password, email });
@@ -53,6 +61,20 @@ export const loginUser = createAsyncThunk<LoginResponse, FormForLogin>('user/log
             window.localStorage.setItem('token', data.token)
         } 
         
+        return data;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+});
+
+export const getMe = createAsyncThunk<User>('user/getMe', async () => {
+    try {
+        const { data } = await axios.get('/auth/me');
+
+        if (data.token) {
+            window.localStorage.setItem('token', data.token)
+        } 
         return data;
     } catch (error) {
         console.log(error);
@@ -100,6 +122,16 @@ const userSlice = createSlice({
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.loading = false
                 state.status = action.payload.message
+                state.token = action.payload.token
+            })
+
+            //Get Me
+            .addCase(getMe.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(getMe.fulfilled, (state, action) => {
+                state.loading = false
+                state.user = action.payload
                 state.token = action.payload.token
             })
 

@@ -12,6 +12,7 @@ import { toast } from 'react-toastify'
 const NavBar = () => {
 
     const isAuth = useAppSelector(state => state.auth.token);
+    const loading = useAppSelector(state => state.auth.loading);
     const expand = 'md'; 
     
     const dispatch = useAppDispatch()
@@ -27,7 +28,9 @@ const NavBar = () => {
     return (
         <Navbar expand={expand} className='cont fixed-top'>
             <Container fluid>
-                <Navbar.Brand href="#" className='hounter'>My_Blog</Navbar.Brand>
+                <Navbar.Brand href="#" className='hounter'>
+                    <Link to='/'>My_Blog</Link>
+                </Navbar.Brand>
                     <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
                     <Navbar.Offcanvas
                         id={`offcanvasNavbar-expand-${expand}`}
@@ -39,18 +42,17 @@ const NavBar = () => {
                         Гость
                         </Offcanvas.Title>
                     </Offcanvas.Header>
-                    {isAuth ? <Offcanvas.Body>
+                    {!loading && <Offcanvas.Body>
+                        {isAuth ?
                         <Nav className="justify-content-end flex-grow-1 pe-3">
                             <div className='links' onClick={logOutAccount}>Выход</div>
-                            <Link className='links' to="/login">Профиль</Link>
-                            <Link className='links' to="/register">Створити публікацію</Link>
-                        </Nav>
-                    </Offcanvas.Body> :
-                    <Offcanvas.Body>
+                            <Link className='links' to="/me">Профиль</Link>
+                            <Link className='links' to="/create">Створити публікацію</Link>
+                        </Nav> :    
                         <Nav className="justify-content-end flex-grow-1 pe-3">
-                        <Link className='links' to="/login">Вход</Link>
-                        <Link className='links' to="/register">Регистрация</Link>
-                        </Nav>
+                            <Link className='links' to="/login">Вход</Link>
+                            <Link className='links' to="/register">Регистрация</Link>
+                        </Nav>}
                     </Offcanvas.Body>}
                 </Navbar.Offcanvas>
             </Container>

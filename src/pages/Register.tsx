@@ -38,18 +38,18 @@ const Register = () => {
   
 
   return (
-    <div className='login'>
+    <div className='cont-login'>
       <div>
         <div>
-          <div>Логин:</div>
-          <input type="text" onChange={e => setUsername(e.target.value)} />
-          <div>Email:</div>
-          <input type="email" onChange={e => setEmail(e.target.value)} />
-          <div>Пароль:</div>
-          <input type="password" onChange={e => setPassword(e.target.value)}/>
+          <div className='el'>Логин:</div>
+          <input className='el input-auth' type="text" onChange={e => setUsername(e.target.value)} />
+          <div className='el'>Email:</div>
+          <input className='el input-auth' type="email" onChange={e => setEmail(e.target.value)} />
+          <div className='el'>Пароль:</div>
+          <input className='el input-auth' type="password" onChange={e => setPassword(e.target.value)}/>
         </div>
-        <div>
-          <button onClick={registration}>Зарегистрироваться</button>
+        <div className='cont-btn'>
+          <button className='btn-form' onClick={registration}>Зарегистрироваться</button>
         </div>
       </div>
     </div>
