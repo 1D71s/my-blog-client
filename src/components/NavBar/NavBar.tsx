@@ -12,7 +12,7 @@ import { toast } from 'react-toastify'
 const NavBar = () => {
 
     const isAuth = useAppSelector(state => state.auth.token);
-    const loading = useAppSelector(state => state.auth.loading);
+    const getMeStateLoading = useAppSelector(state => state.auth.getMeStateLoading);
     const expand = 'md'; 
     
     const dispatch = useAppDispatch()
@@ -29,7 +29,7 @@ const NavBar = () => {
         <Navbar expand={expand} className='cont fixed-top'>
             <Container fluid>
                 <Navbar.Brand href="#" className='hounter'>
-                    <Link to='/'>My_Blog</Link>
+                    <Link to='/'><b>My_Blog</b></Link>
                 </Navbar.Brand>
                     <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`} />
                     <Navbar.Offcanvas
@@ -42,7 +42,7 @@ const NavBar = () => {
                         Гость
                         </Offcanvas.Title>
                     </Offcanvas.Header>
-                    {!loading && <Offcanvas.Body>
+                    {!getMeStateLoading && <Offcanvas.Body>
                         {isAuth ?
                         <Nav className="justify-content-end flex-grow-1 pe-3">
                             <div className='links' onClick={logOutAccount}>Выход</div>

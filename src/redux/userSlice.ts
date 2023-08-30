@@ -32,7 +32,8 @@ type ForInitialState = {
     user: null | FormForRegister,
     loading: boolean,
     token: null | string,
-    status: null | string 
+    status: null | string,
+    getMeStateLoading: boolean,
 }
 
 type User = {
@@ -89,6 +90,7 @@ const initialState: ForInitialState  = {
     token: null,
     loading: false,
     status: null,
+    getMeStateLoading: false,
 }
 
 const userSlice = createSlice({
@@ -128,9 +130,11 @@ const userSlice = createSlice({
             //Get Me
             .addCase(getMe.pending, (state) => {
                 state.loading = true
+                state.getMeStateLoading = true
             })
             .addCase(getMe.fulfilled, (state, action) => {
                 state.loading = false
+                state.getMeStateLoading = false
                 state.user = action.payload
                 state.token = action.payload.token
             })
