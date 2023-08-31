@@ -26,10 +26,6 @@ body {
     background: white;
 }
 
-.cont-me  {
-    margin-top: 300px;
-}
-
 .el {
     margin-bottom: 10px;
 }
@@ -79,5 +75,57 @@ body {
     .cont-login {
         margin: 10px;
         margin-top: 100px;
+    }
+}
+
+
+/*ME*/
+.cont-me {
+    margin-top: 100px;
+    max-width: 1200px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.ava-me {
+    max-width: 300px;
+    border-radius: 200px;
+}
+
+.my-info,
+.my-posts {
+    flex: 1;
+    padding: 20px;
+    background: white;
+    margin: 5px;
+    border: 1px solid rgb(205, 205, 205);
+    border-radius: 10px;
+}
+
+.my-posts {
+    padding: 20px;
+    max-width: 500px;
+    height: 100vh;
+    min-width: 400px; /* Минимальная ширина */
+}
+
+/* Для устройств с максимальной шириной до 1200px */
+@media (max-width: 1200px) {
+    .my-posts {
+        min-width: 100%; /* Полная ширина при уменьшенном экране */
+    }
+}
+
+/* Для устройств с максимальной шириной до 768px */
+@media (max-width: 768px) {
+    .cont-me {
+        flex-direction: column;
+        align-items: center;
+    }
+    .my-info,
+    .my-posts {
+        max-width: 100%;
+        min-width: auto; /* Сброс минимальной ширины */
     }
 }

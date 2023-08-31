@@ -40,6 +40,7 @@ const Register = () => {
       username,
       email,
       password,
+      useravatar: ''
     };
     dispatch(registerUser(newUser));
     setEmail('')

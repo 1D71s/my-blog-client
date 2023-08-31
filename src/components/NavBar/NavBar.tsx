@@ -12,8 +12,10 @@ import { toast } from 'react-toastify'
 const NavBar = () => {
 
     const isAuth = useAppSelector(state => state.auth.token);
+    const user = useAppSelector(state => state.auth.user);
     const getMeStateLoading = useAppSelector(state => state.auth.getMeStateLoading);
     const expand = 'md'; 
+
     
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
@@ -39,7 +41,7 @@ const NavBar = () => {
                         >
                     <Offcanvas.Header closeButton>
                         <Offcanvas.Title id={`offcanvasNavbarLabel-expand-${expand}`}>
-                        Гость
+                        {isAuth ? user?.username  :'Гость'}
                         </Offcanvas.Title>
                     </Offcanvas.Header>
                     {!getMeStateLoading && <Offcanvas.Body>

@@ -8,7 +8,7 @@ import { getMe } from '../redux/userSlice'
 
 const Login = () => {
   
-  const [email, setEmail] = useState('koder2563@gmail.com')
+  const [username, setUsername] = useState('admin')
   const [password, setPassword] = useState('123456')
 
   const [errorForm, setErrorForm] = useState<string | null>('');
@@ -20,7 +20,7 @@ const Login = () => {
 
   const logIn = () => {
     const form = {
-      email,
+      username,
       password,
     };
 
@@ -46,12 +46,12 @@ const Login = () => {
       <div>
         <b className='header-auth'>Авторизация</b>
         <div>
-          <div className='el'>Email:</div>
+          <div className='el'>Логин:</div>
           <input
             className='el input-auth'
             type="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)} />
+            value={username}
+            onChange={e => setUsername(e.target.value)} />
           <div className='el'>Пароль:</div>
           <input
             className='el input-auth'

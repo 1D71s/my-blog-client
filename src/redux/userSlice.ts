@@ -9,11 +9,12 @@ type Token = {
 type FormForRegister = {
     username: string,
     email: string,
-    password: string
+    password: string,
+    useravatar: string,
 }
 
 type FormForLogin = {
-    email: string,
+    username: string,
     password: string
 }
 
@@ -41,7 +42,8 @@ type User = {
     username: string,
     email: string,
     password: string,
-    token: string
+    token: string,
+    useravatar: string
 }
 
 export const registerUser = createAsyncThunk<RegisterResponse,FormForRegister >('user/registerUser', async ({ username, password, email }) => {
@@ -54,9 +56,9 @@ export const registerUser = createAsyncThunk<RegisterResponse,FormForRegister >(
     }
 });
 
-export const loginUser = createAsyncThunk<LoginResponse, FormForLogin>('user/loginUser', async ({ password, email }) => {
+export const loginUser = createAsyncThunk<LoginResponse, FormForLogin>('user/loginUser', async ({ password, username }) => {
     try {
-        const { data } = await axios.post('/auth/login', { password, email });
+        const { data } = await axios.post('/auth/login', { password, username });
         
         if (data.token) {
             window.localStorage.setItem('token', data.token)
