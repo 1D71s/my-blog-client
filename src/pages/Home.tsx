@@ -2,13 +2,21 @@ import React, {useEffect, useState} from 'react'
 import ItemPost from '../components/ItemPost/ItemPost'
 import axios from '../axios'
 
+type Author = {
+  username: string,
+  useravatar: string
+}
+
 type Post = {
   title: string;
   text: string;
   image: string,
   comments: string
   likes: string,
-  _id: string
+  views: number,
+  author: Author,
+  _id: string,
+  createdAt: string
 };
 
 
@@ -33,17 +41,23 @@ const Home = () => {
   
 
   return (
-    <div className='posts'>
-      {posts.map((item) => (
-        <ItemPost
-          key={item._id}
-          img={item.image}
-          title={item.title}
-          text={item.text}
-          comments={item.comments}
-          likes={item.likes}
-        />
-      ))}
+    <div className='home'>
+      <div className='posts'>
+        {posts.map((item) => (
+          <ItemPost
+            key={item._id}
+            useravatar={item.author.useravatar}
+            author={item.author.username}
+            img={item.image}
+            title={item.title}
+            text={item.text}
+            views={item.views}
+            comments={item.comments}
+            likes={item.likes}
+            createdAt={item.createdAt}
+          />
+        ))}
+      </div>
     </div>
   )
 }

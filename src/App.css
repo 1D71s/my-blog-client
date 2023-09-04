@@ -9,6 +9,9 @@ body {
     font-family: 'Kanit', sans-serif;
 }
 
+.title-post {
+    font-size: 20px;
+}
 
 /*Form for register and loading*/
 .cont-login {
@@ -81,61 +84,212 @@ body {
 
 /*ME*/
 .cont-me {
-    margin-top: 100px;
+    margin-top: 70px;
     max-width: 1200px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    padding: 20px;
 }
 
 .ava-me {
     display: block;
     margin: 0 auto;
-    max-width: 300px;
+    max-width: 400px;
     border-radius: 200px;
 }
 
 .my-info,
 .my-posts {
-    flex: 1;
     justify-content: center;
     padding: 20px;
     background: white;
     margin: 5px;
     border: 1px solid rgb(205, 205, 205);
     border-radius: 10px;
+    min-width: 100%;
+}
+
+.my-info {
+    max-height: auto; /* Замените на желаемое значение высоты */
+    overflow-y: auto; /* Добавляем полосу прокрутки при необходимости */
 }
 
 
 
-/* Для устройств с максимальной шириной до 1200px */
-@media (max-width: 1000px) {
-    .my-posts {
-        min-width: 100%; /* Полная ширина при уменьшенном экране */
-    }
-}
-
-/* Для устройств с максимальной шириной до 768px */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
     .cont-me {
-        flex-direction: column;
-        align-items: center;
+        padding: 5px;
     }
-    .my-info,
-    .my-posts {
-        max-width: 100%;
-        min-width: auto; /* Сброс минимальной ширины */
+
+    .ava-me {
+        max-width: 300px;
     }
 }
+
 
 
 /*POSTS*/
 
+
 .posts {
     margin-top: 100px;
+    padding: 10px;
 }
+
+.post-item {
+    max-width: 1000px;
+    background-color: white;
+    padding: 30px;
+    margin: 20px;
+    border: 1px solid rgb(205, 205, 205);
+    border-radius: 10px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+.img-post-item {
+    display: block;
+    max-width: 100%;
+    margin: 0 auto;
+    max-height: 90vh;
+}
+
+.ava-in-item {
+    max-width: 50px;
+    margin-bottom: 10px;
+    border-radius: 50%;
+}
+
+.author {
+    position: relative;
+    top: -5px;
+    margin: 10px;
+    font-size: 17px;
+}
+
+.likes-comm-views {
+    margin-top: 10px;
+}
+
+.title-post {
+    display: block;
+    margin: 15px 0px;
+}
+
+.icons-lcv {
+    width: 22px;
+    height: 22px;
+}
+.count-icons {
+    margin-right: 10px;
+    margin-left: 2px;
+    font-size: 18px;
+    position: relative;
+    top: 3px;
+}
+
+.created-post-time {
+    font-size: 13px;
+    margin-top: 15px;
+    color: gray;
+}
+
+@media (max-width: 500px) {
+    .post-item {
+        padding: 15px;
+    }
+
+    .icons-lcv {
+        width: 18px;
+        height: 20px;
+    }
+    .count-icons {
+        font-size: 14px;
+        top: 1px;
+    }
+
+    .created-post-time {
+        font-size: 12px;
+    }
+
+    .author {
+        font-size: 15px;
+    }
+
+    .ava-in-item {
+        max-width: 40px;
+    }
+}
+
 
 /*CREATE POSTS*/
 .create-post {
+    margin: 0 auto;
     margin-top: 100px;
+    max-width: 800px;
+    padding: 30px;
+}
+
+.form-for-addpost {
+    background-color: white;
+    display: block;
+    margin: 0 auto;
+    max-width: 800px;
+    border-radius: 10px;
+    background: white;
+    border: 1px solid rgb(205, 205, 205);
+    padding: 30px;
+    color: gray;
+}
+
+.input-add-post {
+    width: 100%;
+    box-sizing: border-box; 
+    height: 40px;
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid rgb(157, 157, 157);
+    margin-bottom: 10px;
+}
+
+.textarea {
+    height: 200px;
+}
+
+.input-file {
+    margin-bottom: 20px;
+    display: none;
+}
+
+.btn-add-image {
+    color: black;
+    background: white;
+    padding: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border: none;
+    border-radius: 5px;
+    border: 1px solid black;
+    margin-bottom: 20px;
+}
+
+.img-foradd {
+    display: block;
+    max-width: 100%;
+    margin: 0 auto;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.btn-delete-image {
+    margin-left: 10px;
+    color: white;
+    background: black;
+    padding: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 20px;
 }

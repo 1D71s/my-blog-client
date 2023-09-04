@@ -15,7 +15,6 @@ const NavBar = () => {
     const user = useAppSelector(state => state.auth.user);
     const getMeStateLoading = useAppSelector(state => state.auth.getMeStateLoading);
     const expand = 'md'; 
-
     
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
@@ -26,6 +25,7 @@ const NavBar = () => {
         window.localStorage.removeItem('token')
         toast('Вы вышли из аккаунта')
     }
+    
   
     return (
         <Navbar expand={expand} className='cont fixed-top'>
@@ -47,9 +47,9 @@ const NavBar = () => {
                     {!getMeStateLoading && <Offcanvas.Body>
                         {isAuth ?
                         <Nav className="justify-content-end flex-grow-1 pe-3">
-                            <div className='links' onClick={logOutAccount}>Выход</div>
                             <Link className='links' to="/me">Профиль</Link>
                             <Link className='links' to="/create">Створити публікацію</Link>
+                            <div className='links' onClick={logOutAccount}>Выход</div>
                         </Nav> :    
                         <Nav className="justify-content-end flex-grow-1 pe-3">
                             <Link className='links' to="/login">Вход</Link>
