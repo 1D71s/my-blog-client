@@ -21,7 +21,7 @@ const NavBar = () => {
 
     const logOutAccount = () => {
         dispatch(logOut())
-        navigate('/')
+        navigate('/login')
         window.localStorage.removeItem('token')
         toast('Вы вышли из аккаунта')
     }

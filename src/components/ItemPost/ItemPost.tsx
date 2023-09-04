@@ -1,5 +1,19 @@
 import { AiFillEye, AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { BiComment } from "react-icons/bi";
+import { BiComment, BiBookmark, BiEditAlt } from "react-icons/bi";
+import { Link } from "react-router-dom";
+import { BsThreeDots } from "react-icons/bs";
+import { Popover } from 'antd';
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { useAppSelector, useAppDispatch } from "../../hooks";
+import { deletePost, clearStatus } from "../../redux/postSlice";
+import { useEffect } from "react";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
+interface Author {
+  username: string,
+  id: string
+}
 
 interface Props {
   img: string,
@@ -8,13 +22,20 @@ interface Props {
   comments: string,
   likes: string,
   views: number,
-  author: string,
+  author: Author,
   useravatar: string,
-  createdAt: string
+  createdAt: string,
+  id: string
 }
 
-const ItemPost = ({ img, title, text, comments, likes, views, author, useravatar, createdAt }: Props) => {
+const ItemPost = ({ id, img, title, text, comments, likes, views, author, useravatar, createdAt }: Props) => {
   
+  const isAuth = useAppSelector(state => state.auth.token);
+  const user = useAppSelector(state => state.auth.user);
+
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+
   const getTimeMakingPost = (timeString: string) => {
     // Создаем объект Date из строки времени
   const date = new Date(timeString);
@@ -37,17 +58,56 @@ const ItemPost = ({ img, title, text, comments, likes, views, author, useravatar
     }
   };
 
+  const status = useAppSelector(state => state.post.status)
+
+  const removePost = async () => {
+    try {
+      await dispatch(deletePost(id))
+      navigate('/me')
+      toast(status)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const content = (
+    <div className="menu-list">
+      <p className="menu-list-item"><BiBookmark className="icons-item-menu"/>Добавить в избраное</p>
+      {user && (user as any)._id === author.id && (
+        <div>
+          <p className="menu-list-item"><BiEditAlt className="icons-item-menu"/>Изменить</p>
+        <p className="menu-list-item delete" onClick={removePost}><RiDeleteBin6Line className="icons-item-menu"/>Удалить</p>
+        </div>
+      )}
+    </div>
+  );
+
+  const buttonWidth = 70;
+
   return (
     <div className='post-item'>
-      <div>
-        <img
-          className='ava-in-item'
-          src={`http://localhost:4005/uploads/${useravatar}`} />
-        <b className='author'>{author}</b>
+      <div className="cont-head-item">
+        <div>
+          <img
+            className='ava-in-item'
+            src={`http://localhost:4005/uploads/${useravatar}`} />
+          <b className='author'>{author.username}</b>
+        </div>
+        
+        {isAuth && <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
+          <Popover placement="bottomRight" content={content} trigger="click">
+            <button className="btn-none">
+              <BsThreeDots className="icon-menu"/>
+            </button>
+          </Popover>
+        </div>}
+
       </div>
-      {img && <img className='img-post-item' src={`http://localhost:4005${img}`} />}
-      <b className='title-post'>{title}</b>
-      <div>{text}</div>
+      <Link to={`/posts/${id}`}>
+        {img && <img className='img-post-item' src={`http://localhost:4005${img}`} />}
+        <b className='title-post'>{title}</b>
+        <div>{text}</div>
+      </Link>
       <div className='likes-comm-views'>
           {/*<AiFillHeart />*/}
         <AiOutlineHeart className='icons-lcv'/>

@@ -1,8 +1,10 @@
-import React, {useEffect, useState} from 'react'
+import {useEffect, useState} from 'react'
 import ItemPost from '../components/ItemPost/ItemPost'
 import axios from '../axios'
 
+
 type Author = {
+  id: string,
   username: string,
   useravatar: string
 }
@@ -45,9 +47,10 @@ const Home = () => {
       <div className='posts'>
         {posts.map((item) => (
           <ItemPost
-            key={item._id}
+            key={item._id} 
+            id={item._id}
             useravatar={item.author.useravatar}
-            author={item.author.username}
+            author={item.author}
             img={item.image}
             title={item.title}
             text={item.text}
