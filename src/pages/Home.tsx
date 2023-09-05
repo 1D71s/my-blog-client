@@ -1,29 +1,11 @@
 import {useEffect, useState} from 'react'
 import ItemPost from '../components/ItemPost/ItemPost'
 import axios from '../axios'
-
-
-type Author = {
-  id: string,
-  username: string,
-  useravatar: string
-}
-
-type Post = {
-  title: string;
-  text: string;
-  image: string,
-  comments: string
-  likes: string,
-  views: number,
-  author: Author,
-  _id: string,
-  createdAt: string
-};
+import { PostTypes } from '../types'
 
 
 const Home = () => {
-  const [posts, setPosts] = useState<Post[]>([]); 
+  const [posts, setPosts] = useState<PostTypes[]>([]); 
   const [whatIsPosts, setWhatisPosts] = useState('new')
 
   const fetchPosts = async () => {

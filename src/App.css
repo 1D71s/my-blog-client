@@ -253,18 +253,25 @@ li {
 }
 
 .icons-item-menu {
-    height: 20px;
-    width: 20px;
-    margin-right: 5px;
+    height: 22px;
+    width: 22px;
+    margin-right: 10px;
 }
 
 .menu-list {
-    padding: 30px;
+    padding: 20px;
+    padding-bottom: 10px;
+    padding-top: 0;
 }
 
 .menu-list-item {
     cursor: pointer;
+    font-size: 16px;
+    margin-top: 30px;
+    color: #000;
+    font-weight: bold; 
 }
+
 .delete {
     color: rgb(183, 0, 0);
 }

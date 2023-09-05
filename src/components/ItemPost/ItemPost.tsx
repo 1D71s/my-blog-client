@@ -5,10 +5,11 @@ import { BsThreeDots } from "react-icons/bs";
 import { Popover } from 'antd';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useAppSelector, useAppDispatch } from "../../hooks";
-import { deletePost, clearStatus } from "../../redux/postSlice";
+import { deletePost, getOnePosts } from "../../redux/postSlice";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+
 
 interface Author {
   username: string,
@@ -58,15 +59,14 @@ const ItemPost = ({ id, img, title, text, comments, likes, views, author, userav
     }
   };
 
-  const status = useAppSelector(state => state.post.status)
-
   const removePost = async () => {
     try {
       await dispatch(deletePost(id))
+      toast('Статью удалено!')
       navigate('/me')
-      toast(status)
     } catch (error) {
       console.log(error)
+      toast('Не удалось удалить статью!')
     }
   }
 
@@ -81,6 +81,10 @@ const ItemPost = ({ id, img, title, text, comments, likes, views, author, userav
       )}
     </div>
   );
+
+  const getPost = () => {
+    dispatch(getOnePosts(id))
+  }
 
   const buttonWidth = 70;
 
@@ -103,7 +107,7 @@ const ItemPost = ({ id, img, title, text, comments, likes, views, author, userav
         </div>}
 
       </div>
-      <Link to={`/posts/${id}`}>
+      <Link to={`/posts/${id}`} onClick={getPost}>
         {img && <img className='img-post-item' src={`http://localhost:4005${img}`} />}
         <b className='title-post'>{title}</b>
         <div>{text}</div>
@@ -111,11 +115,11 @@ const ItemPost = ({ id, img, title, text, comments, likes, views, author, userav
       <div className='likes-comm-views'>
           {/*<AiFillHeart />*/}
         <AiOutlineHeart className='icons-lcv'/>
-        <b className='count-icons'>{likes.length}</b>
+        <span className='count-icons'>{likes.length}</span>
         <BiComment className='icons-lcv'/>
-        <b className='count-icons'>{comments.length}</b>
+        <span className='count-icons'>{comments.length}</span>
         <AiFillEye className='icons-lcv'/>
-        <b className='count-icons'>{views}</b>
+        <span className='count-icons'>{views}</span>
       </div>
       <div className="created-post-time">{getTimeMakingPost(createdAt)}</div>
     </div>

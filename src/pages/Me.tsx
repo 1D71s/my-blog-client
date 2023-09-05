@@ -4,28 +4,12 @@ import { toast } from 'react-toastify'
 import ItemPost from '../components/ItemPost/ItemPost'
 import { getMyPosts, clearStatus } from '../redux/postSlice'
 import { BsFillEnvelopeAtFill, BsFillPersonFill } from "react-icons/bs";
-
-
-interface Post {
-  _id: string;
-  author: {
-    id: string,
-    useravatar: string;
-    username: string;
-  };
-  image: string;
-  title: string;
-  text: string;
-  views: number;
-  comments: string;
-  likes: string;
-  createdAt: string;
-}
+import { PostTypes } from '../types'
 
 const Me = () => {
 
   const me = useAppSelector(state => state.auth.user)
-  const myPosts: Post[] = useAppSelector(state => state.post.myPosts);
+  const myPosts: PostTypes[] = useAppSelector(state => state.post.myPosts);
 
   const dispatch = useAppDispatch()
 

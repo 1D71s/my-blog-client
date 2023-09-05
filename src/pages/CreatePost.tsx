@@ -76,15 +76,15 @@ const CreatePost = () => {
           accept=".jpg, .jpeg, .png, image/*"
           type="file" onChange={(e) => e.target.files && addImage(e.target.files[0])} />
         
-        <button className='btn-add-image' onClick={handleAddImageClick}>
+        {!image ? <button className='btn-add-image' onClick={handleAddImageClick}>
           Добавить картинку
-        </button>
-
-        {image && <button className='btn-delete-image' onClick={deleteImage}>
-          Удалить
-        </button>}
-
-        {image && <img className='img-foradd' src={`http://localhost:4005${image}`}/>}
+        </button> : <div>
+          <button className='btn-delete-image' onClick={deleteImage}>
+            Удалить
+          </button>
+          
+          <img className='img-foradd' src={`http://localhost:4005${image}`}/>
+        </div>}
 
         <div className='el'>Заголовок:</div>
         <input className='input-add-post' type="text" onChange={e => setTitle(e.target.value)}/>
