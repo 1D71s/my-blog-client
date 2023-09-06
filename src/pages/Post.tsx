@@ -1,35 +1,32 @@
-import React from 'react'
 import { useParams } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import axios from '../axios'
 import { PostTypes } from '../types'
-import { useAppDispatch, useAppSelector } from '../hooks'
-import { getOnePosts } from '../redux/postSlice'
-
 
 const Post = () => {
+  const { id } = useParams();
+  const [post, setPost] = useState<PostTypes | null>(null)
 
-  const post = useAppSelector(state => state.post.onePost)
-
-  const params = useParams()
-  const dispatch = useAppDispatch()
+  const fetchPost = useCallback(async () => {
+    const { data } = await axios.get(`/posts/getonepost/${id}`)
+    setPost(data)
+  }, [])
 
   useEffect(() => {
-    if (post === null) {
-      dispatch(getOnePosts(params.id))
-    }
-  }, [dispatch, params.id])
-  
+    fetchPost()
+  }, [id])
 
   return (
     <div className='post-page-cont'>
-      {post && <div>
-        <div>{post.title}</div>
-        <div>{post.text}</div>
-        <div>{post.views}</div>
-      </div>}
+      {post && (
+        <div>
+          <div>{post.title}</div>
+          <div>{post.text}</div>
+          <div>{post.views.length}</div>
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
 export { Post }

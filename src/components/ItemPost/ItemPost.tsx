@@ -5,8 +5,7 @@ import { BsThreeDots } from "react-icons/bs";
 import { Popover } from 'antd';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useAppSelector, useAppDispatch } from "../../hooks";
-import { deletePost, getOnePosts } from "../../redux/postSlice";
-import { useEffect } from "react";
+import { deletePost } from "../../redux/postSlice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
@@ -22,7 +21,7 @@ interface Props {
   text: string,
   comments: string,
   likes: string,
-  views: number,
+  views: string[],
   author: Author,
   useravatar: string,
   createdAt: string,
@@ -82,10 +81,6 @@ const ItemPost = ({ id, img, title, text, comments, likes, views, author, userav
     </div>
   );
 
-  const getPost = () => {
-    dispatch(getOnePosts(id))
-  }
-
   const buttonWidth = 70;
 
   return (
@@ -107,7 +102,7 @@ const ItemPost = ({ id, img, title, text, comments, likes, views, author, userav
         </div>}
 
       </div>
-      <Link to={`/posts/${id}`} onClick={getPost}>
+      <Link to={`/posts/${id}`}>
         {img && <img className='img-post-item' src={`http://localhost:4005${img}`} />}
         <b className='title-post'>{title}</b>
         <div>{text}</div>
@@ -119,7 +114,7 @@ const ItemPost = ({ id, img, title, text, comments, likes, views, author, userav
         <BiComment className='icons-lcv'/>
         <span className='count-icons'>{comments.length}</span>
         <AiFillEye className='icons-lcv'/>
-        <span className='count-icons'>{views}</span>
+        <span className='count-icons'>{views.length}</span>
       </div>
       <div className="created-post-time">{getTimeMakingPost(createdAt)}</div>
     </div>

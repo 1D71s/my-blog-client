@@ -12,7 +12,7 @@ export type Posts = {
     image: string;
     title: string;
     text: string;
-    views: number;
+    views: string[];
     comments: string;
     likes: string;
     createdAt: string;
@@ -28,7 +28,6 @@ type ForInitialStatePost = {
     myPosts: Posts[],
     loading: boolean,
     status: null | string,
-    onePost: PostTypes | null
 }
 
 export const createPost = createAsyncThunk('post/createPost', async (params: PostForCreate) => {
@@ -67,23 +66,10 @@ export const deletePost = createAsyncThunk('post/deletePost', async (id: string)
     }
 })
 
-export const getOnePosts = createAsyncThunk('post/getOnePost', async (id: string | undefined) => {
-    try {
-        const { data } = await axios.get(`posts/getonepost/${id}`)
-
-        return data
-
-    } catch (error) {
-        console.log(error)
-        throw error
-    }
-})
-
 const initialState: ForInitialStatePost = {
     loading: false,
     status: null,
     myPosts: [],
-    onePost: null
 }
 
 const postSlice = createSlice({
@@ -111,14 +97,6 @@ const postSlice = createSlice({
             })
             .addCase(getMyPosts.fulfilled, (state, action) => {
                 state.myPosts = action.payload.reverse()
-            })
-
-            //Get One Post
-            .addCase(getOnePosts.pending, (state) => {
-                state.loading = true
-            })
-            .addCase(getOnePosts.fulfilled, (state, action) => {
-                state.onePost = action.payload
             })
             
             //Delete Post
