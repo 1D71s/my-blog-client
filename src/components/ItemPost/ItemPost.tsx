@@ -8,48 +8,10 @@ import { useAppSelector, useAppDispatch } from "../../hooks";
 import { deletePost } from "../../redux/postSlice";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { PostTypes } from "../../types";
+import { getTimeMakingPost } from "../../Functions";
 
-export const getTimeMakingPost = (timeString: string) => {
-  // Создаем объект Date из строки времени
-  const date = new Date(timeString);
-
-  // Проверяем, успешно ли прошло преобразование
-  if (isNaN(date.getTime())) {
-    return "Неверный формат даты и времени";
-  } else {
-    // Извлекаем компоненты даты и времени
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1; // Месяцы в JavaScript начинаются с 0
-    const day = date.getDate();
-    const hours = date.getHours();
-    const minutes = date.getMinutes();
-
-    // Форматируем строку без секунд
-    const formattedDate = `${year}-${month.toString().padStart(2, '0')}-${day.toString().padStart(2, '0')} ${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-
-    return formattedDate;
-  }
-};
-
-interface Author {
-  username: string,
-  id: string
-}
-
-interface Props {
-  img: string,
-  title: string,
-  text: string,
-  comments: string,
-  likes: string,
-  views: string[],
-  author: Author,
-  useravatar: string,
-  createdAt: string,
-  id: string
-}
-
-const ItemPost = ({ id, img, title, text, comments, likes, views, author, useravatar, createdAt }: Props) => {
+const ItemPost = ({ _id, image, title, text, comments, likes, views, author, createdAt }: PostTypes) => {
   
   const isAuth = useAppSelector(state => state.auth.token);
   const user = useAppSelector(state => state.auth.user);
@@ -59,7 +21,7 @@ const ItemPost = ({ id, img, title, text, comments, likes, views, author, userav
 
   const removePost = async () => {
     try {
-      await dispatch(deletePost(id))
+      await dispatch(deletePost(_id))
       toast('Статью удалено!')
       navigate('/me')
     } catch (error) {
@@ -88,7 +50,7 @@ const ItemPost = ({ id, img, title, text, comments, likes, views, author, userav
         <div>
           <img
             className='ava-in-item'
-            src={`http://localhost:4005/uploads/${useravatar}`} />
+            src={`http://localhost:4005/uploads/${author.useravatar}`} />
           <b className='author'>{author.username}</b>
         </div>
         
@@ -101,8 +63,8 @@ const ItemPost = ({ id, img, title, text, comments, likes, views, author, userav
         </div>}
 
       </div>
-      <Link to={`/posts/${id}`}>
-        {img && <img className='img-post-item' src={`http://localhost:4005${img}`} />}
+      <Link to={`/posts/${_id}`}>
+        {image && <img className='img-post-item' src={`http://localhost:4005${image}`} />}
         <b className='title-post'>{title}</b>
         <div>{text}</div>
       </Link>

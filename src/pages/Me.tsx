@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useAppSelector, useAppDispatch } from '../hooks'
 import { toast } from 'react-toastify'
 import ItemPost from '../components/ItemPost/ItemPost'
-import { getMyPosts, clearStatus } from '../redux/postSlice'
+import { getMyPosts } from '../redux/postSlice'
 import { BsFillEnvelopeAtFill, BsFillPersonFill } from "react-icons/bs";
 import { PostTypes } from '../types'
 
@@ -50,10 +50,9 @@ const Me = () => {
           {myPosts.map((item) => (
             <ItemPost
               key={item._id}
-              id={item._id}
-              useravatar={item.author.useravatar}
+              _id={item._id}
               author={item.author}
-              img={item.image}
+              image={item.image}
               title={item.title}
               text={item.text}
               views={item.views}

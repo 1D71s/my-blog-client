@@ -21,10 +21,9 @@ const Post = () => {
     post && <div className='post-page-cont'>
       <ItemPost
         key={post._id}
-        id={post._id}
-        useravatar={post.author.useravatar}
+        _id={post._id}
         author={post.author}
-        img={post.image}
+        image={post.image}
         title={post.title}
         text={post.text}
         views={post.views}

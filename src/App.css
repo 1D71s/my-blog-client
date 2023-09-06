@@ -108,7 +108,7 @@ li {
     justify-content: center;
     padding: 20px;
     background: white;
-    margin: 5px;
+    margin-bottom: 5px;
     border: 1px solid rgb(205, 205, 205);
     border-radius: 10px;
     min-width: 100%;
@@ -150,7 +150,7 @@ li {
 
 @media (max-width: 600px) {
     .cont-me {
-        padding: 5px;
+        padding: 0px;
     }
 
     .ava-me {
@@ -161,6 +161,10 @@ li {
         padding: 10px;
     }
     
+    .my-posts {
+        padding: 5px;
+        font-size: 13px;
+    }
 }
 
 /*POSTS*/

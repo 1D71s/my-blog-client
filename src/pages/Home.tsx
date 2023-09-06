@@ -30,10 +30,9 @@ const Home = () => {
         {posts.map((item) => (
           <ItemPost
             key={item._id} 
-            id={item._id}
-            useravatar={item.author.useravatar}
+            _id={item._id}
             author={item.author}
-            img={item.image}
+            image={item.image}
             title={item.title}
             text={item.text}
             views={item.views}
