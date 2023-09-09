@@ -26,6 +26,16 @@ const CreatePost = () => {
     }
   };
 
+  const resetFileInput = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const deleteImage = () => {
+    setImage('')
+    resetFileInput()
+  }
 
   const addImage = async (event: File | null) => {
     try {
@@ -43,10 +53,6 @@ const CreatePost = () => {
       console.log(error)
       toast('Ошибка при загрузке файла!')
     }
-  }
-
-  const deleteImage = () => {
-    setImage('')
   }
 
   useEffect(() => {
