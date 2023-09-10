@@ -1,35 +1,46 @@
-import {useEffect, useState} from 'react'
-import ItemPost from '../components/ItemPost/ItemPost'
-import axios from '../axios'
-import { PostTypes } from '../types'
-
+import { useEffect, useState } from 'react';
+import ItemPost from '../components/ItemPost/ItemPost';
+import axios from '../axios';
+import { PostTypes } from '../types';
+import { useQuery } from '@tanstack/react-query';
 
 const Home = () => {
-  const [posts, setPosts] = useState<PostTypes[]>([]); 
-  const [whatIsPosts, setWhatisPosts] = useState('new')
+  const [whatIsPosts, setWhatisPosts] = useState('new');
 
-  const fetchPosts = async () => {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['posts'],
+    queryFn: fetchPosts
+  });
+
+  async function fetchPosts() {
     try {
-      const { data } = await axios.get('/posts/allposts')
+      const response = await axios.get('/posts/allposts');
 
-      if (whatIsPosts === 'new')  setPosts(data.posts)
-      else setPosts(data.popularPosts)
+      return response.data.posts; 
     } catch (error) {
-      console.log(error)
+      console.log(error);
+      throw error;
     }
   }
 
   useEffect(() => {
-    fetchPosts()
-  }, [whatIsPosts])
-  
+    fetchPosts();
+  }, [whatIsPosts]);
+
+  if (isLoading) {
+    return <h1>Loading</h1>;
+  }
+
+  if (isError) {
+    return <h1>Loading</h1>;
+  }
 
   return (
     <div className='home'>
       <div className='posts'>
-        {posts.map((item) => (
+        {data.map((item: PostTypes) => (
           <ItemPost
-            key={item._id} 
+            key={item._id}
             _id={item._id}
             author={item.author}
             image={item.image}
@@ -43,7 +54,7 @@ const Home = () => {
         ))}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export { Home }
+export { Home };

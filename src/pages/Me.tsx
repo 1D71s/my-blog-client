@@ -1,30 +1,29 @@
-import { useEffect } from 'react'
-import { useAppSelector, useAppDispatch } from '../hooks'
-import { toast } from 'react-toastify'
+import { useAppSelector } from '../hooks'
 import ItemPost from '../components/ItemPost/ItemPost'
-import { getMyPosts } from '../redux/postSlice'
 import { BsFillEnvelopeAtFill, BsFillPersonFill } from "react-icons/bs";
 import { PostTypes } from '../types'
+import { useQuery } from '@tanstack/react-query'
+import axios from '../axios'
 
 const Me = () => {
 
   const me = useAppSelector(state => state.auth.user)
-  const myPosts: PostTypes[] = useAppSelector(state => state.post.myPosts);
-
-  const dispatch = useAppDispatch()
 
   const fetchMyPosts = async () => { 
     try {
-      await dispatch(getMyPosts());
+      const { data } = await axios.get('posts/myposts')
+      return data.reverse()
     } catch (error) {
-      console.error(error);
-      toast.error('Failed to fetch my posts.');
+      console.log(error)
+      throw error
     }
   };
 
-  useEffect(() => { 
-    fetchMyPosts();
-  }, []);
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['myposts'],
+    queryFn: fetchMyPosts
+  });
+  
 
 
   return (
@@ -46,8 +45,8 @@ const Me = () => {
               </div>
             </div>}
         </div>
-        {myPosts.length > 0 && <div className='my-posts'>
-          {myPosts.map((item) => (
+        {data && <div className='my-posts'>
+          {data.reverse().map((item: PostTypes) => (
             <ItemPost
               key={item._id}
               _id={item._id}

@@ -4,29 +4,81 @@ import { Link } from "react-router-dom";
 import { BsThreeDots } from "react-icons/bs";
 import { Popover } from 'antd';
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { useAppSelector, useAppDispatch } from "../../hooks";
-import { deletePost } from "../../redux/postSlice";
+import { useAppSelector } from "../../hooks";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
 import { PostTypes } from "../../types";
 import { getTimeMakingPost } from "../../Functions";
+import { useState, useEffect, useRef } from "react";
+import axios from "../../axios";
+import { useMutation } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ItemPost = ({ _id, image, title, text, comments, likes, views, author, createdAt }: PostTypes) => {
-  
+
   const isAuth = useAppSelector(state => state.auth.token);
   const user = useAppSelector(state => state.auth.user);
 
-  const dispatch = useAppDispatch()
-  const navigate = useNavigate()
+  const inputRef = useRef<HTMLButtonElement| null>(null);
 
-  const removePost = async () => {
+  const client = useQueryClient()
+
+  const [like, setLike] = useState<boolean>()
+
+
+  const likeItem = async () => {
+    if (user) {
+      try {
+        await axios.post(`posts/like/${_id}`);
+      } catch (error) {
+        console.log(error);
+        throw error;
+      }
+    }
+  }
+
+  const { mutate: toLike } = useMutation({
+    mutationFn: likeItem,
+    onSuccess: () => {
+      client.invalidateQueries({
+        queryKey: ['myposts']
+      });
+      client.invalidateQueries({
+        queryKey: ['posts']
+      });
+    }
+  });
+
+  useEffect(() => {
+    setLike(likes.includes(user?._id));
+  }, [likes, user]);
+
+  const { mutate: remove } = useMutation({
+    mutationFn: () => removePost(_id),
+    onSuccess: () => {
+      client.invalidateQueries({
+        queryKey: ['myposts']
+      });
+      client.invalidateQueries({
+        queryKey: ['posts']
+      });
+    }
+  });
+
+  const removePost = async (id: string) => {
     try {
-      await dispatch(deletePost(_id))
-      toast('Статью удалено!')
-      navigate('/me')
+      const { data } = await axios.delete(`posts/delete/${id}`)
+      
+      toast(data)
+
     } catch (error) {
-      console.log(error)
-      toast('Не удалось удалить статью!')
+        console.log(error)
+        throw error
+    }
+  }
+
+  const handleClick= () => {
+    if (inputRef.current) {
+      inputRef.current.click();
     }
   }
 
@@ -36,7 +88,7 @@ const ItemPost = ({ _id, image, title, text, comments, likes, views, author, cre
       {user && (user as any)._id === author.id && (
         <div>
           <p className="menu-list-item"><BiEditAlt className="icons-item-menu"/>Изменить</p>
-        <p className="menu-list-item delete" onClick={removePost}><RiDeleteBin6Line className="icons-item-menu"/>Удалить</p>
+        <p className="menu-list-item delete" onClick={() => remove()}><RiDeleteBin6Line className="icons-item-menu"/><span onClick={handleClick}>Удалить</span></p>
         </div>
       )}
     </div>
@@ -55,8 +107,8 @@ const ItemPost = ({ _id, image, title, text, comments, likes, views, author, cre
         </div>
         
         {isAuth && <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
-          <Popover placement="bottomRight" content={content} trigger="click">
-            <button className="btn-none">
+          <Popover  placement="bottomRight" content={content} trigger="click">
+            <button ref={inputRef} className="btn-none">
               <BsThreeDots className="icon-menu"/>
             </button>
           </Popover>
@@ -69,8 +121,8 @@ const ItemPost = ({ _id, image, title, text, comments, likes, views, author, cre
         <div>{text}</div>
       </Link>
       <div className='likes-comm-views'>
-          {/*<AiFillHeart />*/}
-        <AiOutlineHeart className='icons-lcv'/>
+        { user && like ? <AiFillHeart className='icons-lcv' onClick={likeItem}/> :
+        <AiOutlineHeart className='icons-lcv' onClick={() => toLike()}/>}
         <span className='count-icons'>{likes.length}</span>
         <BiComment className='icons-lcv'/>
         <span className='count-icons'>{comments.length}</span>

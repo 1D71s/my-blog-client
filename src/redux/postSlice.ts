@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
 import axios from "../axios";
-import { PostTypes } from "../types";
 
 export type Posts = {
     _id: string;
@@ -14,7 +13,7 @@ export type Posts = {
     text: string;
     views: string[];
     comments: string;
-    likes: string;
+    likes: string[];
     createdAt: string;
 }
 
@@ -65,6 +64,7 @@ export const deletePost = createAsyncThunk('post/deletePost', async (id: string)
         throw error
     }
 })
+  
 
 const initialState: ForInitialStatePost = {
     loading: false,

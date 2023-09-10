@@ -11,6 +11,7 @@ type FormForRegister = {
     email: string,
     password: string,
     useravatar: string,
+    _id?: string | any
 }
 
 type FormForLogin = {
@@ -37,7 +38,7 @@ type ForInitialState = {
     getMeStateLoading: boolean,
 }
 
-type User = {
+export type User = {
     _id: string,
     username: string,
     email: string,

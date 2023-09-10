@@ -9,7 +9,7 @@ export type PostTypes = {
     text: string;
     image: string,
     comments: string
-    likes: string,
+    likes: string[],
     views: string[],
     author: Author,
     _id: string,
