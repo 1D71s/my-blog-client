@@ -22,9 +22,6 @@ const ItemPost = ({ _id, image, title, text, comments, likes, views, author, cre
 
   const client = useQueryClient()
 
-  const [like, setLike] = useState<boolean>()
-
-
   const likeItem = async () => {
     if (user) {
       try {
@@ -45,12 +42,11 @@ const ItemPost = ({ _id, image, title, text, comments, likes, views, author, cre
       client.invalidateQueries({
         queryKey: ['posts']
       });
+      client.invalidateQueries({
+        queryKey: ['postOne']
+      });
     }
   });
-
-  useEffect(() => {
-    setLike(likes.includes(user?._id));
-  }, [likes, user]);
 
   const { mutate: remove } = useMutation({
     mutationFn: () => removePost(_id),
@@ -121,8 +117,10 @@ const ItemPost = ({ _id, image, title, text, comments, likes, views, author, cre
         <div>{text}</div>
       </Link>
       <div className='likes-comm-views'>
-        { user && like ? <AiFillHeart className='icons-lcv' onClick={likeItem}/> :
-        <AiOutlineHeart className='icons-lcv' onClick={() => toLike()}/>}
+        <span onClick={() => toLike()}>
+          { user && likes.includes(user._id) ? <AiFillHeart className='icons-lcv likes-includes' onClick={likeItem}/> :
+          <AiOutlineHeart className='icons-lcv'/>}
+        </span>
         <span className='count-icons'>{likes.length}</span>
         <BiComment className='icons-lcv'/>
         <span className='count-icons'>{comments.length}</span>

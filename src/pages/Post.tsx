@@ -3,6 +3,7 @@ import { useState, useEffect, useCallback } from 'react'
 import axios from '../axios'
 import { PostTypes } from '../types'
 import ItemPost from '../components/ItemPost/ItemPost';
+import { useQuery } from '@tanstack/react-query';
 
 const Post = () => {
   const { id } = useParams();
@@ -10,26 +11,35 @@ const Post = () => {
 
   const fetchPost = useCallback(async () => {
     const { data } = await axios.get(`/posts/getonepost/${id}`)
-    setPost(data)
+    return data
   }, [])
 
-  useEffect(() => {
-    fetchPost()
-  }, [id])
+  const { data, isLoading, isError } = useQuery({
+    queryFn: fetchPost,
+    queryKey: ['postOne']
+  })
+
+  if (isLoading) {
+    return <div>loading</div>
+  }
+
+  if (isError) {
+    return <div>Error</div>
+  }
 
   return (
-    post && <div className='post-page-cont'>
+    data && <div className='post-page-cont'>
       <ItemPost
-        key={post._id}
-        _id={post._id}
-        author={post.author}
-        image={post.image}
-        title={post.title}
-        text={post.text}
-        views={post.views}
-        comments={post.comments}
-        likes={post.likes}
-        createdAt={post.createdAt}
+        key={data._id}
+        _id={data._id}
+        author={data.author}
+        image={data.image}
+        title={data.title}
+        text={data.text}
+        views={data.views}
+        comments={data.comments}
+        likes={data.likes}
+        createdAt={data.createdAt}
       />
     </div>
   );

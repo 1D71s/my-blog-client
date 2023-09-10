@@ -280,6 +280,10 @@ li {
     color: rgb(183, 0, 0);
 }
 
+.likes-includes {
+    color: rgb(200, 3, 3);
+}
+
 @media (max-width: 500px) {
     .post-item {
         padding: 15px;
