@@ -219,6 +219,7 @@ li {
 .icons-lcv {
     width: 22px;
     height: 22px;
+    cursor: pointer;
 }
 .count-icons {
     margin-right: 10px;
@@ -281,6 +282,7 @@ li {
 }
 
 .likes-includes {
+    cursor: pointer;
     color: rgb(200, 3, 3);
 }
 

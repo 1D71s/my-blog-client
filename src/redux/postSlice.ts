@@ -41,30 +41,6 @@ export const createPost = createAsyncThunk('post/createPost', async (params: Pos
     }
 })
 
-export const getMyPosts = createAsyncThunk('post/getMyPost', async () => {
-    try {
-        const { data } = await axios.get('posts/myposts')
-
-        return data
-
-    } catch (error) {
-        console.log(error)
-        throw error
-    }
-})
-
-export const deletePost = createAsyncThunk('post/deletePost', async (id: string) => {
-    try {
-        const { data } = await axios.delete(`posts/delete/${id}`)
-
-        return data
-
-    } catch (error) {
-        console.log(error)
-        throw error
-    }
-})
-  
 
 const initialState: ForInitialStatePost = {
     loading: false,
@@ -89,28 +65,9 @@ const postSlice = createSlice({
             .addCase(createPost.fulfilled, (state, action) => {
                 state.status = action.payload.message
             })
-            
-
-            //Get My Post
-            .addCase(getMyPosts.pending, (state) => {
-                state.loading = true
-            })
-            .addCase(getMyPosts.fulfilled, (state, action) => {
-                state.myPosts = action.payload.reverse()
-            })
-            
-            //Delete Post
-            .addCase(deletePost.pending, (state) => {
-                state.loading = true
-            })
-            .addCase(deletePost.fulfilled, (state, action) => {
-                state.myPosts = state.myPosts.filter(item => item._id !== action.payload.id)
-                state.status = action.payload.message
-            })
-
 
             //Errors
-            .addMatcher(isRejectedWithValue(createPost, getMyPosts, deletePost), (state, action) => {
+            .addMatcher(isRejectedWithValue(createPost), (state, action) => {
                 state.status = action.payload as string
                 state.loading = false
             })

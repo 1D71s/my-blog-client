@@ -4,6 +4,11 @@ import axios from '../axios'
 import { PostTypes } from '../types'
 import ItemPost from '../components/ItemPost/ItemPost';
 import { useQuery } from '@tanstack/react-query';
+import Comments from '../components/Comments/Comments';
+
+type Comment = {
+  text: string
+}
 
 const Post = () => {
   const { id } = useParams();
@@ -41,6 +46,8 @@ const Post = () => {
         likes={data.likes}
         createdAt={data.createdAt}
       />
+      
+      <Comments comments={data.comments}/>
     </div>
   );
 };

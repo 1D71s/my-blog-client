@@ -5,18 +5,20 @@ import { BsThreeDots } from "react-icons/bs";
 import { Popover } from 'antd';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { useAppSelector } from "../../hooks";
-import { toast } from "react-toastify";
 import { PostTypes } from "../../types";
 import { getTimeMakingPost } from "../../Functions";
-import { useState, useEffect, useRef } from "react";
+import { useRef } from "react";
 import axios from "../../axios";
 import { useMutation } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 const ItemPost = ({ _id, image, title, text, comments, likes, views, author, createdAt }: PostTypes) => {
 
   const isAuth = useAppSelector(state => state.auth.token);
   const user = useAppSelector(state => state.auth.user);
+
+  const navigate = useNavigate()
 
   const inputRef = useRef<HTMLButtonElement| null>(null);
 
@@ -62,9 +64,8 @@ const ItemPost = ({ _id, image, title, text, comments, likes, views, author, cre
 
   const removePost = async (id: string) => {
     try {
-      const { data } = await axios.delete(`posts/delete/${id}`)
-      
-      toast(data)
+      await axios.delete(`posts/delete/${id}`)
+      navigate('/me')
 
     } catch (error) {
         console.log(error)
