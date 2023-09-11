@@ -45,7 +45,7 @@ const Me = () => {
               </div>
             </div>}
         </div>
-        {data && <div className='my-posts'>
+        {data && data.length > 0 && <div className='my-posts'>
           {data.reverse().map((item: PostTypes) => (
             <ItemPost
               key={item._id}

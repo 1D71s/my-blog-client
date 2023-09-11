@@ -8,13 +8,15 @@ import { useAppSelector } from "../../hooks";
 export type AuthorTypes = {
     username: string,
     useravatar: string,
-    _id: string
+    id: string
 }
 
 export type CommentTypes = {
     text: string;
     author: AuthorTypes,
-    createdAt: string
+    createdAt: string,
+    _id: string,
+    idPost: string | undefined
 };
 
 type Props = {
@@ -33,11 +35,11 @@ const Comments = ({ comments, id }: Props) => {
     const createComment = async () => {
         if (comment.length > 0) {
             try {
-                await axios.post(`comments/create/${id}`, { text: comment })
-                toast('success')
+                const { data } = await axios.post(`comments/create/${id}`, { text: comment })
+                toast(data.message)
                 setComment('')
             } catch (error) {
-                toast('error')
+                toast('Ошибка при добавления комментария!')
             }
         }
     }
@@ -63,17 +65,21 @@ const Comments = ({ comments, id }: Props) => {
                 <textarea
                     className="input-comments"
                     value={comment}
+                    placeholder="Напишите комментарий..."
                     onChange={(e) => setComment(e.target.value)}
                 />
                 <button
                     onClick={() => create()}
                     className="btn-for-adding-comm"
-                >add comment</button>
+                >Отправить</button>
             </div>}
             <div className="comments-container">
-            <b className='title-comments'>Комментарии:</b>
+            {comment && comment.length > 0 &&  <b className='title-comments'>Комментарии:</b>}
                 {comments.map((item) => (
                     <CommentItem
+                        key={item._id}
+                        idPost={id}
+                        _id={item._id}
                         text={item.text}
                         author={item.author}
                         createdAt={item.createdAt}

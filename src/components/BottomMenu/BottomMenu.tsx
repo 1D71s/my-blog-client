@@ -4,7 +4,9 @@ import { logOut } from '../../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify'
 import './BottomMenu.css';
-import { AiOutlineUserAdd, AiOutlineHome, AiOutlineUser, AiFillEdit } from "react-icons/ai";
+import { AiOutlineUserAdd, AiOutlineHome, AiFillEdit } from "react-icons/ai";
+import { BsFillPersonFill } from "react-icons/bs";
+import { BiEditAlt } from "react-icons/bi";
 import { SlLogin } from "react-icons/sl";
 import { ImExit } from "react-icons/im";
 
@@ -31,8 +33,8 @@ const BottomMenu = () => {
                     {isAuth ?
                         <div className="butt-menu">
                             <Link className='links' to="/"><AiOutlineHome className="icon-link"/></Link>
-                            <Link className='links' to="/me"><AiOutlineUser className="icon-link"/></Link>
-                            <Link className='links' to="/create"><AiFillEdit className="icon-link"/></Link>
+                            <Link className='links' to="/me"><BsFillPersonFill className="icon-link"/></Link>
+                            <Link className='links' to="/create"><BiEditAlt className="icon-link"/></Link>
                             <div className='links' onClick={logOutAccount}><ImExit className="icon-link"/></div>
                         </div> :    
                         <div className="butt-menu">
