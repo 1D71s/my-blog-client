@@ -1,18 +1,12 @@
 import { useParams } from 'react-router-dom'
-import { useState, useEffect, useCallback } from 'react'
+import {  useCallback } from 'react'
 import axios from '../axios'
-import { PostTypes } from '../types'
 import ItemPost from '../components/ItemPost/ItemPost';
 import { useQuery } from '@tanstack/react-query';
 import Comments from '../components/Comments/Comments';
 
-type Comment = {
-  text: string
-}
-
 const Post = () => {
   const { id } = useParams();
-  const [post, setPost] = useState<PostTypes | null>(null)
 
   const fetchPost = useCallback(async () => {
     const { data } = await axios.get(`/posts/getonepost/${id}`)
@@ -25,7 +19,7 @@ const Post = () => {
   })
 
   if (isLoading) {
-    return <div>loading</div>
+    return <h1>loading</h1>
   }
 
   if (isError) {
@@ -47,7 +41,7 @@ const Post = () => {
         createdAt={data.createdAt}
       />
       
-      <Comments comments={data.comments}/>
+      <Comments comments={data.comments} id={id} />
     </div>
   );
 };

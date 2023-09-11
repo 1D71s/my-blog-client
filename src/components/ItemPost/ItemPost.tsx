@@ -96,7 +96,7 @@ const ItemPost = ({ _id, image, title, text, comments, likes, views, author, cre
   return (
     <div className='post-item'>
       <div className="cont-head-item">
-        <div>
+        <div className="cont-user-post">
           <img
             className='ava-in-item'
             src={`http://localhost:4005/uploads/${author.useravatar}`} />
@@ -112,23 +112,25 @@ const ItemPost = ({ _id, image, title, text, comments, likes, views, author, cre
         </div>}
 
       </div>
-      <Link to={`/posts/${_id}`}>
-        {image && <img className='img-post-item' src={`http://localhost:4005${image}`} />}
-        <b className='title-post'>{title}</b>
-        <div>{text}</div>
-      </Link>
-      <div className='likes-comm-views'>
-        <span onClick={() => toLike()}>
-          { user && likes.includes(user._id) ? <AiFillHeart className='icons-lcv likes-includes' onClick={likeItem}/> :
-          <AiOutlineHeart className='icons-lcv'/>}
-        </span>
-        <span className='count-icons'>{likes.length}</span>
-        <BiComment className='icons-lcv'/>
-        <span className='count-icons'>{comments.length}</span>
-        <AiFillEye className='icons-lcv'/>
-        <span className='count-icons'>{views.length}</span>
+      <div className="info-post">
+        <Link to={`/posts/${_id}`}>
+          {image && <img className='img-post-item' src={`http://localhost:4005${image}`} />}
+          <b className='title-post'>{title}</b>
+          <div>{text}</div>
+        </Link>
+        <div className='likes-comm-views'>
+          <span onClick={() => toLike()}>
+            { user && likes.includes(user._id) ? <AiFillHeart className='icons-lcv likes-includes' onClick={likeItem}/> :
+            <AiOutlineHeart className='icons-lcv'/>}
+          </span>
+          <span className='count-icons'>{likes.length}</span>
+          <BiComment className='icons-lcv'/>
+          <span className='count-icons'>{comments.length}</span>
+          <AiFillEye className='icons-lcv'/>
+          <span className='count-icons'>{views.length}</span>
+        </div>
+        <div className="created-post-time">{getTimeMakingPost(createdAt)}</div>
       </div>
-      <div className="created-post-time">{getTimeMakingPost(createdAt)}</div>
     </div>
   )
 }
