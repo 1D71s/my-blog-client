@@ -23,6 +23,13 @@ type PostForCreate = {
     title: string;
 }
 
+type TypeForEditPost = {
+    image: string;
+    text: string;
+    title: string;
+    id: string | undefined
+}
+
 type ForInitialStatePost = {
     myPosts: Posts[],
     loading: boolean,

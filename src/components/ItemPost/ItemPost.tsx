@@ -12,6 +12,7 @@ import axios from "../../axios";
 import { useMutation } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ItemPost = ({ _id, image, title, text, comments, likes, views, author, createdAt }: PostTypes) => {
 
@@ -64,9 +65,9 @@ const ItemPost = ({ _id, image, title, text, comments, likes, views, author, cre
 
   const removePost = async (id: string) => {
     try {
-      await axios.delete(`posts/delete/${id}`)
+      const { data } = await axios.delete(`posts/delete/${id}`)
       navigate('/me')
-
+      toast(data.message)
     } catch (error) {
         console.log(error)
         throw error
@@ -84,8 +85,10 @@ const ItemPost = ({ _id, image, title, text, comments, likes, views, author, cre
       <p className="menu-list-item"><BiBookmark className="icons-item-menu"/>Добавить в избраное</p>
       {user && (user as any)._id === author.id && (
         <div>
-          <p className="menu-list-item"><BiEditAlt className="icons-item-menu"/>Изменить</p>
-        <p className="menu-list-item delete" onClick={() => remove()}><RiDeleteBin6Line className="icons-item-menu"/><span onClick={handleClick}>Удалить</span></p>
+          <Link to={`/edit/${_id}`}>
+            <p className="menu-list-item"><BiEditAlt className="icons-item-menu"/>Изменить</p>
+          </Link>
+          <p className="menu-list-item delete" onClick={() => remove()}><RiDeleteBin6Line className="icons-item-menu"/><span onClick={handleClick}>Удалить</span></p>
         </div>
       )}
     </div>
