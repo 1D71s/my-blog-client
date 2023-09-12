@@ -1,9 +1,11 @@
 import { useAppSelector } from '../hooks'
 import ItemPost from '../components/ItemPost/ItemPost'
 import { BsFillEnvelopeAtFill, BsFillPersonFill } from "react-icons/bs";
+
 import { PostTypes } from '../types'
 import { useQuery } from '@tanstack/react-query'
 import axios from '../axios'
+import { Link } from 'react-router-dom';
 
 const Me = () => {
 
@@ -32,7 +34,7 @@ const Me = () => {
         <div className='my-info'>
           {me &&
             <div>
-              <img className='ava-me' src={`http://localhost:4005/uploads/${me.useravatar}`} />
+              <img className='ava-me' src={`http://localhost:4005${me.useravatar}`} />
               <div className='me'>
                 <div className='cont-for-icons'>
                   <BsFillPersonFill className='item-icons'/>
@@ -42,6 +44,11 @@ const Me = () => {
                   <BsFillEnvelopeAtFill className='item-icons'/>
                   <p className='info-items'>{me.email}</p>
                 </div>
+                <Link to='edit'>
+                  <div className='cont-for-icons'>
+                      <button className='btn-for-edit'>Изменить профиль!</button>
+                  </div>
+                </Link>
               </div>
             </div>}
         </div>

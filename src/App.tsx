@@ -11,6 +11,7 @@ import { Register } from './pages/Register';
 import { CreatePost } from './pages/CreatePost';
 import { Post } from './pages/Post';
 import { EditPost } from './pages/EditPost';
+import { EditProfile } from './pages/EditProfile';
 
 import { Layout } from './components/Layout';
 import { getMe } from './redux/userSlice';
@@ -33,7 +34,8 @@ function App() {
           <Route path='/register' element={<Register />} />
           <Route path='/create' element={<CreatePost />} />
           <Route path='/posts/:id' element={<Post />} />
-          <Route path='/edit/:id' element={<EditPost/>} />
+          <Route path='/edit/:id' element={<EditPost />} />
+          <Route path='/me/edit' element={<EditProfile/>} />
         </Route>
       </Routes>
 
