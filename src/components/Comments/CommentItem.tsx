@@ -39,10 +39,10 @@ const CommentItem = ({ text, author, createdAt, _id, idPost }: CommentTypes) => 
                 <div>
                     <img
                         className='ava-in-item'
-                        src={`http://localhost:4005/uploads/${author.useravatar}`} />
+                        src={`http://localhost:4005${author.useravatar}`} />
                     <b className='author'>{author.username}</b>
                 </div>
-                {user && user._id === author.id && <div className="cont-btn-delete-comment">
+                {user && user._id === author._id && <div className="cont-btn-delete-comment">
                     <RiDeleteBin6Line className="btn-delete-comment" onClick={() => deleteItem()}/>
                 </div>}
             </div>

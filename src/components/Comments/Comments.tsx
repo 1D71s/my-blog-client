@@ -8,7 +8,7 @@ import { useAppSelector } from "../../hooks";
 export type AuthorTypes = {
     username: string,
     useravatar: string,
-    id: string
+    _id: string
 }
 
 export type CommentTypes = {
@@ -74,7 +74,7 @@ const Comments = ({ comments, id }: Props) => {
                 >Отправить</button>
             </div>}
             <div className="comments-container">
-            {comment && comment.length > 0 &&  <b className='title-comments'>Комментарии:</b>}
+            {comment && <b className='title-comments'>Комментарии:</b>}
                 {comments.map((item) => (
                     <CommentItem
                         key={item._id}

@@ -1,5 +1,5 @@
 export type Author = {
-    id: string,
+    _id: string,
     username: string,
     useravatar: string
 }

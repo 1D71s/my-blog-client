@@ -4,7 +4,7 @@ import axios from "../axios";
 export type Posts = {
     _id: string;
     author: {
-        id: string,
+        _id: string,
         useravatar: string;
         username: string;
     };
@@ -21,13 +21,6 @@ type PostForCreate = {
     image: string;
     text: string;
     title: string;
-}
-
-type TypeForEditPost = {
-    image: string;
-    text: string;
-    title: string;
-    id: string | undefined
 }
 
 type ForInitialStatePost = {

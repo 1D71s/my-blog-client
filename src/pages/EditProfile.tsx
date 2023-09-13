@@ -45,6 +45,10 @@ const EditProfile = () => {
         resetFileInput()
     }
 
+    useEffect(() => {
+        setImage(me?.useravatar === '/uploads/ava.webp' ? '' : me?.useravatar)
+    }, [])
+
     const addImage = async (event: File | null) => {
         try {
             if (event) {

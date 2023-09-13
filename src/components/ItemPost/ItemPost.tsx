@@ -83,7 +83,7 @@ const ItemPost = ({ _id, image, title, text, comments, likes, views, author, cre
   const content = (
     <div className="menu-list">
       <p className="menu-list-item"><BiBookmark className="icons-item-menu"/>Добавить в избраное</p>
-      {user && (user as any)._id === author.id && (
+      {user && (user as any)._id === author._id && (
         <div>
           <Link to={`/edit/${_id}`}>
             <p className="menu-list-item"><BiEditAlt className="icons-item-menu"/>Изменить</p>
@@ -102,7 +102,7 @@ const ItemPost = ({ _id, image, title, text, comments, likes, views, author, cre
         <div className="cont-user-post">
           <img
             className='ava-in-item'
-            src={`http://localhost:4005/uploads/${author.useravatar}`} />
+            src={`http://localhost:4005${author.useravatar}`} />
           <b className='author'>{author.username}</b>
         </div>
         

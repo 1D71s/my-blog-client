@@ -101,8 +101,11 @@ li {
 .ava-me {
     display: block;
     margin: 0 auto;
-    max-width: 400px;
-    border-radius: 200px;
+    width: 500px;
+    height: 500px;
+    margin-bottom: 15px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .my-info,
@@ -117,8 +120,8 @@ li {
 }
 
 .my-info {
-    max-height: auto; /* Замените на желаемое значение высоты */
-    overflow-y: auto; /* Добавляем полосу прокрутки при необходимости */
+    max-height: auto; 
+    overflow-y: auto; 
 }
 
 .me {
@@ -168,16 +171,25 @@ li {
     }
 
     .ava-me {
-        max-width: 300px;
+        width: 300px;
+        height: 300px;
     }
 
     .me {
-        padding: 10px;
+        padding: 20px;
+        padding-bottom: 0;
     }
     
     .my-posts {
         padding: 5px;
         font-size: 13px;
+    }
+}
+
+@media (max-width: 350px) {
+    .ava-me {
+        width: 200px;
+        height: 200px;
     }
 }
 
@@ -207,9 +219,12 @@ li {
 }
 
 .ava-in-item {
-    max-width: 50px;
+    width: 50px;
+    height: 50px;
     margin-bottom: 15px;
     border-radius: 50%;
+    object-fit: cover; /* Обеспечиваем масштабирование изображения без искажений */
+
 }
 
 .author {
@@ -379,7 +394,7 @@ li {
 /*Post Page*/
 
 .post-page-cont {
-    margin-top: 100px;
+    margin-top: 60px;
     max-width: 100%;
     background: white;
     padding-bottom: 10px;
@@ -389,4 +404,14 @@ li {
     width: 100px;
     height: 10px;
     background: black;
+}
+
+@media (max-width: 600px) {
+    .create-post {
+        padding: 10px;
+    }
+
+    .form-for-addpost {
+        padding: 20px;
+    }
 }
