@@ -1,16 +1,11 @@
 import {  Outlet } from "react-router-dom";
-import { NavBar } from "./NavBar/NavBar";
-import { BottomMenu } from "./BottomMenu/BottomMenu";
+import Example from "./Layout/LayoutComponent";
+
 
 const Layout = () => {
     return (
         <>
-            <NavBar/>
-            
-            <Outlet />
-
-            <BottomMenu/>
-        
+            <Example Content={<Outlet />} /> 
         </>    
     )
 }

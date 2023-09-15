@@ -1,50 +1,37 @@
 import { Link } from 'react-router-dom';
 import './NavBar.css';
-import { useAppSelector, useAppDispatch } from '../../hooks';
-import { logOut } from '../../redux/userSlice';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify'
-
+import { useAppearance } from '@vkontakte/vkui';
+import { Icon28MoonOutline, Icon28SunOutline } from '@vkontakte/icons';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { changeTheme } from '../../redux/userSlice';
 
 const NavBar = () => {
 
-    const isAuth = useAppSelector(state => state.auth.token);
-    const user = useAppSelector(state => state.auth.user);
-    const getMeStateLoading = useAppSelector(state => state.auth.getMeStateLoading);
-    
-    const dispatch = useAppDispatch()
-    const navigate = useNavigate()
+    const appearance = useAppearance()
 
-    const logOutAccount = () => {
-        dispatch(logOut())
-        navigate('/login')
-        window.localStorage.removeItem('token')
-        toast('Вы вышли из аккаунта')
-    }
-    
+    const dispath = useAppDispatch()
+
+    const theme = useAppSelector(state => state.auth.theme)
+
     return (
         <div className='cont'>
             <div className='hounter'>
-                <Link to='/'><b>My_Blog</b></Link>
+                <Link to='/'><p style={{ color: appearance === 'light' ? 'black' : 'white' }}>My_Blog</p></Link>
             </div>
     
             <div className='contain'>
-                {!getMeStateLoading && <div>
-                    {isAuth ?
-                        <div className='container-for-links'>
-                            <Link className='links' to="/me">Профиль</Link>
-                            <Link className='links' to="/create">Створити публікацію</Link>
-                            <div className='links' onClick={logOutAccount}>Выход</div>
-                        </div> :    
-                        <div className='container-for-links'>
-                            <Link className='links' to="/login">Вход</Link>
-                            <Link className='links' to="/register">Регистрация</Link>
-                        </div>}
-                </div>}
+                <button
+                    onClick={() => dispath(changeTheme())}
+                    className='theme-change'
+                >
+                    {theme ?
+                        <Icon28MoonOutline style={{ color: '#0077FF' }}/> :
+                        <Icon28SunOutline style={{ color: '#0077FF' }} />}
+                </button>
             </div>
         </div>
     );
 };
 
 
-export  { NavBar };
+export { NavBar };

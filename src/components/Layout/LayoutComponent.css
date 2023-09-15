@@ -1,0 +1,12 @@
+.menu-item {
+    display: flex;
+    justify-content: space-between;
+    max-width: max-content;
+    margin: 20px;
+    cursor: pointer;
+}
+
+.menu-icons {
+    margin-right: 20px;
+    color: #0077FF;
+}
