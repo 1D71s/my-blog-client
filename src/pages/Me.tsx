@@ -7,6 +7,8 @@ import { useQuery } from '@tanstack/react-query'
 import axios from '../axios'
 import { Link } from 'react-router-dom';
 
+const url = process.env.REACT_APP_URL
+
 const Me = () => {
 
   const me = useAppSelector(state => state.auth.user)
@@ -34,7 +36,7 @@ const Me = () => {
         <div className='my-info'>
           {me &&
             <div>
-              <img className='ava-me' src={`http://localhost:4005${me.useravatar}`} />
+              <img className='ava-me' src={`${url}${me.useravatar}`} />
               <div className='me'>
                 <div className='cont-for-icons'>
                   <BsFillPersonFill className='item-icons'/>

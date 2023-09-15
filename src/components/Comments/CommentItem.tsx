@@ -7,6 +7,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "../../axios";
 import { toast } from "react-toastify";
 
+const url = process.env.REACT_APP_URL
 
 const CommentItem = ({ text, author, createdAt, _id, idPost }: CommentTypes) => {
     
@@ -39,7 +40,7 @@ const CommentItem = ({ text, author, createdAt, _id, idPost }: CommentTypes) => 
                 <div>
                     <img
                         className='ava-in-item'
-                        src={`http://localhost:4005${author.useravatar}`} />
+                        src={`${url}${author.useravatar}`} />
                     <b className='author'>{author.username}</b>
                 </div>
                 {user && user._id === author._id && <div className="cont-btn-delete-comment">

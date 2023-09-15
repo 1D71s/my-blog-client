@@ -74,7 +74,7 @@ const Comments = ({ comments, id }: Props) => {
                 >Отправить</button>
             </div>}
             <div className="comments-container">
-            {comment && <b className='title-comments'>Комментарии:</b>}
+            {comments.length > 0 && <b className='title-comments'>Комментарии:</b>}
                 {comments.map((item) => (
                     <CommentItem
                         key={item._id}

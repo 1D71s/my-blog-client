@@ -14,6 +14,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
+const url = process.env.REACT_APP_URL
+
 const ItemPost = ({ _id, image, title, text, comments, likes, views, author, createdAt }: PostTypes) => {
 
   const isAuth = useAppSelector(state => state.auth.token);
@@ -102,7 +104,7 @@ const ItemPost = ({ _id, image, title, text, comments, likes, views, author, cre
         <div className="cont-user-post">
           <img
             className='ava-in-item'
-            src={`http://localhost:4005${author.useravatar}`} />
+            src={`${url}${author.useravatar}`} />
           <b className='author'>{author.username}</b>
         </div>
         
@@ -117,7 +119,7 @@ const ItemPost = ({ _id, image, title, text, comments, likes, views, author, cre
       </div>
       <div className="info-post">
         <Link to={`/posts/${_id}`}>
-          {image && <img className='img-post-item' src={`http://localhost:4005${image}`} />}
+          {image && <img className='img-post-item' src={`${url}${image}`} />}
           <b className='title-post'>{title}</b>
           <div>{text}</div>
         </Link>

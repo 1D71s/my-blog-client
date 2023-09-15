@@ -8,8 +8,8 @@ import { getMe } from '../redux/userSlice'
 
 const Login = () => {
   
-  const [username, setUsername] = useState('admin')
-  const [password, setPassword] = useState('123456')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
 
   const [errorForm, setErrorForm] = useState<string | null>('');
 
