@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import ItemPost from '../components/ItemPost/ItemPost';
-import axios from '../axios';
+import axios from '../utils/axios';
 import { PostTypes } from '../types';
 import { useQuery } from '@tanstack/react-query';
 

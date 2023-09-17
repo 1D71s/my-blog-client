@@ -1,10 +1,19 @@
 import { useEffect, useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../hooks'
+import { useAppDispatch, useAppSelector } from '../utils/hooks'
 import { Link, useNavigate } from 'react-router-dom'
 import { loginUser } from '../redux/userSlice'
 import { toast } from 'react-toastify'
 import { clearStatus } from '../redux/userSlice'
 import { getMe } from '../redux/userSlice'
+import {
+  Panel,
+  View,
+  FormItem,
+  Input,
+  FormLayout,
+  Button,
+  Title
+} from "@vkontakte/vkui";
 
 const Login = () => {
   
@@ -42,32 +51,38 @@ const Login = () => {
   }, [status])
   
   return (
-    <div className='cont-login'>
-      <div>
-        <b className='header-auth'>Авторизация</b>
-        <div>
-          <div className='el'>Логин:</div>
-          <input
-            className='el input-auth'
-            type="email"
-            value={username}
-            onChange={e => setUsername(e.target.value)} />
-          <div className='el'>Пароль:</div>
-          <input
-            className='el input-auth'
-            type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)} />
-          <p className='input-error'>{errorForm}</p>
-        </div>
-        <div className='cont-btn'>
-          <button className='btn-form' onClick={logIn}>Войти</button>
-        </div>
-        <div className='ask-auth'>
-          <Link to='/register'>У вас нет аккаунта?</Link>
-        </div>
-      </div>
-    </div>
+    <View activePanel="new-user">
+      <Panel id="new-user">
+        <FormLayout>
+          <div className='log-in'>
+            <Title level="1" style={{ margin: 15 }}>
+              Log In
+            </Title>
+              <FormItem htmlFor="name" top="User">
+                <Input id="name" placeholder='username'  onChange={e => setUsername(e.target.value)}/>
+              </FormItem>
+              <FormItem top="Password" htmlFor="pass">
+                <Input id="pass" type="password" placeholder="password"
+                onChange={e => setPassword(e.target.value)}/>
+              </FormItem>
+              <FormItem>
+                <p className='input-error'>{errorForm}</p>
+              </FormItem>
+    
+              <FormItem>
+                <Button onClick={logIn} size="l" stretched>
+                  Log in
+                </Button>
+              </FormItem>
+              <FormItem>
+                <Link to='/register'>
+                  <Button style={{ background: '#4bb34b', color: 'white' }} size="l" stretched>Sign Up</Button>
+                </Link>
+              </FormItem>
+          </div>
+        </FormLayout>
+      </Panel>
+    </View>
   )
 }
 

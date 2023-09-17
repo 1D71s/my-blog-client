@@ -1,10 +1,10 @@
-import { useAppSelector } from '../hooks'
+import { useAppSelector } from '../utils/hooks'
 import ItemPost from '../components/ItemPost/ItemPost'
 import { BsFillEnvelopeAtFill, BsFillPersonFill } from "react-icons/bs";
 
 import { PostTypes } from '../types'
 import { useQuery } from '@tanstack/react-query'
-import axios from '../axios'
+import axios from '../utils/axios'
 import { Link } from 'react-router-dom';
 
 const url = process.env.REACT_APP_URL

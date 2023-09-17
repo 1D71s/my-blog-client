@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
-import axios from "../axios";
+import axios from "../utils/axios";
 
 export type Posts = {
     _id: string;

@@ -9,7 +9,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { AdaptivityProvider } from '@vkontakte/vkui';
 import '@vkontakte/vkui/dist/vkui.css';
-import LightThemeWrapper from './ChangeTheme'; 
+import LightThemeWrapper from './utils/ChangeTheme'; 
 
 const client = new QueryClient()
 

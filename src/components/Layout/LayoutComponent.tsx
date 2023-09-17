@@ -12,7 +12,6 @@ import {
   TabbarItem,
   Platform,
   useAdaptivityConditionalRender,
-  useAppearance,
 } from "@vkontakte/vkui";
 import {
   Icon28NewsfeedOutline,
@@ -24,7 +23,7 @@ import {
 } from "@vkontakte/icons";
 import { useNavigate } from "react-router-dom";
 import "./LayoutComponent.css"
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../utils/hooks';
 import { logOut } from '../../redux/userSlice';
 import { NavBar } from '../NavBar/NavBar';
 

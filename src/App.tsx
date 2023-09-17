@@ -1,7 +1,7 @@
 import { Routes, Route  } from 'react-router-dom';
 import './App.css';
 import { useEffect } from 'react';
-import { useAppDispatch } from './hooks';
+import { useAppDispatch } from './utils/hooks';
 import { ToastContainer } from 'react-toastify'
 
 import { Home } from './pages/Home';

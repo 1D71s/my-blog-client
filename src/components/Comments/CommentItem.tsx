@@ -1,10 +1,10 @@
 import { CommentTypes } from "./Comments"
 import './Comment.css'
-import { getTimeMakingPost } from "../../Functions"
+import { getTimeMakingPost } from "../../utils/Functions"
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { useAppSelector } from "../../hooks";
+import { useAppSelector } from "../../utils/hooks";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "../../axios";
+import axios from "../../utils/axios";
 import { toast } from "react-toastify";
 
 const url = process.env.REACT_APP_URL

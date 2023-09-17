@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import './NavBar.css';
 import { useAppearance } from '@vkontakte/vkui';
 import { Icon28MoonOutline, Icon28SunOutline } from '@vkontakte/icons';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../utils/hooks';
 import { changeTheme } from '../../redux/userSlice';
 
 const NavBar = () => {

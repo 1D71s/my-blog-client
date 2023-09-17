@@ -17,71 +17,20 @@ li {
 }
 
 /*Form for register and loading*/
-.cont-login {
-    display: flex;
-    max-width: 500px;
-    justify-content: center;
+.log-in {
+    max-width: 400px;
     margin: 0 auto;
-
-    border: 1px solid rgb(205, 205, 205);
-    padding: 40px;
-    padding-left: 15px;
-    padding-right: 15px;
-    color: gray;
-    border-radius: 10px;
-    background: white;
 }
 
-.el {
-    margin-bottom: 10px;
-}
-
-.btn-form {
+.btn-register {
+    background: #4bb34b;
     color: white;
-    background: black;
-    padding: 10px;
-    padding-left: 15px;
-    padding-right: 15px;
-    border: none;
-    border-radius: 5px;
-}
-
-.cont-btn {
-    margin-top: 20px;
-    margin-bottom: 15px;
-}
-
-.input-auth {
-    height: 40px;
-    padding: 20px;
-    border-radius: 5px;
-    border: 1px solid rgb(157, 157, 157);
-    
-}
-
-.header-auth {
-    display: flex;
-    margin: 0 auto;
-    margin-bottom: 20px;
-    font-size: 20px;
-    color: #000;
-}
-
-.ask-auth {
-    display: inline;
+    max-width: 400px;
 }
 
 .input-error {
-    color: rgb(211, 2, 2);
-    max-width: 200px;
-}
-
-
-@media (max-width: 500px) {
-    .cont-login {
-        margin: 10px;
-        margin-top: 100px;
-    }
+    color:rgb(183, 0, 0);
+    margin-bottom: -5px;
 }
 
 

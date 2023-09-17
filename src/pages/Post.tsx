@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom'
 import {  useCallback } from 'react'
-import axios from '../axios'
+import axios from '../utils/axios'
 import ItemPost from '../components/ItemPost/ItemPost';
 import { useQuery } from '@tanstack/react-query';
 import Comments from '../components/Comments/Comments';

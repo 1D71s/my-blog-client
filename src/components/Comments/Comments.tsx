@@ -2,8 +2,8 @@ import { toast } from "react-toastify";
 import CommentItem from "./CommentItem";
 import { useState } from 'react';
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "../../axios";
-import { useAppSelector } from "../../hooks";
+import axios from "../../utils/axios";
+import { useAppSelector } from "../../utils/hooks";
 
 export type AuthorTypes = {
     username: string,

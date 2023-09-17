@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
-import axios from '../axios';
-import { stat } from "fs";
+import axios from '../utils/axios';
 
 type Token = {
     token: string | null;

@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { useAppDispatch, useAppSelector } from '../hooks'
+import { useAppDispatch, useAppSelector } from '../utils/hooks'
 import { createPost, clearStatus } from '../redux/postSlice'
 import { toast } from 'react-toastify'
-import axios from '../axios'
+import axios from '../utils/axios'
 import { useNavigate } from 'react-router-dom'
 
 const CreatePost = () => {
