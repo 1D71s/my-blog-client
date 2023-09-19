@@ -87,6 +87,18 @@ li {
     border: 1px solid #ff5c5c;
 }
 
+.error-item-text-dark {
+    margin-top: 3px;
+    color: #ff5c5c;
+    font-size: 13px;
+}
+
+.error-item-text-light {
+    margin-top: 3px;
+    color: #e64646;
+    font-size: 13px;
+}
+
 
 /*ME*/
 .cont-me {

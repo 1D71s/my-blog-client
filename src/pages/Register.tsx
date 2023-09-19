@@ -5,44 +5,29 @@ import { registerUser } from '../redux/userSlice'
 import { toast } from 'react-toastify'
 import { clearStatus } from '../redux/userSlice'
 import { Link } from 'react-router-dom'
-import {
-  Panel,
-  View,
-  FormItem,
-  Input,
-  FormLayout,
-  FormLayoutGroup,
-  Button,
-  Title,
-  Select,
-  useAppearance
-} from "@vkontakte/vkui";
+import { Panel, View, FormItem, FormLayout, FormLayoutGroup, Button, Title, Select,useAppearance } from "@vkontakte/vkui";
 import { useForm } from 'react-hook-form'
 
 type FormType = {
-  firstName: string
+  firstName: string,
+  lastName: string,
+  email: string,
+  userName: string,
+  password: string,
+  confirmPassword: string
 }
 
 const Register = () => {
 
-  const {
-    register,
-    formState: {
-      errors,
-    },
-    handleSubmit
-  } = useForm<FormType>({
-    mode: 'onBlur'
-  })
+  const { register, watch, formState: { errors }, handleSubmit } = useForm<FormType>({ mode: 'onBlur' })
 
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [twoPassword, setTwoPassword] = useState('')
-  const [sex, setSex] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [sex, setSex] = useState('Man')
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
-
 
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -72,7 +57,7 @@ const Register = () => {
       username,
       email,
       password,
-      twoPassword,
+      confirmPassword,
       useravatar: '',
       firstName,
       lastName,
@@ -93,36 +78,78 @@ const Register = () => {
             <Title level="1" style={{ margin: 15 }}>
               Registration
             </Title>
-            <FormItem htmlFor="name" top="User">
-              <Input placeholder='username'  onChange={e => setUsername(e.target.value)}/>
+            <FormItem htmlFor="name" top="User"
+              status={!errors?.userName ? 'valid' : 'error'}
+              bottom={
+                errors?.userName && `${errors?.userName.message}`
+              }
+            >
+              <input
+                className={`${appearance === 'dark' ? 'input-register-dark' : 'input-register-light'} ${errors?.userName && appearance === 'dark' ? 'input-items-error-dark' : ''} ${errors?.userName && appearance === 'light' ? 'input-items-error-light' : ''}`}
+                {...register('userName', {
+                  required: 'Please write username',
+                })}
+                placeholder='username'
+                value={username}
+                onChange={e => setUsername(e.target.value)}
+                />
             </FormItem>
             <FormItem
               htmlFor="email"
               top="E-mail"
-              status={email ? 'valid' : 'error'}
+              status={!errors?.email ? 'valid' : 'error'}
               bottom={
-                email ? 'Электронная почта введена верно!' : 'Please write email adress'
+                errors?.email && `${errors?.email.message}`
               }
               bottomId="email-type"
             >
-              <Input
+            <input
+                {...register('email', {
+                  required: 'Please write your email',
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                    message: 'Invalid email address',
+                  },
+                })}
+                className={`${appearance === 'dark' ? 'input-register-dark' : 'input-register-light'} ${errors?.email && appearance === 'dark' ? 'input-items-error-dark' : ''} ${errors?.email && appearance === 'light' ? 'input-items-error-light' : ''}`}
                 aria-labelledby="email-type"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)} 
                 id="email"
                 type="email"
-                name="email"
+              name="email"
+              placeholder='email'
               />
             </FormItem>
 
-            <FormItem top="Password" htmlFor="pass">
-              <Input id="pass" type="password" placeholder="Password" />
+            <FormItem top="Password" htmlFor="pass"
+              status={!errors?.password ? 'valid' : 'error'}
+              bottom={
+                errors?.password && `${errors?.password.message}`
+              }
+            >
+              <input id="pass" type="password" placeholder="password"
+                {...register('password', {
+                  required: 'Please enter your password',
+                  pattern: {
+                    value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+])(?=.*[a-zA-Z]).{8,}$/,
+                    message: 'Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character',
+                  },
+                })}
+                className={`${appearance === 'dark' ? 'input-register-dark' : 'input-register-light'} ${errors?.password && appearance === 'dark' ? 'input-items-error-dark' : ''} ${errors?.password && appearance === 'light' ? 'input-items-error-light' : ''}`}/>
             </FormItem>
 
             <FormItem bottomId="passwordDescription">
-              <Input
+              <input
+                placeholder="confirm password"
                 type="password"
-                placeholder="Repeat password"
-                aria-labelledby="passwordDescription"
+                {...register('confirmPassword', {
+                  required: 'Please confirm your password',
+                  validate: (value) => value === watch('password') || 'Passwords do not match', // Проверяем совпадение с первым паролем
+                })}
+                className={`${appearance === 'dark' ? 'input-register-dark' : 'input-register-light'} ${errors?.confirmPassword && appearance === 'dark' ? 'input-items-error-dark' : ''} ${errors?.confirmPassword && appearance === 'light' ? 'input-items-error-light' : ''}`}
               />
+              {errors.confirmPassword && <p className={`error-item-text-${appearance === 'dark' ? 'dark' : 'light'}`}>{errors.confirmPassword.message}</p>}
             </FormItem>
 
             <FormLayoutGroup mode="horizontal">
@@ -143,8 +170,20 @@ const Register = () => {
                 />
               </FormItem>
 
-              <FormItem htmlFor="lastname" top="Last Name">
-                <Input id="lastname" placeholder='last name'  onChange={e => setLastName(e.target.value)}/>
+            <FormItem htmlFor="lastname" top="Last Name"
+              status={!errors?.lastName ? 'valid' : 'error'}
+              bottom={
+                errors?.lastName && `${errors?.lastName.message}`
+              }>
+              <input
+                  className={`${appearance === 'dark' ? 'input-register-dark' : 'input-register-light'} ${errors?.lastName && appearance === 'dark' ? 'input-items-error-dark' : ''} ${errors?.lastName && appearance === 'light' ? 'input-items-error-light' : ''}`}
+                  {...register('lastName', {
+                    required: 'Please write your last name',
+                  })}
+                  placeholder='last name'
+                  value={lastName}
+                  onChange={e => setLastName(e.target.value)}
+                />
               </FormItem>
             </FormLayoutGroup>
 
@@ -152,6 +191,7 @@ const Register = () => {
               <Select
                 placeholder="Choose sex"
                 onChange={(e) => setSex(e.target.value)}
+                value={sex}
                   options={[
                     { value: 'Man', label: 'Man' },
                     { value: 'Woman', label: 'Woman' },
