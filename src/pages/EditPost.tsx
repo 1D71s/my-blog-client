@@ -41,7 +41,7 @@ const EditPost = () => {
 
     const handleAddImageClick = () => {
         if (fileInputRef.current) {
-        fileInputRef.current.click();
+            fileInputRef.current.click();
         }
     };
 

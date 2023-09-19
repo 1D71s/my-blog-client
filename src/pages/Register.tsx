@@ -15,8 +15,9 @@ import {
   Button,
   Title,
   Select,
+  useAppearance
 } from "@vkontakte/vkui";
-import { useForm, SubmitHandler } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 
 type FormType = {
   firstName: string
@@ -45,6 +46,8 @@ const Register = () => {
 
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+
+  const appearance = useAppearance();
 
   const [errorForm, setErrorForm] = useState<string | null>('');
 
@@ -129,7 +132,8 @@ const Register = () => {
                   errors?.firstName && `${errors?.firstName.message}`
                 }
               >
-                <Input
+                <input
+                  className={`${appearance === 'dark' ? 'input-register-dark' : 'input-register-light'} ${errors?.firstName && appearance === 'dark' ? 'input-items-error-dark' : ''} ${errors?.firstName && appearance === 'light' ? 'input-items-error-light' : ''}`}
                   {...register('firstName', {
                     required: 'Please write your first name',
                   })}
