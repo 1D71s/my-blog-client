@@ -19,7 +19,7 @@ type FormType = {
 
 const Register = () => {
 
-  const { register, watch, formState: { errors }, handleSubmit } = useForm<FormType>({ mode: 'onBlur' })
+  const { register, watch, formState: { errors, isValid }, handleSubmit } = useForm<FormType>({ mode: 'onBlur' })
 
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
@@ -43,7 +43,7 @@ const Register = () => {
   }, [])
 
   useEffect(() => {
-    if (status === 'Регистрация прошла успешно!') {
+    if (status === 'Registration completed successfully!') {
       toast(status)
       navigate('/')
       dispatch(clearStatus())
@@ -53,21 +53,23 @@ const Register = () => {
   }, [status])
 
   const registration = async () => {
-    const newUser = {
-      username,
-      email,
-      password,
-      confirmPassword,
-      useravatar: '',
-      firstName,
-      lastName,
-      sex
-    };
-    await console.log(newUser)
-    dispatch(registerUser(newUser));
-    setEmail('')
-    setPassword('')
-    setUsername('')
+    if (isValid) {
+      const newUser = {
+        username,
+        email,
+        password,
+        useravatar: '',
+        firstName,
+        lastName,
+        sex
+      };
+      await console.log(newUser)
+      dispatch(registerUser(newUser));
+      setEmail('')
+      setPassword('')
+      setUsername('')
+      setConfirmPassword('')
+    }
   };
 
   
@@ -129,6 +131,7 @@ const Register = () => {
               }
             >
               <input id="pass" type="password" placeholder="password"
+                value={password}
                 {...register('password', {
                   required: 'Please enter your password',
                   pattern: {
@@ -136,18 +139,21 @@ const Register = () => {
                     message: 'Password must contain at least 8 characters, including at least one uppercase letter, one lowercase letter, one number, and one special character',
                   },
                 })}
-                className={`${appearance === 'dark' ? 'input-register-dark' : 'input-register-light'} ${errors?.password && appearance === 'dark' ? 'input-items-error-dark' : ''} ${errors?.password && appearance === 'light' ? 'input-items-error-light' : ''}`}/>
+                className={`${appearance === 'dark' ? 'input-register-dark' : 'input-register-light'} ${errors?.password && appearance === 'dark' ? 'input-items-error-dark' : ''} ${errors?.password && appearance === 'light' ? 'input-items-error-light' : ''}`}
+                onChange={(e) => setPassword(e.target.value)}/>
             </FormItem>
 
             <FormItem bottomId="passwordDescription">
               <input
                 placeholder="confirm password"
+                value={confirmPassword}
                 type="password"
                 {...register('confirmPassword', {
                   required: 'Please confirm your password',
                   validate: (value) => value === watch('password') || 'Passwords do not match', // Проверяем совпадение с первым паролем
                 })}
                 className={`${appearance === 'dark' ? 'input-register-dark' : 'input-register-light'} ${errors?.confirmPassword && appearance === 'dark' ? 'input-items-error-dark' : ''} ${errors?.confirmPassword && appearance === 'light' ? 'input-items-error-light' : ''}`}
+                onChange={(e) => setConfirmPassword(e.target.value)}
               />
               {errors.confirmPassword && <p className={`error-item-text-${appearance === 'dark' ? 'dark' : 'light'}`}>{errors.confirmPassword.message}</p>}
             </FormItem>
@@ -198,9 +204,10 @@ const Register = () => {
                   ]}
                 />
             </FormItem>
-            <FormItem>
-              <p className='input-error'>{errorForm}</p>
-            </FormItem>
+            
+            {errorForm && <FormItem>
+              <p className={appearance === 'dark' ? 'input-error-dark' : 'input-error-light'}>{errorForm}</p>
+            </FormItem>}
             
             <FormItem type='submit'>
               <Button

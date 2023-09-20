@@ -28,9 +28,24 @@ li {
     max-width: 400px;
 }
 
-.input-error {
-    color:rgb(183, 0, 0);
+.input-error-dark {
+    color:#ff5c5c;
     margin-bottom: -5px;
+    background-color: #522e2e;
+    border: 1px solid #ff5c5c;
+    border-radius: 8px;
+    padding: 10px;
+    max-width: max-content;
+}
+
+.input-error-light {
+    color: #ff5c5c;
+    margin-bottom: -5px;
+    background-color: #ff919136;
+    border: 1px solid #ff5c5c;
+    border-radius: 8px;
+    padding: 10px;
+    max-width: max-content;
 }
 
 .input-register-light {

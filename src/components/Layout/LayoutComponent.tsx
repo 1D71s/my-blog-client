@@ -26,6 +26,7 @@ import "./LayoutComponent.css"
 import { useAppDispatch, useAppSelector } from '../../utils/hooks';
 import { logOut } from '../../redux/userSlice';
 import { NavBar } from '../NavBar/NavBar';
+import { toast } from 'react-toastify'
 
 
 interface ExampleProps {
@@ -46,9 +47,10 @@ const Example: React.FC<ExampleProps> = ({ Content }) => {
   const navigate = useNavigate()
 
   const logOutAccount = () => {
-      dispatch(logOut())
-      navigate('/login')
-      window.localStorage.removeItem('token')
+    dispatch(logOut())
+    navigate('/login')
+    window.localStorage.removeItem('token')
+    toast('You are logged out of your account!')
   }
 
   const onStoryChange = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -136,28 +138,28 @@ const Example: React.FC<ExampleProps> = ({ Content }) => {
                   data-story="/"
                   text="Feed"
                 >
-                  <Icon28NewsfeedOutline />
+                  <Icon28NewsfeedOutline className='menu-bottom-icons'/>
                 </TabbarItem>
                 <TabbarItem
                   onClick={onStoryChange}
                   data-story="me"
                   text="Profile"
                 >
-                  <Icon28UserCircleOutline />
+                  <Icon28UserCircleOutline className='menu-bottom-icons'/>
                 </TabbarItem>
                 <TabbarItem
                   onClick={onStoryChange}
                   data-story="create"
                   text="Create"
                 >
-                  <Icon24Write />
+                  <Icon24Write className='menu-bottom-icons'/>
                 </TabbarItem>
                 <TabbarItem
                   onClick={logOutAccount}
                   data-story="/"
                   text="Log Out"
                 >
-                  <Icon24DoorArrowRightOutline />
+                  <Icon24DoorArrowRightOutline className='menu-bottom-icons'/>
                 </TabbarItem>
 
               </Tabbar> : 
@@ -167,14 +169,14 @@ const Example: React.FC<ExampleProps> = ({ Content }) => {
                   data-story="login"
                   text="Sign In"
                 >
-                  <Icon24DoorArrowLeftOutline />
+                  <Icon24DoorArrowLeftOutline className='menu-bottom-icons'/>
                 </TabbarItem>
                 <TabbarItem
                   onClick={onStoryChange}
                   data-story="register"
                   text="Sign Up"
                 >
-                  <Icon24UserAddOutline />
+                  <Icon24UserAddOutline className='menu-bottom-icons'/>
                 </TabbarItem>
               </Tabbar>
             )

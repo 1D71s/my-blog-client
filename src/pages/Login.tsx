@@ -12,7 +12,8 @@ import {
   Input,
   FormLayout,
   Button,
-  Title
+  Title,
+  useAppearance
 } from "@vkontakte/vkui";
 
 const Login = () => {
@@ -24,6 +25,8 @@ const Login = () => {
 
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+
+  const appearance = useAppearance()
 
   const status = useAppSelector(state => state.auth.status)
 
@@ -41,7 +44,7 @@ const Login = () => {
   }, [])
 
   useEffect(() => {
-    if (status === 'Вы вошли в систему!') {
+    if (status === 'You are logged in!') {
       toast(status)
       dispatch(getMe())
       navigate('/')
@@ -65,9 +68,9 @@ const Login = () => {
                 <Input id="pass" type="password" placeholder="password"
                 onChange={e => setPassword(e.target.value)}/>
               </FormItem>
-              <FormItem>
-                <p className='input-error'>{errorForm}</p>
-              </FormItem>
+                {errorForm && <FormItem>
+                <p className={appearance === 'dark' ? 'input-error-dark' : 'input-error-light'}>{errorForm}</p>
+              </FormItem>}
     
               <FormItem>
                 <Button onClick={logIn} size="l" stretched>

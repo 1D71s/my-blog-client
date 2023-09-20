@@ -48,9 +48,9 @@ export type User = {
     useravatar: string
 }
 
-export const registerUser = createAsyncThunk<RegisterResponse,FormForRegister >('user/registerUser', async ({ username, password, email }) => {
+export const registerUser = createAsyncThunk<RegisterResponse,FormForRegister >('user/registerUser', async (user) => {
     try {
-      const { data } = await axios.post('/auth/register', { username, password, email });
+      const { data } = await axios.post('/auth/register', user);
       return data;
     } catch (error) {
       console.log(error);
@@ -105,7 +105,7 @@ const userSlice = createSlice({
         logOut(state) {
             state.user = null
             state.token = null
-            state.status = 'Вы вышли из аккаунта'
+            state.status = 'You are logged out of your account!'
         },
         clearStatus(state) {
             state.status = null
