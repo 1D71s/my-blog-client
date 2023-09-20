@@ -65,10 +65,6 @@ const Register = () => {
       };
       await console.log(newUser)
       dispatch(registerUser(newUser));
-      setEmail('')
-      setPassword('')
-      setUsername('')
-      setConfirmPassword('')
     }
   };
 

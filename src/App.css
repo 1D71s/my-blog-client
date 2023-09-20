@@ -394,8 +394,8 @@ li {
     display: block;
     max-width: 100%;
     margin: 0 auto;
-    margin-bottom: 20px;
     border-radius: 5px;
+    margin-top: 20px;
 }
 
 .btn-delete-image {
