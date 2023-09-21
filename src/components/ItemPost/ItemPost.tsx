@@ -16,7 +16,7 @@ import { toast } from "react-toastify";
 
 const url = process.env.REACT_APP_URL
 
-const ItemPost = ({ _id, image, title, text, comments, likes, views, author, createdAt }: PostTypes) => {
+const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, author, createdAt }: PostTypes) => {
 
   const isAuth = useAppSelector(state => state.auth.token);
   const user = useAppSelector(state => state.auth.user);
@@ -123,6 +123,11 @@ const ItemPost = ({ _id, image, title, text, comments, likes, views, author, cre
           <b className='title-post'>{title}</b>
           <div>{text}</div>
         </Link>
+        {tags && <div className="tags">
+          {tags.map(item => <Link to={`/tag/${item}`} className="item-tag">
+            #{item}
+          </Link>)}
+        </div>}
         <div className='likes-comm-views'>
           <span onClick={() => toLike()}>
             { user && likes.includes(user._id) ? <AiFillHeart className='icons-lcv likes-includes' onClick={likeItem}/> :

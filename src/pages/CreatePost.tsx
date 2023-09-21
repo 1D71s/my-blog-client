@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../utils/hooks'
 import { createPost, clearStatus } from '../redux/postSlice'
 import { toast } from 'react-toastify'
@@ -26,17 +26,8 @@ const CreatePost = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-
-  const resetFileInput = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
-  };
-
   const deleteImage = () => {
     setImage('')
-    resetFileInput()
   }
 
   const addImage = async (event: File | null) => {
@@ -66,18 +57,18 @@ const CreatePost = () => {
   }, [status])
 
   const addPost = async () => {
+    const hashtags = tags.split('#').filter(item => item !== '').map(i => i.split('').filter(a => a !== ' ').join('').toLowerCase())
     const post = {
       image,
       text,
       title,
-      tags: tags.split('#')
+      tags: hashtags
     }
     console.log(post)
 
     dispatch(createPost(post))
   }
   
-
   return (
     <>
       <FormItem style={{marginTop: '20px'}}>

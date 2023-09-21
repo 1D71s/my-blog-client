@@ -333,6 +333,15 @@ li {
     color: rgb(200, 3, 3);
 }
 
+.tags {
+    margin-top: 10px;
+}
+
+.item-tag {
+    margin-right: 5px;
+    color: #0077FF;
+}
+
 @media (max-width: 700px) {
     .post-item {
         padding: 10px;

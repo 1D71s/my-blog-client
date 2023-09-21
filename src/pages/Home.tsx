@@ -46,6 +46,7 @@ const Home = () => {
             image={item.image}
             title={item.title}
             text={item.text}
+            tags={item.tags}
             views={item.views}
             comments={item.comments}
             likes={item.likes}

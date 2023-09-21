@@ -5,6 +5,7 @@ export type Author = {
 }
   
 export type PostTypes = {
+    tags: string[]
     title: string;
     text: string;
     image: string,

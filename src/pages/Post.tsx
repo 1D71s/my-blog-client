@@ -35,6 +35,7 @@ const Post = () => {
         image={data.image}
         title={data.title}
         text={data.text}
+        tags={data.tags}
         views={data.views}
         comments={data.comments}
         likes={data.likes}
