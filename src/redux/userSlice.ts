@@ -11,7 +11,10 @@ type FormForRegister = {
     email: string,
     password: string,
     useravatar: string,
-    _id?: string | any
+    _id?: string | any,
+    firstName: string,
+    lastName: string,
+    sex: string
 }
 
 type FormForLogin = {
@@ -45,7 +48,10 @@ export type User = {
     email: string,
     password: string,
     token: string,
-    useravatar: string
+    useravatar: string,
+    firstName: string,
+    lastName: string,
+    sex: string
 }
 
 export const registerUser = createAsyncThunk<RegisterResponse,FormForRegister >('user/registerUser', async (user) => {
@@ -95,7 +101,7 @@ const initialState: ForInitialState  = {
     loading: false,
     status: null,
     getMeStateLoading: false,
-    theme: false
+    theme: true
 }
 
 const userSlice = createSlice({

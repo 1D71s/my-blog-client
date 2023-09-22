@@ -4,7 +4,7 @@ import { PostTypes } from '../types'
 import { useQuery } from '@tanstack/react-query'
 import axios from '../utils/axios'
 import { Link } from 'react-router-dom';
-import { Icon20ArticleOutline, Icon20FollowersOutline, Icon20GlobeOutline, Icon20WorkOutline, Icon20Info } from '@vkontakte/icons';
+import { Icon20ArticleOutline, Icon20FollowersOutline, Icon20NarrativeOutline, Icon20Info, Icon20MentionOutline  } from '@vkontakte/icons';
 import { Group, Title, Text, Gradient, Avatar, Button, MiniInfoCell } from '@vkontakte/vkui';
 
 const url = process.env.REACT_APP_URL
@@ -32,22 +32,25 @@ const Me = () => {
   
   
   const styles: StyleType = {
-      margin: 0,
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      textAlign: 'center',
-      padding: 32,
+    margin: 0,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    padding: 32,
+    //backgroundImage: `url(${url}${me?.useravatar})`,
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
   };
   
-
+  
   return (
     <>
       <Gradient mode="tint" style={styles}>
         <Avatar size={200}  src={`${url}${me?.useravatar}`}/>
         <Title style={{ marginBottom: 8, marginTop: 20 }} level="2" weight="2">
-          Алексей Мазелюк
+          {me?.firstName} {me?.lastName}
         </Title>
         <Text
           style={{
@@ -64,7 +67,7 @@ const Me = () => {
         </Link>
       </Gradient>
       <Group mode="plain" style={{marginTop: '25px'}}>
-        <Group>
+        <Group style={{padding: '20px 0px'}}>
           <MiniInfoCell before={<Icon20ArticleOutline />} textWrap="short">
             ВКонтакте начинался как сайт для выпускников вузов, а сейчас это огромная экосистема
             с безграничными возможностями и миллионами пользователей.
@@ -73,34 +76,15 @@ const Me = () => {
           <MiniInfoCell
             before={<Icon20FollowersOutline />}
           >
-            514,7K подписчиков · 77 друзей
+            0 подписчиков · 0 друзей
           </MiniInfoCell>
 
-          <MiniInfoCell before={<Icon20GlobeOutline />}>
-            <Link to="https://vk.com/team">vk.com/team</Link>
+          <MiniInfoCell before={<Icon20NarrativeOutline />}>
+            {me?.sex}
           </MiniInfoCell>
 
-          <MiniInfoCell
-            mode="accent"
-            before={<Icon20WorkOutline />}
-            after={
-              <Avatar
-                size={24}
-                src="https://sun9-29.userapi.com/c623616/v623616034/1c184/MnbEYczHxSY.jpg?ava=1"
-              />
-            }
-          >
-            Место работы: Команда ВКонтакте
-          </MiniInfoCell>
-
-          <MiniInfoCell
-            before={<Icon20WorkOutline />}
-            mode="add"
-            onClick={() => console.log('Указать место учёбы')}
-            textWrap="short"
-            expandable
-          >
-            Укажите место учёбы
+          <MiniInfoCell before={<Icon20MentionOutline  />}>
+            {me?.email}
           </MiniInfoCell>
 
           <MiniInfoCell
@@ -112,8 +96,7 @@ const Me = () => {
           </MiniInfoCell>
         </Group>
       </Group>
-      <Group>
-        {data && data.length > 0 && <div className='my-posts'>
+      {data && data.length > 0 && <Group>
           {data.reverse().map((item: PostTypes) => (
             <ItemPost
               key={item._id}
@@ -129,8 +112,7 @@ const Me = () => {
               createdAt={item.createdAt}
             />
           ))}
-        </div>}
-      </Group>
+      </Group>}
     </>
   )
 }

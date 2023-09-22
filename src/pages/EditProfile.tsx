@@ -5,6 +5,17 @@ import { toast } from 'react-toastify'
 import axios from '../utils/axios'
 import { useNavigate } from 'react-router-dom'
 import { getMe } from '../redux/userSlice'
+import {
+    FormItem,
+    Textarea,
+    Input,
+    File,
+    Button
+} from "@vkontakte/vkui";
+import {Icon24Camera} from "@vkontakte/icons";
+
+
+const url = process.env.REACT_APP_URL
 
 type UserUpdate = {
     username?: string
@@ -26,23 +37,8 @@ const EditProfile = () => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
 
-    const fileInputRef = useRef<HTMLInputElement | null>(null);
-
-    const handleAddImageClick = () => {
-        if (fileInputRef.current) {
-            fileInputRef.current.click();
-        }
-    };
-
-    const resetFileInput = () => {
-        if (fileInputRef.current) {
-            fileInputRef.current.value = '';
-        }
-    };
-
     const deleteImage = () => {
         setImage('')
-        resetFileInput()
     }
 
     useEffect(() => {
@@ -87,7 +83,7 @@ const EditProfile = () => {
         }
     }
 
-    const addPost = async () => {
+    const addInfo = async () => {
         const user = {
             image: image === '' ? '/uploads/ava.webp' : image ,
             email,
@@ -98,43 +94,42 @@ const EditProfile = () => {
   
 
     return (
-        <div className='create-post'>
-            <div className='form-for-addpost'>
-                <input
-                ref={fileInputRef}
-                className='input-file'
-                accept=".jpg, .jpeg, .png, image/*"
-                type="file" onChange={(e) => e.target.files && addImage(e.target.files[0])} />
-                
-                {!image ? <button className='btn-add-image' onClick={handleAddImageClick}>
-                Сменить Фото профиля
-                </button> : <div>
-                <button className='btn-delete-image' onClick={deleteImage}>
-                    Удалить
-                </button>
-                
-                <img className='img-foradd' src={`http://localhost:4005${image}`}/>
+        <>
+            <FormItem style={{marginTop: '20px'}}>
+                {!image ?
+                    <File before={<Icon24Camera role="presentation" />} size="m"
+                        onChange={(e) => e.target.files && addImage(e.target.files[0])}>
+                        Open gallery
+                </File> :
+                <div>
+                    <Button
+                        style={{padding: '3px'}}
+                        onClick={deleteImage}
+                    >Delete image</Button>
+                    <img className='img-foradd' src={`${url}${image}`} />
                 </div>}
-
-                <div className='el'>Никнейм:</div>
-                <input
-                    className='input-add-post'
-                    type="text"
+            </FormItem>
+            <FormItem top="Username*">
+                <Input
                     value={username}
-                    onChange={e => setUsername(e.target.value)} />
-                
-                <div className='el'>Email:</div>
-                <input
-                    className='input-add-post'
-                    type="text"
+                    onChange={e => setUsername(e.target.value)}
+                    placeholder="please write title here"
+                />
+            </FormItem>
+            <FormItem top="Email*">
+                <Input
                     value={email}
-                    onChange={e => setEmail(e.target.value)} />
-
-                <div className='cont-btn'>
-                <button className='btn-form' onClick={addPost}>Обновить профиль</button>
-                </div>
-            </div>
-        </div>
+                    onChange={e => setEmail(e.target.value)}
+                    placeholder="please write text here"
+                />
+            </FormItem>
+            <FormItem style={{marginBottom: '20px'}}>
+                <Button
+                    onClick={addInfo}
+                    style={{ padding: '3px', marginTop: '10px' }}
+                >Update profile</Button>
+            </FormItem>
+        </>
     )
 }
 

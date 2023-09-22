@@ -3,6 +3,7 @@ import ItemPost from '../components/ItemPost/ItemPost';
 import axios from '../utils/axios';
 import { PostTypes } from '../types';
 import { useQuery } from '@tanstack/react-query';
+import { Skeleton } from 'antd';
 
 const Home = () => {
   const [whatIsPosts, setWhatisPosts] = useState('new');

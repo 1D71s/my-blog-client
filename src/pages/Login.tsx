@@ -14,8 +14,8 @@ import {
   Button,
   Title,
   useAppearance,
-  ScreenSpinner,
 } from "@vkontakte/vkui";
+import { Spinner } from '@chakra-ui/react'
 
 const Login = () => {
   
@@ -40,7 +40,6 @@ const Login = () => {
       username,
       password,
     };
-
     dispatch(loginUser(form))
   };
   
@@ -76,19 +75,17 @@ const Login = () => {
                 {errorForm && <FormItem>
                 <p className={appearance === 'dark' ? 'input-error-dark' : 'input-error-light'}>{errorForm}</p>
               </FormItem>}
-    
               <FormItem>
-                <Button onClick={logIn} size="l" stretched>
-                  Log in
+                <Button disabled={loading} onClick={logIn} size="l" stretched>
+                  {!loading ? 'Log in' : <Spinner color='red.500' style={{width: '20px', height: '20px', marginTop: '5px'}}/>}
                 </Button>
-              </FormItem>
+            </FormItem>
               <FormItem>
                 <Link to='/register'>
                   <Button style={{ background: '#4bb34b', color: 'white' }} size="l" stretched>Sign Up</Button>
                 </Link>
               </FormItem>
           </div>}
-          {loading && <ScreenSpinner state="loading" />}
         </FormLayout>
       </Panel>
     </View>

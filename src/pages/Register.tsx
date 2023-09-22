@@ -7,6 +7,7 @@ import { clearStatus } from '../redux/userSlice'
 import { Link } from 'react-router-dom'
 import { Panel, View, FormItem, FormLayout, FormLayoutGroup, Button, Title, ScreenSpinner, Select,useAppearance } from "@vkontakte/vkui";
 import { useForm } from 'react-hook-form'
+import { Spinner } from '@chakra-ui/react'
 
 type FormType = {
   firstName: string,
@@ -19,7 +20,7 @@ type FormType = {
 
 const Register = () => {
 
-  const { register, watch, formState: { errors, isValid }, handleSubmit } = useForm<FormType>({ mode: 'onBlur' })
+  const { register, formState: { errors, isValid }, handleSubmit } = useForm<FormType>({ mode: 'onBlur' })
 
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
@@ -57,6 +58,7 @@ const Register = () => {
   }, [status])
 
   const registration = async () => {
+    if (password !== confirmPassword) return setErrorForm('Password mismatch!')
     if (isValid) {
       const newUser = {
         username,
@@ -147,10 +149,6 @@ const Register = () => {
                 placeholder="confirm password"
                 value={confirmPassword}
                 type="password"
-                {...register('confirmPassword', {
-                  required: 'Please confirm your password',
-                  validate: (value) => value === watch('password') || 'Passwords do not match', // Проверяем совпадение с первым паролем
-                })}
                 className={`${appearance === 'dark' ? 'input-register-dark' : 'input-register-light'} ${errors?.confirmPassword && appearance === 'dark' ? 'input-items-error-dark' : ''} ${errors?.confirmPassword && appearance === 'light' ? 'input-items-error-light' : ''}`}
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
@@ -175,10 +173,10 @@ const Register = () => {
                 />
               </FormItem>
 
-            <FormItem htmlFor="lastname" top="Last Name"
+            <FormItem top="Last Name"
               status={!errors?.lastName ? 'valid' : 'error'}
               bottom={
-                errors?.lastName && `${errors?.lastName.message}`
+                errors?.lastName  && `${errors?.lastName.message}`
               }>
               <input
                   className={`${appearance === 'dark' ? 'input-register-dark' : 'input-register-light'} ${errors?.lastName && appearance === 'dark' ? 'input-items-error-dark' : ''} ${errors?.lastName && appearance === 'light' ? 'input-items-error-light' : ''}`}
@@ -188,6 +186,7 @@ const Register = () => {
                   placeholder='last name'
                   value={lastName}
                   onChange={e => setLastName(e.target.value)}
+                  autoComplete={lastName}
                 />
               </FormItem>
             </FormLayoutGroup>
@@ -210,10 +209,11 @@ const Register = () => {
             
             <FormItem type='submit'>
               <Button
+                disabled={loading}
                 onClick={registration}
                 size="l"
                 stretched>
-                  Registration
+                  {!loading ? 'Registration' : <Spinner color='red.500' style={{width: '20px', height: '20px', marginTop: '5px'}}/>}
               </Button>
             </FormItem>
             <FormItem>
@@ -222,7 +222,6 @@ const Register = () => {
               </Link>
             </FormItem>
         </FormLayout>}
-        {loading && <ScreenSpinner state="loading" />}
       </Panel>
     </View>
   );
