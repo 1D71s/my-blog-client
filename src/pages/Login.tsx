@@ -13,7 +13,8 @@ import {
   FormLayout,
   Button,
   Title,
-  useAppearance
+  useAppearance,
+  ScreenSpinner,
 } from "@vkontakte/vkui";
 
 const Login = () => {
@@ -29,6 +30,10 @@ const Login = () => {
   const appearance = useAppearance()
 
   const status = useAppSelector(state => state.auth.status)
+  const loading = useAppSelector(state => state.auth.loading)
+  const token = useAppSelector(state => state.auth.token)
+  
+  if (token) navigate('/')
 
   const logIn = () => {
     const form = {
@@ -38,7 +43,7 @@ const Login = () => {
 
     dispatch(loginUser(form))
   };
-
+  
   useEffect(() => {
     dispatch(clearStatus())
   }, [])
@@ -57,7 +62,7 @@ const Login = () => {
     <View activePanel="new-user">
       <Panel id="new-user">
         <FormLayout>
-          <div className='log-in'>
+          {!token && <div className='log-in'>
             <Title level="1" style={{ margin: 15 }}>
               Log In
             </Title>
@@ -82,7 +87,8 @@ const Login = () => {
                   <Button style={{ background: '#4bb34b', color: 'white' }} size="l" stretched>Sign Up</Button>
                 </Link>
               </FormItem>
-          </div>
+          </div>}
+          {loading && <ScreenSpinner state="loading" />}
         </FormLayout>
       </Panel>
     </View>

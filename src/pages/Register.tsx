@@ -5,7 +5,7 @@ import { registerUser } from '../redux/userSlice'
 import { toast } from 'react-toastify'
 import { clearStatus } from '../redux/userSlice'
 import { Link } from 'react-router-dom'
-import { Panel, View, FormItem, FormLayout, FormLayoutGroup, Button, Title, Select,useAppearance } from "@vkontakte/vkui";
+import { Panel, View, FormItem, FormLayout, FormLayoutGroup, Button, Title, ScreenSpinner, Select,useAppearance } from "@vkontakte/vkui";
 import { useForm } from 'react-hook-form'
 
 type FormType = {
@@ -37,6 +37,10 @@ const Register = () => {
   const [errorForm, setErrorForm] = useState<string | null>('');
 
   const status = useAppSelector(state => state.auth.status)
+  const token = useAppSelector(state => state.auth.token)
+  const loading = useAppSelector(state => state.auth.loading)
+
+  if (token) navigate('/')
 
   useEffect(() => {
     dispatch(clearStatus())
@@ -68,11 +72,10 @@ const Register = () => {
     }
   };
 
-  
   return  (
     <View activePanel="new-user" >
       <Panel id="new-user">
-        <FormLayout  onSubmit={handleSubmit(registration)}>
+        {!token && <FormLayout  onSubmit={handleSubmit(registration)}>
             <Title level="1" style={{ margin: 15 }}>
               Registration
             </Title>
@@ -218,7 +221,8 @@ const Register = () => {
                 <Button style={{ background: '#4bb34b', color: 'white' }} size="l" stretched>Sign in</Button>
               </Link>
             </FormItem>
-        </FormLayout>
+        </FormLayout>}
+        {loading && <ScreenSpinner state="loading" />}
       </Panel>
     </View>
   );

@@ -13,6 +13,8 @@ import {
 } from "@vkontakte/vkui";
 import {Icon24Camera} from "@vkontakte/icons";
 
+const url = process.env.REACT_APP_URL
+
 const CreatePost = () => {
 
   const [text, setText] = useState('')
@@ -81,7 +83,7 @@ const CreatePost = () => {
             <Button
               style={{padding: '3px'}}
               onClick={deleteImage}>Delete image</Button>
-            <img className='img-foradd' src={`http://localhost:4005${image}`} />
+            <img className='img-foradd' src={`${url}${image}`} />
           </div>}
       </FormItem>
       <FormItem top="Title*">
