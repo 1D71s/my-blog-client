@@ -5,6 +5,16 @@ type Token = {
     token: string | null;
 };
 
+export type FullInfoType = {
+    country: string,
+    sity: string,
+    myStatus: string,
+    birthday: string,
+    hobby: string,
+    university: string,
+    job: string,
+    about: string,
+}
 
 type FormForRegister = {
     username: string,
@@ -14,7 +24,8 @@ type FormForRegister = {
     _id?: string | any,
     firstName: string,
     lastName: string,
-    sex: string
+    sex: string,
+    fullInfo?: FullInfoType 
 }
 
 type FormForLogin = {
@@ -51,7 +62,8 @@ export type User = {
     useravatar: string,
     firstName: string,
     lastName: string,
-    sex: string
+    sex: string,
+    fullInfo: FullInfoType
 }
 
 export const registerUser = createAsyncThunk<RegisterResponse,FormForRegister >('user/registerUser', async (user) => {

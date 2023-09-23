@@ -10,17 +10,19 @@ import {
     Textarea,
     Input,
     File,
-    Button
+    Button,
+    NativeSelect,
+    DatePicker,
+    SegmentedControl
 } from "@vkontakte/vkui";
 import {Icon24Camera} from "@vkontakte/icons";
-
 
 const url = process.env.REACT_APP_URL
 
 type UserUpdate = {
     username?: string
     email?: string
-    image?: string
+    image?: string,
 }
 
 const EditProfile = () => {
@@ -29,6 +31,18 @@ const EditProfile = () => {
 
     const [username, setUsername] = useState(me?.username)
     const [email, setEmail] = useState(me?.email)
+    const [sex, setSex] = useState(me?.sex)
+
+    const [myStatus, setMyStatus] = useState(me?.fullInfo?.myStatus);
+    const [birthday, setBirthday] = useState(me?.fullInfo?.birthday);
+    const [country, setCountry] = useState(me?.fullInfo?.country);
+    const [sity, setSity] = useState(me?.fullInfo?.sity);
+    const [hobby, setHobby] = useState(me?.fullInfo?.hobby);
+    const [university, setUniversity] = useState(me?.fullInfo?.university);
+    const [job, setJob] = useState(me?.fullInfo?.job);
+    const [about, setAbout] = useState(me?.fullInfo?.about);
+   
+
 
     const [image, setImage] = useState(me?.useravatar);
 
@@ -39,6 +53,10 @@ const EditProfile = () => {
 
     const deleteImage = () => {
         setImage('')
+    }
+
+    if (!username) {
+        navigate('/me')
     }
 
     useEffect(() => {
@@ -87,7 +105,9 @@ const EditProfile = () => {
         const user = {
             image: image === '' ? '/uploads/ava.webp' : image ,
             email,
-            username
+            username,
+            sex,
+            fullInfo: {myStatus, birthday, country, sity, hobby, university, job, about}
         }
         updateProfile(user)
     }
@@ -109,6 +129,15 @@ const EditProfile = () => {
                     <img className='img-foradd' src={`${url}${image}`} />
                 </div>}
             </FormItem>
+
+            <FormItem top="My status">
+                <Textarea
+                    value={myStatus}
+                    onChange={e => setMyStatus(e.target.value)}
+                    placeholder="please write status here"
+                />
+            </FormItem>
+
             <FormItem top="Username*">
                 <Input
                     value={username}
@@ -123,6 +152,78 @@ const EditProfile = () => {
                     placeholder="please write text here"
                 />
             </FormItem>
+
+            <FormItem top="Выберите пол">
+                <SegmentedControl
+                    name="sex"
+                    defaultValue={sex}
+                    onChange={(value) => setSex(value?.toString())}
+                    options={[
+                        {
+                            label: 'Man',
+                            value: 'Man',
+                        },
+                        {
+                            label: 'Woman',
+                            value: 'Woman',
+                        },
+                    ]}
+                />
+            </FormItem>
+
+            <FormItem top="Дата рождения">
+                <DatePicker
+                    min={{ day: 1, month: 1, year: 1901 }}
+                    max={{ day: 1, month: 1, year: 2015 }}
+                    onDateChange={(value) => {
+                        console.log(value);
+                        const formattedDate = `${value.day}.${value.month}.${value.year}`;
+                        setBirthday(formattedDate);
+                    }}
+                    defaultValue={{ day: 2, month: 4, year: 1994 }}
+                />
+            </FormItem>
+
+            <FormItem top="Country">
+                <Input
+                    value={country}
+                    onChange={e => setCountry(e.target.value)}
+                    placeholder="please write your country here"
+                />
+            </FormItem> 
+
+            <FormItem top="Sity">
+                <Input
+                    value={sity}
+                    onChange={e => setSity(e.target.value)}
+                    placeholder="please write your sity here"
+                />
+            </FormItem> 
+
+            <FormItem top="Job">
+                <Textarea
+                    value={job}
+                    onChange={e => setJob(e.target.value)}
+                    placeholder="please write your job here"
+                />
+            </FormItem>
+
+            <FormItem top="My Hobby">
+                <Textarea
+                    value={hobby}
+                    onChange={e => setHobby(e.target.value)}
+                    placeholder="please write your hobby here"
+                />
+            </FormItem>
+
+            <FormItem top="About me">
+                <Textarea
+                    value={about}
+                    onChange={e => setAbout(e.target.value)}
+                    placeholder="please write info about you here"
+                />
+            </FormItem>
+
             <FormItem style={{marginBottom: '20px'}}>
                 <Button
                     onClick={addInfo}

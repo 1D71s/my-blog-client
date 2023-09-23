@@ -16,7 +16,7 @@ const NavBar = () => {
     return (
         <div className='cont'>
             <div className='hounter'>
-                <Link to='/'><p style={{ color: appearance === 'light' ? 'black' : 'white' }}>My_Blog</p></Link>
+                <Link to='/'><b style={{ color: appearance === 'light' ? 'black' : 'white' }}>My_Blog</b></Link>
             </div>
     
             <div className='contain'>

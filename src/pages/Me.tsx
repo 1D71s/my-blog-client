@@ -4,14 +4,16 @@ import { PostTypes } from '../types'
 import { useQuery } from '@tanstack/react-query'
 import axios from '../utils/axios'
 import { Link } from 'react-router-dom';
-import { Icon20ArticleOutline, Icon20FollowersOutline, Icon20NarrativeOutline, Icon20Info, Icon20MentionOutline  } from '@vkontakte/icons';
-import { Group, Title, Text, Gradient, Avatar, Button, MiniInfoCell } from '@vkontakte/vkui';
+import { Icon20ArticleOutline, Icon20BasketballOutline, Icon20NarrativeOutline, Icon20Info, Icon20MentionOutline, Icon20UsersOutline, Icon20ArticleBoxOutline, Icon20PlaceOutline, Icon20LogoClipsOutline, Icon20WorkOutline  } from '@vkontakte/icons';
+import { Group, Title, Text, Gradient, Avatar, Button, MiniInfoCell, useAppearance } from '@vkontakte/vkui';
 
 const url = process.env.REACT_APP_URL
 
 type StyleType = React.CSSProperties;
 
 const Me = () => {
+
+  const apperance = useAppearance()
 
   const me = useAppSelector(state => state.auth.user)
 
@@ -32,23 +34,20 @@ const Me = () => {
   
   
   const styles: StyleType = {
-    margin: 0,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
-    padding: 32,
-    //backgroundImage: `url(${url}${me?.useravatar})`,
+    backgroundImage: `url(${url}${me?.useravatar})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
+    height: '200px',
+    filter: 'blur(10px)'
   };
-  
   
   return (
     <>
       <Gradient mode="tint" style={styles}>
-        <Avatar size={200}  src={`${url}${me?.useravatar}`}/>
+       
+      </Gradient>
+      <div className='me-global'>
+        <Avatar size={200}  src={`${url}${me?.useravatar}`} style={{border: `9px solid ${apperance === 'dark' ? '#19191a' : 'white'}`}}/>
         <Title style={{ marginBottom: 8, marginTop: 20 }} level="2" weight="2">
           {me?.firstName} {me?.lastName}
         </Title>
@@ -65,27 +64,47 @@ const Me = () => {
             Редактировать
           </Button>
         </Link>
-      </Gradient>
-      <Group mode="plain" style={{marginTop: '25px'}}>
-        <Group style={{padding: '20px 0px'}}>
+        <MiniInfoCell
+          style={{marginTop: '20px'}}
+          before={<Icon20UsersOutline />}
+        >
+          0 Followers · 0 Following
+        </MiniInfoCell>
+      </div>
+      <Group mode="plain">
+        <Group style={{ padding: '20px 0px' }}>
           <MiniInfoCell before={<Icon20ArticleOutline />} textWrap="short">
-            ВКонтакте начинался как сайт для выпускников вузов, а сейчас это огромная экосистема
-            с безграничными возможностями и миллионами пользователей.
-          </MiniInfoCell>
-
-          <MiniInfoCell
-            before={<Icon20FollowersOutline />}
-          >
-            0 подписчиков · 0 друзей
+            {me?.fullInfo?.myStatus}
           </MiniInfoCell>
 
           <MiniInfoCell before={<Icon20NarrativeOutline />}>
             {me?.sex}
           </MiniInfoCell>
 
+          {me?.fullInfo?.birthday &&<MiniInfoCell before={<Icon20LogoClipsOutline />}>
+            {me?.fullInfo.birthday}
+          </MiniInfoCell>}
+
           <MiniInfoCell before={<Icon20MentionOutline  />}>
             {me?.email}
           </MiniInfoCell>
+
+          {me?.fullInfo?.country &&<MiniInfoCell before={<Icon20PlaceOutline />}>
+            {me?.fullInfo.country}. {me?.fullInfo.sity}
+          </MiniInfoCell>}
+
+
+          {me?.fullInfo?.job &&<MiniInfoCell before={<Icon20WorkOutline />}>
+            {me?.fullInfo.job}
+          </MiniInfoCell>}
+
+          {me?.fullInfo?.hobby &&<MiniInfoCell before={<Icon20BasketballOutline />}>
+            {me?.fullInfo.hobby}
+          </MiniInfoCell>}
+
+          {me?.fullInfo?.about &&<MiniInfoCell before={<Icon20ArticleBoxOutline />}>
+            {me?.fullInfo.about}
+          </MiniInfoCell>}
 
           <MiniInfoCell
             before={<Icon20Info />}
@@ -94,6 +113,7 @@ const Me = () => {
           >
             Подробная информация
           </MiniInfoCell>
+
         </Group>
       </Group>
       {data && data.length > 0 && <Group>
