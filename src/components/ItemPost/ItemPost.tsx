@@ -92,7 +92,7 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
             <b style={{color: `${apperance === 'dark' ? '#71aaeb' : '#0077FF'}`, fontSize: '18px'}}>{author.username}</b>
           </Cell>
           
-          {isAuth && <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
+          {isAuth && <div className='btn-menu-post'>
             <SplitLayout popout={popout}>
               <Icon28MoreHorizontal
                 onClick={onClick}
@@ -129,7 +129,7 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
                 before={<Icon24Message />}
               />
             </div>
-            <span className='likes-comm-views'>
+            <span className='likes-comm-views count'>
               <AiFillEye className='icons-lcv'/>
               <span className='count-icons'>{views.length}</span>
             </span>

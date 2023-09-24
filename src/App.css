@@ -265,7 +265,7 @@ li {
 }
 
 .likes-comm-views {
-    margin-top: 10px;
+    margin-top: 15px;
 }
 
 .title-post {
@@ -368,23 +368,42 @@ li {
 @media (max-width: 700px) {
 
     .cont-head-item {
+        margin-top: 10px;
         position: relative;
-        left: -10px;
+        left: -15px;
     }
 
     .cont-likes-comm-views {
         padding: 10px 0px;
         display: flex;
         justify-content: space-between;
+        position: relative;
+        left: -15px;
     }
 
     .post-text-title-tags {
         display: block;
-        margin: 0 -20px;
+        margin: 0 -30px;
     }
     .ava-menu-cont {
-        margin: -10px;
+        margin: -20px;
+        margin-bottom: 0;
     }
+
+    .img-post-item {
+        border-radius: 5px;
+    }
+
+    .count {
+        margin-top: 20px;
+        position: relative;
+        right: -40px;
+    }
+
+    .btn-menu-post {
+        margin: -20px -30px;
+    }
+    
 }
 
 
