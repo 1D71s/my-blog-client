@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import axios from '../utils/axios';
 import {
-  InfoRow,
+  Group,
   MiniInfoCell,
   Text
 } from "@vkontakte/vkui";
@@ -38,7 +38,7 @@ const UserFullInfo = () => {
   }, [id])
 
   return (
-    <div>
+    <Group>
       {user?.fullInfo?.university && (
         <div>
           <MiniInfoCell before={<Icon20EducationOutline />}>
@@ -82,7 +82,7 @@ const UserFullInfo = () => {
           </Text>
         </div>
       )}
-    </div>
+    </Group>
   );
   
 }

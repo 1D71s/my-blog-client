@@ -186,9 +186,9 @@ const Example: React.FC<ExampleProps> = ({ Content }) => {
           <View id="profile" activePanel="profile">
             <Panel id="profile">
               <PanelHeader><NavBar/></PanelHeader>
-              <Group style={{ height: 'max-content' }}>
+              <div style={{ height: 'max-content' }}>
                 {Content}
-              </Group>
+              </div>
             </Panel>
           </View>
                   

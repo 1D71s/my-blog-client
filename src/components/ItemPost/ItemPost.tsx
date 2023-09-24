@@ -1,18 +1,18 @@
-import { AiFillEye, AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { BiComment, BiBookmark, BiEditAlt } from "react-icons/bi";
+import { useState } from 'react';
+import { AiFillEye } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import { BsThreeDots } from "react-icons/bs";
-import { Popover } from 'antd';
-import { RiDeleteBin6Line } from "react-icons/ri";
 import { useAppSelector } from "../../utils/hooks";
 import { PostTypes } from "../../types";
 import { getTimeMakingPost } from "../../utils/Functions";
-import { useRef } from "react";
 import axios from "../../utils/axios";
 import { useMutation } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Cell, Avatar, Group, CardGrid, Text, useAppearance, Button, SplitLayout } from '@vkontakte/vkui';
+import { Icon24Message, Icon24Like, Icon24LikeOutline, Icon28MoreHorizontal } from '@vkontakte/icons';
+import { CustomPopout } from '../Modals/ModalsMenuPost';
+
 
 const url = process.env.REACT_APP_URL
 
@@ -22,8 +22,7 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
   const user = useAppSelector(state => state.auth.user);
 
   const navigate = useNavigate()
-
-  const inputRef = useRef<HTMLButtonElement| null>(null);
+  const apperance = useAppearance()
 
   const client = useQueryClient()
 
@@ -76,72 +75,69 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
     }
   }
 
-  const handleClick= () => {
-    if (inputRef.current) {
-      inputRef.current.click();
-    }
-  }
 
-  const content = (
-    <div className="menu-list">
-      <p className="menu-list-item"><BiBookmark className="icons-item-menu"/>Добавить в избраное</p>
-      {user && (user as any)._id === author._id && (
-        <div>
-          <Link to={`/edit/${_id}`}>
-            <p className="menu-list-item"><BiEditAlt className="icons-item-menu"/>Изменить</p>
-          </Link>
-          <p className="menu-list-item delete" onClick={() => remove()}><RiDeleteBin6Line className="icons-item-menu"/><span onClick={handleClick}>Удалить</span></p>
-        </div>
-      )}
-    </div>
-  );
+  const [popout, setPopout] = useState<React.ReactNode | null>(null);
+
+
+  const onClick = () => setPopout(<CustomPopout onClose={() => setPopout(null)} _id={_id} author={author} user={user}  remove={remove}/>);
+
 
   const buttonWidth = 70;
 
   return (
-    <div className='post-item'>
-      <div className="cont-head-item">
-        <div className="cont-user-post">
-          <img
-            className='ava-in-item'
-            src={`${url}${author.useravatar}`} />
-          <b className='author'>{author.username}</b>
+    <CardGrid size="l">
+      <Group style={{padding: '20px', width: '100%'}}>
+        <div className="cont-head-item">
+          <Cell before={<Avatar size={55} src={`${url}${author.useravatar}`}/>} subtitle={getTimeMakingPost(createdAt)}>
+            <b style={{color: `${apperance === 'dark' ? '#71aaeb' : '#0077FF'}`, fontSize: '18px'}}>{author.username}</b>
+          </Cell>
+          
+          {isAuth && <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
+            <SplitLayout popout={popout}>
+              <Icon28MoreHorizontal
+                onClick={onClick}
+                style={{ cursor: 'pointer' }} />
+            </SplitLayout>
+          </div>}
         </div>
-        
-        {isAuth && <div style={{ marginLeft: buttonWidth, clear: 'both', whiteSpace: 'nowrap' }}>
-          <Popover  placement="bottomRight" content={content} trigger="click">
-            <button ref={inputRef} className="btn-none">
-              <BsThreeDots className="icon-menu"/>
-            </button>
-          </Popover>
-        </div>}
+      
+        <div className="info-post">
+          <Link to={`/posts/${_id}`} className="post-text-title-tags">
+            <Text className='title-post' style={{color: `${apperance === 'dark' ? 'white' : 'black'}`, fontSize: '20px', margin: '20px'}}>{title}</Text>
+            <Text weight="1" style={{color: `${apperance === 'dark' ? 'white' : 'black'}`, marginLeft: '20px'}}>{text}</Text>
+            {tags && <div className="tags">
+              {tags.map(item => <Link style={{color: `${apperance === 'dark' ? '#71aaeb' : '#0077FF'}`}} to={`/tag/${item}`} className="item-tag">
+                #{item}
+              </Link>)}
+            </div>}
+            {image && <img className='img-post-item' src={`${url}${image}`} />}
+          </Link>
+          <div className='cont-likes-comm-views'>
+            <div className='likes-comm-views'>
+              <Button
+                mode="secondary"
+                style={{ padding: '5px 20px', minWidth: 'min-content'}}
+                onClick={() => toLike()}
+                after={likes.length}
+                before={ user && likes.includes(user._id) ? <Icon24Like  onClick={likeItem}/> :
+                <Icon24LikeOutline />}
+              />
+              <Button
+                style={{marginLeft: '20px', padding: '5px 20px', minWidth: 'min-content'}}
+                mode="secondary"
+                after={comments.length}
+                before={<Icon24Message />}
+              />
+            </div>
+            <span className='likes-comm-views'>
+              <AiFillEye className='icons-lcv'/>
+              <span className='count-icons'>{views.length}</span>
+            </span>
+          </div>
+        </div>
 
-      </div>
-      <div className="info-post">
-        <Link to={`/posts/${_id}`}>
-          {image && <img className='img-post-item' src={`${url}${image}`} />}
-          <b className='title-post'>{title}</b>
-          <div>{text}</div>
-        </Link>
-        {tags && <div className="tags">
-          {tags.map(item => <Link to={`/tag/${item}`} className="item-tag">
-            #{item}
-          </Link>)}
-        </div>}
-        <div className='likes-comm-views'>
-          <span onClick={() => toLike()}>
-            { user && likes.includes(user._id) ? <AiFillHeart className='icons-lcv likes-includes' onClick={likeItem}/> :
-            <AiOutlineHeart className='icons-lcv'/>}
-          </span>
-          <span className='count-icons'>{likes.length}</span>
-          <BiComment className='icons-lcv'/>
-          <span className='count-icons'>{comments.length}</span>
-          <AiFillEye className='icons-lcv'/>
-          <span className='count-icons'>{views.length}</span>
-        </div>
-        <div className="created-post-time">{getTimeMakingPost(createdAt)}</div>
-      </div>
-    </div>
+      </Group>
+    </CardGrid>      
   )
 }
 

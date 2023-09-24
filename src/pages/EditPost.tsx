@@ -10,7 +10,8 @@ import {
     Textarea,
     Input,
     File,
-    Button
+    Button,
+    Group
 } from "@vkontakte/vkui";
 import {Icon24Camera} from "@vkontakte/icons";
 
@@ -97,7 +98,7 @@ const EditPost = () => {
     
 
     return (
-        <>
+        <Group>
             <FormItem style={{marginTop: '20px'}}>
                 {!image ?
                     <File before={<Icon24Camera role="presentation" />} size="m"
@@ -140,7 +141,7 @@ const EditPost = () => {
                     style={{ padding: '3px', marginTop: '10px' }}
                 >Update post</Button>
             </FormItem>
-        </>
+        </Group>
     )
 }
 

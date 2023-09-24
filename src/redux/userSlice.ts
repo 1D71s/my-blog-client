@@ -16,7 +16,7 @@ export type FullInfoType = {
     about: string,
 }
 
-type FormForRegister = {
+export type FormForRegister = {
     username: string,
     email: string,
     password: string,

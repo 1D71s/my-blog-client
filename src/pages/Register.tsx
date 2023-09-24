@@ -5,7 +5,7 @@ import { registerUser } from '../redux/userSlice'
 import { toast } from 'react-toastify'
 import { clearStatus } from '../redux/userSlice'
 import { Link } from 'react-router-dom'
-import { Panel, View, FormItem, FormLayout, FormLayoutGroup, Button, Title, SegmentedControl, useAppearance } from "@vkontakte/vkui";
+import { Panel, View, FormItem, FormLayout, FormLayoutGroup, Button, Title, SegmentedControl, useAppearance, Group } from "@vkontakte/vkui";
 import { useForm } from 'react-hook-form'
 import { Spinner } from '@chakra-ui/react'
 
@@ -75,7 +75,7 @@ const Register = () => {
   };
 
   return  (
-    <View activePanel="new-user" >
+    <Group>
       <Panel id="new-user">
         {!token && <FormLayout  onSubmit={handleSubmit(registration)}>
             <Title level="1" style={{ margin: 15 }}>
@@ -230,7 +230,7 @@ const Register = () => {
             </FormItem>
         </FormLayout>}
       </Panel>
-    </View>
+    </Group>
   );
 }
 

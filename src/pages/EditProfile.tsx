@@ -15,7 +15,8 @@ import {
     SegmentedControl,
     useAppearance,
     FormLayoutGroup,
-    Select
+    Select,
+    Group
 } from "@vkontakte/vkui";
 import { Icon24Camera } from "@vkontakte/icons";
 import { useForm } from 'react-hook-form'
@@ -140,7 +141,7 @@ const EditProfile = () => {
     
 
     return (
-        <>
+        <Group>
             <FormItem style={{marginTop: '20px'}}>
                 {!image ?
                     <File before={<Icon24Camera role="presentation" />} size="m"
@@ -325,7 +326,7 @@ const EditProfile = () => {
                     style={{ padding: '3px', marginTop: '10px' }}
                 >Update profile</Button>
             </FormItem>
-        </>
+        </Group>
     )
 }
 

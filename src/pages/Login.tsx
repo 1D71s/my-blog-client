@@ -7,7 +7,7 @@ import { clearStatus } from '../redux/userSlice'
 import { getMe } from '../redux/userSlice'
 import {
   Panel,
-  View,
+  Group,
   FormItem,
   Input,
   FormLayout,
@@ -58,7 +58,7 @@ const Login = () => {
   }, [status])
   
   return (
-    <View activePanel="new-user">
+    <Group>
       <Panel id="new-user">
         <FormLayout>
           {!token && <div className='log-in'>
@@ -88,7 +88,7 @@ const Login = () => {
           </div>}
         </FormLayout>
       </Panel>
-    </View>
+    </Group>
   )
 }
 

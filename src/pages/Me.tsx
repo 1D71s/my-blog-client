@@ -44,34 +44,36 @@ const Me = () => {
   
   return (
     <>
+      <Group>
       <Gradient mode="tint" style={styles}>
        
-      </Gradient>
-      <div className='me-global'>
-        <Avatar size={200}  src={`${url}${me?.useravatar}`} style={{border: `9px solid ${apperance === 'dark' ? '#19191a' : 'white'}`}}/>
-        <Title style={{ marginBottom: 8, marginTop: 20 }} level="2" weight="2">
-          {me?.firstName} {me?.lastName}
-        </Title>
-        <Text
-          style={{
-            marginBottom: 24,
-            color: 'var(--vkui--color_text_secondary)',
-          }}
-        >
-          {me?.username}
-        </Text>
-        <Link to='edit'> 
-          <Button size="m" mode="secondary">
-            Редактировать
-          </Button>
-        </Link>
-        <MiniInfoCell
-          style={{marginTop: '20px'}}
-          before={<Icon20UsersOutline />}
-        >
-          0 Followers · 0 Following
-        </MiniInfoCell>
-      </div>
+       </Gradient>
+        <div className='me-global'>
+          <Avatar size={200}  src={`${url}${me?.useravatar}`} style={{border: `9px solid ${apperance === 'dark' ? '#19191a' : 'white'}`}}/>
+          <Title style={{ marginBottom: 8, marginTop: 20 }} level="2" weight="2">
+            {me?.firstName} {me?.lastName}
+          </Title>
+          <Text
+            style={{
+              marginBottom: 24,
+              color: 'var(--vkui--color_text_secondary)',
+            }}
+          >
+            {me?.username}
+          </Text>
+          <Link to='edit'> 
+            <Button size="m" mode="secondary">
+              Редактировать
+            </Button>
+          </Link>
+          <MiniInfoCell
+            style={{marginTop: '20px'}}
+            before={<Icon20UsersOutline />}
+          >
+            0 Followers · 0 Following
+          </MiniInfoCell>
+        </div>
+      </Group>
       <Group mode="plain">
         <Group style={{ padding: '20px 0px' }}>
           {me?.fullInfo?.myStatus && <MiniInfoCell before={<Icon20ArticleOutline />} textWrap="short">
@@ -106,7 +108,7 @@ const Me = () => {
 
         </Group>
       </Group>
-      {data && data.length > 0 && <Group>
+      {data && data.length > 0 && <div>
           {data.reverse().map((item: PostTypes) => (
             <ItemPost
               key={item._id}
@@ -122,7 +124,7 @@ const Me = () => {
               createdAt={item.createdAt}
             />
           ))}
-      </Group>}
+      </div>}
     </>
   )
 }
