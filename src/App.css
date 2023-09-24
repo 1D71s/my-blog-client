@@ -270,7 +270,7 @@ li {
 
 .title-post {
     display: block;
-    margin: 15px 0px;
+    margin: 5px 0px;
 }
 
 .icons-lcv {
@@ -348,7 +348,7 @@ li {
 }
 
 .cont-likes-comm-views {
-    margin-top: 15px;
+    padding: 10px 20px;
     display: flex;
     justify-content: space-between;
 }
@@ -366,8 +366,24 @@ li {
 }
 
 @media (max-width: 700px) {
-    .post-item {
-        padding: 10px;
+
+    .cont-head-item {
+        position: relative;
+        left: -10px;
+    }
+
+    .cont-likes-comm-views {
+        padding: 10px 0px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .post-text-title-tags {
+        display: block;
+        margin: 0 -20px;
+    }
+    .ava-menu-cont {
+        margin: -10px;
     }
 }
 

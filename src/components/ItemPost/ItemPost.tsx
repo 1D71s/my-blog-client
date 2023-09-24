@@ -86,9 +86,9 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
 
   return (
     <CardGrid size="l">
-      <Group style={{padding: '20px', width: '100%'}}>
+      <Group style={{padding: '20px 15px', width: '100%'}}>
         <div className="cont-head-item">
-          <Cell before={<Avatar size={55} src={`${url}${author.useravatar}`}/>} subtitle={getTimeMakingPost(createdAt)}>
+          <Cell className='ava-menu-cont' before={<Avatar size={55} src={`${url}${author.useravatar}`}/>} subtitle={getTimeMakingPost(createdAt)}>
             <b style={{color: `${apperance === 'dark' ? '#71aaeb' : '#0077FF'}`, fontSize: '18px'}}>{author.username}</b>
           </Cell>
           
@@ -96,7 +96,7 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
             <SplitLayout popout={popout}>
               <Icon28MoreHorizontal
                 onClick={onClick}
-                style={{ cursor: 'pointer' }} />
+                style={{ cursor: 'pointer', margin: '10px' }} />
             </SplitLayout>
           </div>}
         </div>
