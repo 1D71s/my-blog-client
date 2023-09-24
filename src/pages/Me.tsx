@@ -4,8 +4,9 @@ import { PostTypes } from '../types'
 import { useQuery } from '@tanstack/react-query'
 import axios from '../utils/axios'
 import { Link } from 'react-router-dom';
-import { Icon20ArticleOutline, Icon20BasketballOutline, Icon20NarrativeOutline, Icon20Info, Icon20MentionOutline, Icon20UsersOutline, Icon20ArticleBoxOutline, Icon20PlaceOutline, Icon20LogoClipsOutline, Icon20WorkOutline  } from '@vkontakte/icons';
+import { Icon20ArticleOutline, Icon20BasketballOutline, Icon20NarrativeOutline, Icon20EducationOutline, Icon20Info, Icon20MentionOutline, Icon20UsersOutline, Icon20ArticleBoxOutline, Icon20PlaceOutline, Icon20LogoClipsOutline, Icon20WorkOutline  } from '@vkontakte/icons';
 import { Group, Title, Text, Gradient, Avatar, Button, MiniInfoCell, useAppearance } from '@vkontakte/vkui';
+
 
 const url = process.env.REACT_APP_URL
 
@@ -73,9 +74,9 @@ const Me = () => {
       </div>
       <Group mode="plain">
         <Group style={{ padding: '20px 0px' }}>
-          <MiniInfoCell before={<Icon20ArticleOutline />} textWrap="short">
+          {me?.fullInfo?.myStatus && <MiniInfoCell before={<Icon20ArticleOutline />} textWrap="short">
             {me?.fullInfo?.myStatus}
-          </MiniInfoCell>
+          </MiniInfoCell>}
 
           <MiniInfoCell before={<Icon20NarrativeOutline />}>
             {me?.sex}
@@ -93,26 +94,15 @@ const Me = () => {
             {me?.fullInfo.country}. {me?.fullInfo.sity}
           </MiniInfoCell>}
 
-
-          {me?.fullInfo?.job &&<MiniInfoCell before={<Icon20WorkOutline />}>
-            {me?.fullInfo.job}
-          </MiniInfoCell>}
-
-          {me?.fullInfo?.hobby &&<MiniInfoCell before={<Icon20BasketballOutline />}>
-            {me?.fullInfo.hobby}
-          </MiniInfoCell>}
-
-          {me?.fullInfo?.about &&<MiniInfoCell before={<Icon20ArticleBoxOutline />}>
-            {me?.fullInfo.about}
-          </MiniInfoCell>}
-
-          <MiniInfoCell
-            before={<Icon20Info />}
-            mode="more"
-            expandable
-          >
-            Подробная информация
-          </MiniInfoCell>
+          <Link to={`/user/fullinfo/${me?._id}`}>
+            <MiniInfoCell
+              before={<Icon20Info />}
+              mode="more"
+              expandable
+            >
+              Подробная информация
+            </MiniInfoCell>
+          </Link>
 
         </Group>
       </Group>

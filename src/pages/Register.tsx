@@ -5,7 +5,7 @@ import { registerUser } from '../redux/userSlice'
 import { toast } from 'react-toastify'
 import { clearStatus } from '../redux/userSlice'
 import { Link } from 'react-router-dom'
-import { Panel, View, FormItem, FormLayout, FormLayoutGroup, Button, Title, ScreenSpinner, Select,useAppearance } from "@vkontakte/vkui";
+import { Panel, View, FormItem, FormLayout, FormLayoutGroup, Button, Title, SegmentedControl, useAppearance } from "@vkontakte/vkui";
 import { useForm } from 'react-hook-form'
 import { Spinner } from '@chakra-ui/react'
 
@@ -191,17 +191,24 @@ const Register = () => {
               </FormItem>
             </FormLayoutGroup>
 
-            <FormItem top="Sex">
-              <Select
-                placeholder="Choose sex"
-                onChange={(e) => setSex(e.target.value)}
-                value={sex}
+            <FormItem top="Выберите пол">
+              <SegmentedControl
+                  name="sex"
+                  defaultValue={sex}
+                  onChange={(value) => setSex(value?.toString() ?? '')}
                   options={[
-                    { value: 'Man', label: 'Man' },
-                    { value: 'Woman', label: 'Woman' },
+                      {
+                          label: 'Man',
+                          value: 'Man',
+                      },
+                      {
+                          label: 'Woman',
+                          value: 'Woman',
+                      },
                   ]}
                 />
             </FormItem>
+
             
             {errorForm && <FormItem>
               <p className={appearance === 'dark' ? 'input-error-dark' : 'input-error-light'}>{errorForm}</p>

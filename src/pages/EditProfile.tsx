@@ -11,11 +11,14 @@ import {
     Input,
     File,
     Button,
-    NativeSelect,
     DatePicker,
-    SegmentedControl
+    SegmentedControl,
+    useAppearance,
+    FormLayoutGroup,
+    Select
 } from "@vkontakte/vkui";
-import {Icon24Camera} from "@vkontakte/icons";
+import { Icon24Camera } from "@vkontakte/icons";
+import { useForm } from 'react-hook-form'
 
 const url = process.env.REACT_APP_URL
 
@@ -35,28 +38,34 @@ const EditProfile = () => {
 
     const [myStatus, setMyStatus] = useState(me?.fullInfo?.myStatus);
     const [birthday, setBirthday] = useState(me?.fullInfo?.birthday);
+
+    const birthdayForInput = birthday?.split('.').map((item) => parseInt(item, 10));
+    console.log(birthdayForInput);
+
+
     const [country, setCountry] = useState(me?.fullInfo?.country);
     const [sity, setSity] = useState(me?.fullInfo?.sity);
     const [hobby, setHobby] = useState(me?.fullInfo?.hobby);
     const [university, setUniversity] = useState(me?.fullInfo?.university);
     const [job, setJob] = useState(me?.fullInfo?.job);
     const [about, setAbout] = useState(me?.fullInfo?.about);
-   
 
+    const [firstName, setFirstName] = useState(me?.firstName)
+    const [lastName, setLastName] = useState(me?.lastName)
 
     const [image, setImage] = useState(me?.useravatar);
 
     const status = useAppSelector(state => state.post.status)
 
+    const { register, formState: { errors, isValid } } = useForm({ mode: 'onChange' })
+
+
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
+    const appearance = useAppearance()
 
     const deleteImage = () => {
         setImage('')
-    }
-
-    if (!username) {
-        navigate('/me')
     }
 
     useEffect(() => {
@@ -107,11 +116,28 @@ const EditProfile = () => {
             email,
             username,
             sex,
+            lastName,
+            firstName,
             fullInfo: {myStatus, birthday, country, sity, hobby, university, job, about}
         }
         updateProfile(user)
     }
-  
+
+    const [countries, setCountries] = useState([{ label: '', value: '' }])
+
+    useEffect(() => {
+        const getCountry = async () => {
+            const { data } = await axios.get('https://restcountries.com/v3.1/all') 
+            const result = []
+            for (let i = 0; i < data.length; i++) {
+                result.push({ label: data[i].name.common, value: data[i].name.common })
+            }
+            
+            if (result) setCountries(result)
+        }
+        getCountry()
+    }, [])
+    
 
     return (
         <>
@@ -138,22 +164,82 @@ const EditProfile = () => {
                 />
             </FormItem>
 
-            <FormItem top="Username*">
-                <Input
+            <FormItem top="Username*"
+                status={!errors?.userName ? 'valid' : 'error'}
+                bottom={
+                  errors?.userName && `${errors?.userName.message}`
+                }
+            >
+                <input
+                    {...register('userName', {
+                        required: 'Please write username',
+                    })}
+                    className={`${appearance === 'dark' ? 'input-register-dark' : 'input-register-light'} ${errors?.userName && appearance === 'dark' ? 'input-items-error-dark' : ''} ${errors?.userName && appearance === 'light' ? 'input-items-error-light' : ''}`}
                     value={username}
                     onChange={e => setUsername(e.target.value)}
                     placeholder="please write title here"
                 />
             </FormItem>
-            <FormItem top="Email*">
-                <Input
+            <FormItem 
+                htmlFor="email"
+                top="E-mail*"
+                status={!errors?.email ? 'valid' : 'error'}
+                bottom={
+                  errors?.email && `${errors?.email.message}`
+                }
+                bottomId="email-type"
+            >
+                <input
+                    {...register('email', {
+                        required: 'Please write your email',
+                        pattern: {
+                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                          message: 'Invalid email address',
+                        },
+                    })}
+                    className={`${appearance === 'dark' ? 'input-register-dark' : 'input-register-light'} ${errors?.email && appearance === 'dark' ? 'input-items-error-dark' : ''} ${errors?.email && appearance === 'light' ? 'input-items-error-light' : ''}`}
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     placeholder="please write text here"
                 />
             </FormItem>
 
-            <FormItem top="Выберите пол">
+            <FormLayoutGroup mode="horizontal">
+                <FormItem htmlFor="name" top="First Name*"
+                        status={!errors?.firstName ? 'valid' : 'error'}
+                        bottom={
+                        errors?.firstName && `${errors?.firstName.message}`
+                    }
+                >
+                <input
+                    className={`${appearance === 'dark' ? 'input-register-dark' : 'input-register-light'} ${errors?.firstName && appearance === 'dark' ? 'input-items-error-dark' : ''} ${errors?.firstName && appearance === 'light' ? 'input-items-error-light' : ''}`}
+                    {...register('firstName', {
+                        required: 'Please write your first name',
+                    })}
+                    placeholder='first name'
+                    value={firstName}
+                    onChange={e => setFirstName(e.target.value)}
+                    />
+                </FormItem>
+
+                <FormItem top="Last Name*"
+                        status={!errors?.lastName ? 'valid' : 'error'}
+                        bottom={
+                        errors?.lastName  && `${errors?.lastName.message}`
+                    }>
+                    <input
+                        className={`${appearance === 'dark' ? 'input-register-dark' : 'input-register-light'} ${errors?.lastName && appearance === 'dark' ? 'input-items-error-dark' : ''} ${errors?.lastName && appearance === 'light' ? 'input-items-error-light' : ''}`}
+                        {...register('lastName', {
+                            required: 'Please write your last name',
+                        })}
+                        placeholder='last name'
+                        value={lastName}
+                        onChange={e => setLastName(e.target.value)}
+                    />
+                </FormItem>
+            </FormLayoutGroup>
+
+            <FormItem top="Sex*">
                 <SegmentedControl
                     name="sex"
                     defaultValue={sex}
@@ -171,7 +257,7 @@ const EditProfile = () => {
                 />
             </FormItem>
 
-            <FormItem top="Дата рождения">
+            <FormItem top="Birthday">
                 <DatePicker
                     min={{ day: 1, month: 1, year: 1901 }}
                     max={{ day: 1, month: 1, year: 2015 }}
@@ -180,15 +266,15 @@ const EditProfile = () => {
                         const formattedDate = `${value.day}.${value.month}.${value.year}`;
                         setBirthday(formattedDate);
                     }}
-                    defaultValue={{ day: 2, month: 4, year: 1994 }}
+                    defaultValue={{ day: (birthdayForInput ? birthdayForInput[0] : 1), month: (birthdayForInput ? birthdayForInput[1] : 1), year: (birthdayForInput ? birthdayForInput[2] : 1901) }}
                 />
             </FormItem>
 
             <FormItem top="Country">
-                <Input
+                <Select
                     value={country}
-                    onChange={e => setCountry(e.target.value)}
-                    placeholder="please write your country here"
+                    onChange={(e) => setCountry(e.target.value)}
+                    options={countries}
                 />
             </FormItem> 
 
@@ -205,6 +291,14 @@ const EditProfile = () => {
                     value={job}
                     onChange={e => setJob(e.target.value)}
                     placeholder="please write your job here"
+                />
+            </FormItem>
+
+            <FormItem top="University">
+                <Textarea
+                    value={university}
+                    onChange={e => setUniversity(e.target.value)}
+                    placeholder="please write your university here"
                 />
             </FormItem>
 
@@ -226,6 +320,7 @@ const EditProfile = () => {
 
             <FormItem style={{marginBottom: '20px'}}>
                 <Button
+                    disabled={!isValid}
                     onClick={addInfo}
                     style={{ padding: '3px', marginTop: '10px' }}
                 >Update profile</Button>
