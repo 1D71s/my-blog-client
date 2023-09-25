@@ -6,9 +6,10 @@ import {
   MiniInfoCell,
   Text
 } from "@vkontakte/vkui";
-import {  Icon20BasketballOutline, Icon20EducationOutline, Icon20WorkOutline, Icon20ArticleBoxOutline  } from '@vkontakte/icons';
+import {  Icon20BasketballOutline, Icon20EducationOutline, Icon20WorkOutline, Icon20ArticleBoxOutline, Icon20BubbleLolOutline  } from '@vkontakte/icons';
 
-interface User {
+
+export interface User {
   fullInfo: {
     university?: string;
     job?: string;
@@ -82,6 +83,12 @@ const UserFullInfo = () => {
           </Text>
         </div>
       )}
+      {!user?.fullInfo?.university && !user?.fullInfo?.job && !user?.fullInfo?.hobby && !user?.fullInfo?.about && (
+        <MiniInfoCell before={<Icon20BubbleLolOutline />}>
+          <div>info is empty</div>
+        </MiniInfoCell>
+      )}
+
     </Group>
   );
   

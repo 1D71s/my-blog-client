@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../utils/hooks'
 import { clearStatus } from '../redux/postSlice'
 import { toast } from 'react-toastify'
@@ -20,6 +20,7 @@ import {
 } from "@vkontakte/vkui";
 import { Icon24Camera } from "@vkontakte/icons";
 import { useForm } from 'react-hook-form'
+import { useParams } from 'react-router-dom'
 
 const url = process.env.REACT_APP_URL
 
@@ -33,6 +34,8 @@ const EditProfile = () => {
 
     const me = useAppSelector(state => state.auth.user)
 
+    const {id} = useParams()
+
     const [username, setUsername] = useState(me?.username)
     const [email, setEmail] = useState(me?.email)
     const [sex, setSex] = useState(me?.sex)
@@ -41,8 +44,6 @@ const EditProfile = () => {
     const [birthday, setBirthday] = useState(me?.fullInfo?.birthday);
 
     const birthdayForInput = birthday?.split('.').map((item) => parseInt(item, 10));
-    console.log(birthdayForInput);
-
 
     const [country, setCountry] = useState(me?.fullInfo?.country);
     const [sity, setSity] = useState(me?.fullInfo?.sity);
@@ -64,6 +65,10 @@ const EditProfile = () => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
     const appearance = useAppearance()
+
+    if (id !== me?._id) {
+        navigate('/')
+    }
 
     const deleteImage = () => {
         setImage('')

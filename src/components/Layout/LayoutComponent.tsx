@@ -40,6 +40,7 @@ const Example: React.FC<ExampleProps> = ({ Content }) => {
   const [activeStory, setActiveStory] = React.useState('profile');
 
   const isAuthUser = useAppSelector(state => state.auth.token);
+  const me = useAppSelector(state => state.auth.user);
     
   const theme = useAppSelector(state => state.auth.theme)
 
@@ -81,7 +82,7 @@ const Example: React.FC<ExampleProps> = ({ Content }) => {
                 <span>feed</span>
               </div>
               <div
-                data-story="me"
+                data-story={`/user/${me?._id}`}
                 onClick={onStoryChange}
                 className='menu-item'
               >
@@ -142,7 +143,7 @@ const Example: React.FC<ExampleProps> = ({ Content }) => {
                 </TabbarItem>
                 <TabbarItem
                   onClick={onStoryChange}
-                  data-story="me"
+                  data-story={`/user/${me?._id}`}
                   text="Profile"
                 >
                   <Icon28UserCircleOutline className='menu-bottom-icons'/>

@@ -1,3 +1,4 @@
+
 export const getTimeMakingPost = (timeString: string) => {
     // Создаем объект Date из строки времени
     const date = new Date(timeString);
@@ -59,4 +60,3 @@ export function getZodiacSign(birthdate: string) {
       return 'Рыбы';
   }
 }
-

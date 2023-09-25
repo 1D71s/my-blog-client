@@ -75,21 +75,19 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
     }
   }
 
-
   const [popout, setPopout] = useState<React.ReactNode | null>(null);
 
-
   const onClick = () => setPopout(<CustomPopout onClose={() => setPopout(null)} _id={_id} author={author} user={user}  remove={remove}/>);
-
-
 
   return (
     <CardGrid size="l">
       <Group style={{padding: '20px 15px', width: '100%'}}>
         <div className="cont-head-item">
-          <Cell className='ava-menu-cont' before={<Avatar size={55} src={`${url}${author.useravatar}`}/>} subtitle={getTimeMakingPost(createdAt)}>
-            <b style={{color: `${apperance === 'dark' ? '#71aaeb' : '#0077FF'}`, fontSize: '18px'}}>{author.username}</b>
-          </Cell>
+          <Link to={`/user/${author?._id}`}>
+            <Cell className='ava-menu-cont' before={<Avatar size={55} src={`${url}${author.useravatar}`}/>} subtitle={getTimeMakingPost(createdAt)}>
+              <b style={{color: `${apperance === 'dark' ? '#71aaeb' : '#0077FF'}`, fontSize: '18px'}}>{author.username}</b>
+            </Cell>
+          </Link>
           
           {isAuth && <div className='btn-menu-post'>
             <SplitLayout popout={popout}>

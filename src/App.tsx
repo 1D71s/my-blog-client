@@ -5,7 +5,7 @@ import { useAppDispatch } from './utils/hooks';
 import { ToastContainer } from 'react-toastify'
 
 import { Home } from './pages/Home';
-import { Me } from './pages/Me';
+import { UserProfile } from './pages/User';
 import { Login } from './pages/Login';
 import { Register } from './pages/Register';
 import { CreatePost } from './pages/CreatePost';
@@ -30,13 +30,13 @@ function App() {
       <Routes>
         <Route path='/'element={<Layout/>}>
           <Route path='/' element={<Home />} />
-          <Route path='/me' element={<Me />} />
+          <Route path='/user/:id' element={<UserProfile />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
           <Route path='/create' element={<CreatePost />} />
           <Route path='/posts/:id' element={<Post />} />
           <Route path='/edit/:id' element={<EditPost />} />
-          <Route path='/me/edit' element={<EditProfile />} />
+          <Route path='/user/:id/edit' element={<EditProfile />} />
           <Route path='/user/fullinfo/:id' element={<UserFullInfo/>} />
         </Route>
       </Routes>

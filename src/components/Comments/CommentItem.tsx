@@ -12,6 +12,7 @@ import {
     Panel
 } from "@vkontakte/vkui";
 import { BiTrash } from "react-icons/bi";
+import { Link } from "react-router-dom";
 
 
 const url = process.env.REACT_APP_URL
@@ -46,7 +47,7 @@ const CommentItem = ({ text, author, createdAt, _id, idPost }: CommentTypes) => 
     return (
         <Panel>
             <RichCell style={{marginBottom: '-20px'}}
-                before={<Avatar size={48} src={`${url}${author.useravatar}`} />}
+                before={<Link to={`/user/${author?._id}`}><Avatar size={48} src={`${url}${author.useravatar}`} /></Link>}
                 caption={getTimeMakingPost(createdAt)}
                 after={user && user._id === author._id && 
                         <BiTrash style={{cursor: 'pointer', width: '20px', height: '20px'}} onClick={() => deleteItem()}/>
@@ -55,7 +56,9 @@ const CommentItem = ({ text, author, createdAt, _id, idPost }: CommentTypes) => 
                 multiline
                 disabled
             >
-                <b style={{color: `${apperance === 'dark' ? '#71aaeb' : '#0077FF'}`, fontSize: '18px'}}>{author.username}</b>
+                <Link to={`/user/${author?._id}`} style={{ color: `${apperance === 'dark' ? '#71aaeb' : '#0077FF'}`, fontSize: '18px', cursor: 'pointer' }}>
+                    <b>{author.username}</b>
+                </Link>
             </RichCell>
         </Panel>
     )
