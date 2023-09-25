@@ -110,7 +110,7 @@ const EditProfile = () => {
             console.log(data)
             toast(data.message)
             dispatch(getMe())
-            if (data.message === 'Профиль обновлен!') navigate('/me')
+            if (data.message === 'Профиль обновлен!') navigate(`/user/${me?._id}`)
         } catch (error) {
             
         }

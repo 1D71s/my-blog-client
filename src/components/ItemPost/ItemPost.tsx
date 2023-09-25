@@ -67,7 +67,6 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
   const removePost = async (id: string) => {
     try {
       const { data } = await axios.delete(`posts/delete/${id}`)
-      navigate('/me')
       toast(data.message)
     } catch (error) {
         console.log(error)
