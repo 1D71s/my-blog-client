@@ -4,6 +4,12 @@ import { useState } from 'react';
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "../../utils/axios";
 import { useAppSelector } from "../../utils/hooks";
+import {
+    Group,
+    Textarea,
+    Button,
+    Title
+} from "@vkontakte/vkui";
 
 export type AuthorTypes = {
     username: string,
@@ -60,21 +66,19 @@ const Comments = ({ comments, id }: Props) => {
     })
 
     return (
-        <div>
-            {token && <div className="place-for-create-comments">
-                <textarea
-                    className="input-comments"
+        <>
+            {token && <Group style={{marginTop: '15px', padding: '15px'}}>
+                <Textarea
                     value={comment}
-                    placeholder="Напишите комментарий..."
+                    placeholder="please write your comment here..."
                     onChange={(e) => setComment(e.target.value)}
                 />
-                <button
+                <Button
+                    style={{marginTop: '15px', padding: '3px 15px'}}
                     onClick={() => create()}
-                    className="btn-for-adding-comm"
-                >Отправить</button>
-            </div>}
-            <div className="comments-container">
-            {comments.length > 0 && <b className='title-comments'>Комментарии:</b>}
+                >Send</Button>
+            </Group>}
+            {comments.length > 0 && <Group>
                 {comments.map((item) => (
                     <CommentItem
                         key={item._id}
@@ -85,8 +89,8 @@ const Comments = ({ comments, id }: Props) => {
                         createdAt={item.createdAt}
                     />
                 ))}
-            </div>
-        </div>
+            </Group>}
+        </>
     )
 }
 

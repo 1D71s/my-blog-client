@@ -27,7 +27,7 @@ const Post = () => {
   }
 
   return (
-    data && <div className='post-page-cont'>
+    data && <div>
       <ItemPost
         key={data._id}
         _id={data._id}

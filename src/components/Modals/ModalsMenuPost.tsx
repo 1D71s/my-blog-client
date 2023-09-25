@@ -26,15 +26,15 @@ export const CustomPopout: React.FC<CustomPopoutProps> = ({ onClose, remove, _id
           }}
         >
             <>
-                <CellButton before={<BiBookmark style={{width: '30px', height: '30px', margin: '15px 15px 15px 0'}}/>}>
+                <CellButton before={<BiBookmark style={{width: '25px', height: '25px', margin: '15px 15px 15px 0'}}/>}>
                     Add to my watch list
                 </CellButton>
                 {user && (user as any)._id === author._id && (
                 <div>
                     <Link to={`/edit/${_id}`}>
-                        <CellButton before={<BiExpand style={{width: '30px', height: '30px', margin: '15px 15px 15px 0'}}/>}>Edit post</CellButton>
+                        <CellButton before={<BiExpand style={{width: '25px', height: '25px', margin: '15px 15px 15px 0'}}/>}>Edit post</CellButton>
                     </Link>
-                    <CellButton onClick={() => remove()} before={<BiTrash style={{width: '30px', height: '30px', margin: '15px 15px 15px 0'}}/>} mode="danger">
+                    <CellButton onClick={() => remove()} before={<BiTrash style={{width: '25px', height: '25px', margin: '15px 15px 15px 0'}}/>} mode="danger">
                         Delete Post
                     </CellButton>
                 </div>)}

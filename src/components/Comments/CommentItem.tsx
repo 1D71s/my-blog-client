@@ -1,17 +1,26 @@
 import { CommentTypes } from "./Comments"
 import './Comment.css'
 import { getTimeMakingPost } from "../../utils/Functions"
-import { RiDeleteBin6Line } from "react-icons/ri";
 import { useAppSelector } from "../../utils/hooks";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "../../utils/axios";
 import { toast } from "react-toastify";
+import {
+    Avatar,
+    useAppearance,
+    RichCell,
+    Panel
+} from "@vkontakte/vkui";
+import { BiTrash } from "react-icons/bi";
+
 
 const url = process.env.REACT_APP_URL
 
 const CommentItem = ({ text, author, createdAt, _id, idPost }: CommentTypes) => {
     
     const user = useAppSelector(state => state.auth.user)
+
+    const apperance = useAppearance()
 
     const client = useQueryClient()
 
@@ -35,23 +44,20 @@ const CommentItem = ({ text, author, createdAt, _id, idPost }: CommentTypes) => 
     })
 
     return (
-        <div className="commentaries">
-            <div className="header-comments">
-                <div>
-                    <img
-                        className='ava-in-item'
-                        src={`${url}${author.useravatar}`} />
-                    <b className='author'>{author.username}</b>
-                </div>
-                {user && user._id === author._id && <div className="cont-btn-delete-comment">
-                    <RiDeleteBin6Line className="btn-delete-comment" onClick={() => deleteItem()}/>
-                </div>}
-            </div>
-            <div className="text-comments">
-                {text}
-            </div>
-            <div className="created-post-time">{getTimeMakingPost(createdAt)}</div>
-        </div>
+        <Panel>
+            <RichCell style={{marginBottom: '-20px'}}
+                before={<Avatar size={48} src={`${url}${author.useravatar}`} />}
+                caption={getTimeMakingPost(createdAt)}
+                after={user && user._id === author._id && 
+                        <BiTrash style={{cursor: 'pointer', width: '20px', height: '20px'}} onClick={() => deleteItem()}/>
+                }
+                actions={text}
+                multiline
+                disabled
+            >
+                <b style={{color: `${apperance === 'dark' ? '#71aaeb' : '#0077FF'}`, fontSize: '18px'}}>{author.username}</b>
+            </RichCell>
+        </Panel>
     )
 }
 

@@ -82,7 +82,6 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
   const onClick = () => setPopout(<CustomPopout onClose={() => setPopout(null)} _id={_id} author={author} user={user}  remove={remove}/>);
 
 
-  const buttonWidth = 70;
 
   return (
     <CardGrid size="l">
@@ -104,7 +103,7 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
         <div className="info-post">
           <Link to={`/posts/${_id}`} className="post-text-title-tags">
             <Text className='title-post' style={{color: `${apperance === 'dark' ? 'white' : 'black'}`, fontSize: '20px', margin: '20px'}}>{title}</Text>
-            <Text weight="1" style={{color: `${apperance === 'dark' ? 'white' : 'black'}`, marginLeft: '20px'}}>{text}</Text>
+            <Text className='title-post' weight="1" style={{color: `${apperance === 'dark' ? 'white' : 'black'}`, marginLeft: '20px'}}>{text}</Text>
             {tags && <div className="tags">
               {tags.map(item => <Link style={{color: `${apperance === 'dark' ? '#71aaeb' : '#0077FF'}`}} to={`/tag/${item}`} className="item-tag">
                 #{item}
@@ -116,16 +115,16 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
             <div className='likes-comm-views'>
               <Button
                 mode="secondary"
-                style={{ padding: '5px 20px', minWidth: 'min-content'}}
+                style={{ padding: '5px 20px', width: '100px'}}
                 onClick={() => toLike()}
-                after={likes.length}
+                after={likes.length > 0 ? likes.length : ''}
                 before={ user && likes.includes(user._id) ? <Icon24Like  onClick={likeItem}/> :
                 <Icon24LikeOutline />}
               />
               <Button
-                style={{marginLeft: '20px', padding: '5px 20px', minWidth: 'min-content'}}
+                style={{marginLeft: '20px', padding: '5px 20px', width: '100px'}}
                 mode="secondary"
-                after={comments.length}
+                after={comments.length > 0 ? comments.length : ''}
                 before={<Icon24Message />}
               />
             </div>

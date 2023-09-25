@@ -404,6 +404,15 @@ li {
         margin: -20px -30px;
     }
     
+    .title-post {
+        position: relative;
+        left: -7px;
+    }
+
+    .tags {
+        position: relative;
+        left: -7px;
+    }
 }
 
 

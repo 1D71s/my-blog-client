@@ -14,7 +14,7 @@ const NavBar = () => {
     const theme = useAppSelector(state => state.auth.theme)
 
     return (
-        <div className='cont' style={{background: `${appearance === 'light' ? 'white' : '#0a0a0a'}`}}>
+        <div className='cont' style={{background: `${appearance === 'light' ? 'white' : '#202021'}`}}>
             <div className='hounter'>
                 <Link to='/'><b style={{ color: appearance === 'light' ? 'black' : 'white' }}>My_Blog</b></Link>
             </div>
