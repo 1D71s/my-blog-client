@@ -67,7 +67,7 @@ const Comments = ({ comments, id }: Props) => {
 
     return (
         <>
-            {token && <Group style={{marginTop: '15px', padding: '15px'}}>
+            {token && <Group style={{marginTop: '15px', marginBottom: '-15px',padding: '15px'}}>
                 <Textarea
                     value={comment}
                     placeholder="please write your comment here..."
@@ -78,7 +78,7 @@ const Comments = ({ comments, id }: Props) => {
                     onClick={() => create()}
                 >Send</Button>
             </Group>}
-            {comments.length > 0 && <Group>
+            {comments.length > 0 && <Group style={{marginTop: '15px'}}>
                 {comments.map((item) => (
                     <CommentItem
                         key={item._id}

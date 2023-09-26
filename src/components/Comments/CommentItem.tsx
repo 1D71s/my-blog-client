@@ -46,7 +46,7 @@ const CommentItem = ({ text, author, createdAt, _id, idPost }: CommentTypes) => 
 
     return (
         <Panel>
-            <RichCell style={{marginBottom: '-20px'}}
+            <RichCell style={{marginBottom: '-25px'}}
                 before={<Link to={`/user/${author?._id}`}><Avatar size={48} src={`${url}${author.useravatar}`} /></Link>}
                 caption={getTimeMakingPost(createdAt)}
                 after={user && user._id === author._id && 

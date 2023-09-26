@@ -1,49 +1,49 @@
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import {  useCallback } from 'react'
 import axios from '../utils/axios'
 import ItemPost from '../components/ItemPost/ItemPost';
-import { useQuery } from '@tanstack/react-query';
 import Comments from '../components/Comments/Comments';
+import { PostTypes } from '../types';
 
 const Post = () => {
+
+  const [post, setPost] = useState<PostTypes>()
+
   const { id } = useParams();
 
-  const fetchPost = useCallback(async () => {
-    const { data } = await axios.get(`/posts/getonepost/${id}`)
-    return data
-  }, [])
-
-  const { data, isLoading, isError } = useQuery({
-    queryFn: fetchPost,
-    queryKey: ['postOne']
-  })
-
-  if (isLoading) {
-    return <h1>loading</h1>
+  const fetchPost = async () => {
+    try {
+      const { data } = await axios.get(`/posts/getonepost/${id}`)
+      setPost(data)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
-  if (isError) {
-    return <div>Error</div>
-  }
+  useEffect(() => {
+    fetchPost()
+  }, [id])
 
   return (
-    data && <div>
+    <>
+      {post && <div>
       <ItemPost
-        key={data._id}
-        _id={data._id}
-        author={data.author}
-        image={data.image}
-        title={data.title}
-        text={data.text}
-        tags={data.tags}
-        views={data.views}
-        comments={data.comments}
-        likes={data.likes}
-        createdAt={data.createdAt}
+        key={post._id}
+        _id={post._id}
+        author={post.author}
+        image={post.image}
+        title={post.title}
+        text={post.text}
+        tags={post.tags}
+        views={post.views}
+        comments={post.comments}
+        likes={post.likes}
+        createdAt={post.createdAt}
       />
       
-      <Comments comments={data.comments} id={id} />
-    </div>
+      <Comments comments={post.comments} id={id} />
+    </div>}
+    </>
   );
 };
 

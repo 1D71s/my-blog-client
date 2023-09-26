@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import ItemPost from '../components/ItemPost/ItemPost';
 import axios from '../utils/axios';
 import { PostTypes } from '../types';
-import { useQuery } from '@tanstack/react-query';
 import { UserItems } from '../components/UsersRandom/UsersRandom';
 import {
   Group,
@@ -12,35 +11,21 @@ import {
 
 
 const Home = () => {
-  const [whatIsPosts, setWhatisPosts] = useState('new');
-
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['posts'],
-    queryFn: fetchPosts
-  });
+  const [data, setData] = useState([]);
 
   async function fetchPosts() {
     try {
       const response = await axios.get('/posts/allposts');
-      return response.data.posts; 
+      setData(response.data.posts); 
     } catch (error) {
       console.log(error);
       throw error;
     }
   }
 
-
   useEffect(() => {
-    fetchPosts();
-  }, [whatIsPosts]);
-
-  if (isLoading) {
-    return <h1>Loading</h1>;
-  }
-
-  if (isError) {
-    return <h1>Loading</h1>;
-  }
+    fetchPosts()
+  }, [])
 
   return (
     <div className='home'>

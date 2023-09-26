@@ -5,13 +5,11 @@ import { useAppSelector } from "../../utils/hooks";
 import { PostTypes } from "../../types";
 import { getTimeMakingPost } from "../../utils/Functions";
 import axios from "../../utils/axios";
-import { useMutation } from "@tanstack/react-query";
-import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { Cell, Avatar, Group, CardGrid, Text, useAppearance, Button, SplitLayout } from '@vkontakte/vkui';
 import { Icon24Message, Icon24Like, Icon24LikeOutline, Icon28MoreHorizontal } from '@vkontakte/icons';
 import { CustomPopout } from '../Modals/ModalsMenuPost';
-
+import { useNavigate } from 'react-router-dom';
 
 const url = process.env.REACT_APP_URL
 
@@ -24,66 +22,40 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
   const [likesCount, setLikesCount] = useState(likes.length)
   const [loading, setLoading] = useState(false)
 
+  const navigate = useNavigate()
+
   const apperance = useAppearance()
 
-  const client = useQueryClient()
-
   const fetchLike = async () => {
+    try {
+      const { data } = await axios.post(`like/add/${_id}`);
+      setLikesCount(data.count)
+      setLikesPost(data.status)
+      setLoading(false)
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+  }
+
+  const toLike = async () => {
     if (user && !loading) {
-      try {
-        const { data } = await axios.post(`like/add/${_id}`);
-        setLikesCount(data.count)
-        setLikesPost(data.status)
-        setLoading(false)
-      } catch (error) {
-        console.log(error);
-        throw error;
+      setLoading(true)
+      setLikesPost(!likesPost)
+      if (likesPost) {
+        setLikesCount(likesCount - 1)
+      } else {
+        setLikesCount(likesCount + 1)
       }
+      fetchLike()
     }
   }
-
-  const likeItem = async () => {
-    setLoading(true)
-    setLikesPost(!likesPost)
-    if (likesPost) {
-      setLikesCount(likesCount - 1)
-    } else {
-      setLikesCount(likesCount + 1)
-    }
-    fetchLike()
-  }
-
-  const { mutate: toLike } = useMutation({
-    mutationFn: likeItem,
-    onSuccess: () => {
-      client.invalidateQueries({
-        queryKey: ['myposts']
-      });
-      client.invalidateQueries({
-        queryKey: ['posts']
-      });
-      client.invalidateQueries({
-        queryKey: ['postOne']
-      });
-    }
-  });
-
-  const { mutate: remove } = useMutation({
-    mutationFn: () => removePost(_id),
-    onSuccess: () => {
-      client.invalidateQueries({
-        queryKey: ['myposts']
-      });
-      client.invalidateQueries({
-        queryKey: ['posts']
-      });
-    }
-  });
 
   const removePost = async (id: string) => {
     try {
       const { data } = await axios.delete(`posts/delete/${id}`)
       toast(data.message)
+      navigate(`/user/${user?._id}`)
     } catch (error) {
         console.log(error)
         throw error
@@ -92,7 +64,7 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
 
   const [popout, setPopout] = useState<React.ReactNode | null>(null);
 
-  const onClick = () => setPopout(<CustomPopout onClose={() => setPopout(null)} _id={_id} author={author} user={user}  remove={remove}/>);
+  const onClick = () => setPopout(<CustomPopout onClose={() => setPopout(null)} _id={_id} author={author} user={user}  remove={() => removePost(_id)}/>);
 
   return (
     <CardGrid size="l">
@@ -131,7 +103,7 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
                 style={{ padding: '5px 20px', width: '100px'}}
                 onClick={() => toLike()}
                 after={likesCount > 0 ? likesCount : ''}
-                before={ user && likesPost ? <Icon24Like  onClick={likeItem}/> :
+                before={ user && likesPost ? <Icon24Like /> :
                 <Icon24LikeOutline />}
               />
               <Link to={`/posts/${_id}`}>

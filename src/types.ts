@@ -1,3 +1,5 @@
+import { CommentTypes } from "./components/Comments/Comments";
+
 export type Author = {
     _id: string,
     username: string,
@@ -9,7 +11,7 @@ export type PostTypes = {
     title: string;
     text: string;
     image: string,
-    comments: string
+    comments: CommentTypes[]
     likes: string[],
     views: string[],
     author: Author,

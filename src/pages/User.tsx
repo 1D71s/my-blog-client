@@ -16,7 +16,7 @@ type StyleType = React.CSSProperties;
 const UserProfile = () => {
 
   const me = useAppSelector(state => state.auth.user)
-  
+    
   const [user, setUser] = useState<User>() 
 
   const [postsUser, setPostsUser] = useState([])
@@ -85,7 +85,7 @@ const UserProfile = () => {
               </Button>
             </Link>
           ) : (
-            <Button>
+            me?._id && <Button>
               Following
             </Button>
           )}
@@ -132,7 +132,7 @@ const UserProfile = () => {
 
         </Group>
       </Group>
-      {postsUser && postsUser.length > 0 && <div style={{marginBottom: '20px'}}>
+      {postsUser && postsUser.length > 0 && <div>
           {postsUser.map((item: PostTypes) => (
             <ItemPost
               key={item._id}
