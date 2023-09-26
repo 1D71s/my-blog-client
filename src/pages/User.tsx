@@ -59,7 +59,6 @@ const UserProfile = () => {
     filter: 'blur(10px)'
   };
 
-  
   return (
     <>
       <Group>
