@@ -5,7 +5,7 @@ import { registerUser } from '../redux/userSlice'
 import { toast } from 'react-toastify'
 import { clearStatus } from '../redux/userSlice'
 import { Link } from 'react-router-dom'
-import { Panel, View, FormItem, FormLayout, FormLayoutGroup, Button, Title, SegmentedControl, useAppearance, Group } from "@vkontakte/vkui";
+import { Panel, FormItem, FormLayout, FormLayoutGroup, Button, Title, SegmentedControl, useAppearance, Group } from "@vkontakte/vkui";
 import { useForm } from 'react-hook-form'
 import { Spinner } from '@chakra-ui/react'
 

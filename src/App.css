@@ -356,13 +356,13 @@ li {
 .tags {
     margin-top: 15px;
     margin-left: 20px;
+    margin-bottom: 15px;
 }
 
 .item-tag {
     display: inline-block;
     margin-right: 5px;
     color: #0077FF;
-    margin-bottom: 20px;
 }
 
 @media (max-width: 700px) {

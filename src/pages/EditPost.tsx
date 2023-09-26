@@ -74,7 +74,7 @@ const EditPost = () => {
     useEffect(() => {
         if (status === 'Пост добавлен!') {
             toast(status)
-            navigate('/me')
+            navigate('/')
             dispatch(clearStatus())
         }
     }, [status])
@@ -86,7 +86,7 @@ const EditPost = () => {
                 const post = { image, text, title, tags: hashtags };
                 const { data } = await axios.post(`posts/edit/${id}`, post);
                 toast(data.message)
-                navigate('/me')
+                navigate('/')
             } catch (error) {
                 console.log(error);
                 throw error;

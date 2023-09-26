@@ -79,11 +79,18 @@ const UserProfile = () => {
           >
             {user?.username}
           </Text>
-          {me?._id === user?._id && <Link to='edit'> 
-            <Button size="m" mode="secondary">
-              Редактировать
+          {me?._id === user?._id ? (
+            <Link to='edit'> 
+              <Button size="m" mode="secondary">
+                Редактировать
+              </Button>
+            </Link>
+          ) : (
+            <Button>
+              Following
             </Button>
-          </Link>}
+          )}
+
           <MiniInfoCell
             style={{marginTop: '20px'}}
             before={<Icon20UsersOutline />}
@@ -126,7 +133,7 @@ const UserProfile = () => {
 
         </Group>
       </Group>
-      {postsUser && postsUser.length > 0 && <div>
+      {postsUser && postsUser.length > 0 && <div style={{marginBottom: '20px'}}>
           {postsUser.map((item: PostTypes) => (
             <ItemPost
               key={item._id}

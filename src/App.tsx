@@ -13,6 +13,7 @@ import { Post } from './pages/Post';
 import { EditPost } from './pages/EditPost';
 import { EditProfile } from './pages/EditProfile';
 import { UserFullInfo } from './pages/UserFullInfo';
+import { HashtagPost } from './pages/HashtagPost';
 
 import { Layout } from './components/Layout';
 import { getMe } from './redux/userSlice';
@@ -35,6 +36,7 @@ function App() {
           <Route path='/register' element={<Register />} />
           <Route path='/create' element={<CreatePost />} />
           <Route path='/posts/:id' element={<Post />} />
+          <Route path='/tag/:id' element={<HashtagPost />} />
           <Route path='/edit/:id' element={<EditPost />} />
           <Route path='/user/:id/edit' element={<EditProfile />} />
           <Route path='/user/fullinfo/:id' element={<UserFullInfo/>} />

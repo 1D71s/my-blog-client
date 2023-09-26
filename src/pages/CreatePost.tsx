@@ -106,6 +106,7 @@ const CreatePost = () => {
       </FormItem>
       <FormItem style={{marginBottom: '20px'}}>
         <Button
+          disabled={!text || !title}
           onClick={addPost}
           style={{ padding: '3px', marginTop: '10px' }}>Create post</Button>
       </FormItem>

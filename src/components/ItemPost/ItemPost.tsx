@@ -7,7 +7,6 @@ import { getTimeMakingPost } from "../../utils/Functions";
 import axios from "../../utils/axios";
 import { useMutation } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Cell, Avatar, Group, CardGrid, Text, useAppearance, Button, SplitLayout } from '@vkontakte/vkui';
 import { Icon24Message, Icon24Like, Icon24LikeOutline, Icon28MoreHorizontal } from '@vkontakte/icons';
@@ -21,20 +20,37 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
   const isAuth = useAppSelector(state => state.auth.token);
   const user = useAppSelector(state => state.auth.user);
 
-  const navigate = useNavigate()
+  const [likesPost, setLikesPost] = useState(likes.includes(user?._id))
+  const [likesCount, setLikesCount] = useState(likes.length)
+  const [loading, setLoading] = useState(false)
+
   const apperance = useAppearance()
 
   const client = useQueryClient()
 
-  const likeItem = async () => {
-    if (user) {
+  const fetchLike = async () => {
+    if (user && !loading) {
       try {
-        await axios.post(`posts/like/${_id}`);
+        const { data } = await axios.post(`like/add/${_id}`);
+        setLikesCount(data.count)
+        setLikesPost(data.status)
+        setLoading(false)
       } catch (error) {
         console.log(error);
         throw error;
       }
     }
+  }
+
+  const likeItem = async () => {
+    setLoading(true)
+    setLikesPost(!likesPost)
+    if (likesPost) {
+      setLikesCount(likesCount - 1)
+    } else {
+      setLikesCount(likesCount + 1)
+    }
+    fetchLike()
   }
 
   const { mutate: toLike } = useMutation({
@@ -99,8 +115,8 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
       
         <div className="info-post">
           <Link to={`/posts/${_id}`} className="post-text-title-tags">
-            <Text className='title-post' style={{color: `${apperance === 'dark' ? 'white' : 'black'}`, fontSize: '20px', margin: '20px'}}>{title}</Text>
-            <Text className='title-post' weight="1" style={{color: `${apperance === 'dark' ? 'white' : 'black'}`, marginLeft: '20px'}}>{text}</Text>
+            <Text className='title-post' weight="1"  style={{color: `${apperance === 'dark' ? 'white' : 'black'}`, margin: '20px'}}>{title}</Text>
+            <Text className='title-post' style={{color: `${apperance === 'dark' ? 'white' : 'black'}`, marginLeft: '20px'}}>{text}</Text>
             {tags && <div className="tags">
               {tags.map(item => <Link style={{color: `${apperance === 'dark' ? '#71aaeb' : '#0077FF'}`}} to={`/tag/${item}`} className="item-tag">
                 #{item}
@@ -114,16 +130,18 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
                 mode="secondary"
                 style={{ padding: '5px 20px', width: '100px'}}
                 onClick={() => toLike()}
-                after={likes.length > 0 ? likes.length : ''}
-                before={ user && likes.includes(user._id) ? <Icon24Like  onClick={likeItem}/> :
+                after={likesCount > 0 ? likesCount : ''}
+                before={ user && likesPost ? <Icon24Like  onClick={likeItem}/> :
                 <Icon24LikeOutline />}
               />
-              <Button
-                style={{marginLeft: '20px', padding: '5px 20px', width: '100px'}}
-                mode="secondary"
-                after={comments.length > 0 ? comments.length : ''}
-                before={<Icon24Message />}
-              />
+              <Link to={`/posts/${_id}`}>
+                <Button
+                  style={{marginLeft: '20px', padding: '5px 20px', width: '100px'}}
+                  mode="secondary"
+                  after={comments.length > 0 ? comments.length : ''}
+                  before={<Icon24Message />}
+                />
+              </Link>
             </div>
             <span className='likes-comm-views count'>
               <AiFillEye className='icons-lcv'/>
