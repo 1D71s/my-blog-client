@@ -3,20 +3,26 @@ import ItemPost from '../components/ItemPost/ItemPost';
 import axios from '../utils/axios';
 import { PostTypes } from '../types';
 import { UserItems } from '../components/UsersRandom/UsersRandom';
+import { useQuery } from '@tanstack/react-query';
 import {
   Group,
   Header,
   HorizontalScroll,
 } from "@vkontakte/vkui";
+import SkeletonChildren from '../components/Sceletons/PostSleleton';
 
 
 const Home = () => {
-  const [data, setData] = useState([]);
+
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['post'], // Используйте одинаковый ключ 'post'
+    queryFn: fetchPosts
+  });
 
   async function fetchPosts() {
     try {
       const response = await axios.get('/posts/allposts');
-      setData(response.data.posts); 
+      return response.data.posts; 
     } catch (error) {
       console.log(error);
       throw error;
@@ -24,8 +30,22 @@ const Home = () => {
   }
 
   useEffect(() => {
-    fetchPosts()
-  }, [])
+    fetchPosts();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <Group>
+        <SkeletonChildren />
+        <SkeletonChildren />
+        <SkeletonChildren/>
+      </Group>
+    )
+  }
+
+  if (isError) {
+    return <h1>Loading</h1>;
+  }
 
   return (
     <div className='home'>

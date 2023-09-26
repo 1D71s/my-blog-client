@@ -26,6 +26,7 @@ root.render(
               <App />
             </AdaptivityProvider>
           </LightThemeWrapper>
+          <ReactQueryDevtools initialIsOpen={false} />
         </Provider>
       </QueryClientProvider>
     </BrowserRouter>

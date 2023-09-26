@@ -81,12 +81,12 @@ const UserProfile = () => {
           {me?._id === user?._id ? (
             <Link to='edit'> 
               <Button size="m" mode="secondary">
-                Редактировать
+                Edit profile
               </Button>
             </Link>
           ) : (
             me?._id && <Button>
-              Following
+              Follow
             </Button>
           )}
 

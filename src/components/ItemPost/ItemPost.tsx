@@ -1,17 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AiFillEye } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../utils/hooks";
 import { PostTypes } from "../../types";
 import { getTimeMakingPost } from "../../utils/Functions";
 import axios from "../../utils/axios";
+import { useMutation } from "@tanstack/react-query";
+import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { Cell, Avatar, Group, CardGrid, Text, useAppearance, Button, SplitLayout } from '@vkontakte/vkui';
 import { Icon24Message, Icon24Like, Icon24LikeOutline, Icon28MoreHorizontal } from '@vkontakte/icons';
 import { CustomPopout } from '../Modals/ModalsMenuPost';
-import { useNavigate } from 'react-router-dom';
 
 const url = process.env.REACT_APP_URL
+
 
 const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, author, createdAt }: PostTypes) => {
 
@@ -22,9 +24,9 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
   const [likesCount, setLikesCount] = useState(likes.length)
   const [loading, setLoading] = useState(false)
 
-  const navigate = useNavigate()
-
   const apperance = useAppearance()
+
+  const client = useQueryClient()
 
   const fetchLike = async () => {
     try {
@@ -38,7 +40,7 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
     }
   }
 
-  const toLike = async () => {
+  const likeItem = async () => {
     if (user && !loading) {
       setLoading(true)
       setLikesPost(!likesPost)
@@ -51,20 +53,42 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
     }
   }
 
+  const { mutate: toLike } = useMutation({
+    mutationFn: likeItem,
+    onSuccess: () => {
+      client.invalidateQueries({
+        queryKey: ['post'] // Используйте одинаковый ключ 'post'
+      });
+    }
+  });
+
+  const { mutate: remove } = useMutation({
+    mutationFn: () => removePost(_id),
+    onSuccess: () => {
+      client.invalidateQueries({
+        queryKey: ['post']
+      });
+    }
+  });
+
   const removePost = async (id: string) => {
     try {
       const { data } = await axios.delete(`posts/delete/${id}`)
       toast(data.message)
-      navigate(`/user/${user?._id}`)
     } catch (error) {
         console.log(error)
         throw error
     }
   }
 
+  useEffect(() => {
+    setLikesPost(likes.includes(user?._id))
+    setLikesCount(likes.length)
+  }, [likes])
+
   const [popout, setPopout] = useState<React.ReactNode | null>(null);
 
-  const onClick = () => setPopout(<CustomPopout onClose={() => setPopout(null)} _id={_id} author={author} user={user}  remove={() => removePost(_id)}/>);
+  const onClick = () => setPopout(<CustomPopout onClose={() => setPopout(null)} _id={_id} author={author} user={user}  remove={remove}/>);
 
   return (
     <CardGrid size="l">
