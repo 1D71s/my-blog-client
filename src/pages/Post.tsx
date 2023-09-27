@@ -4,6 +4,8 @@ import axios from '../utils/axios'
 import ItemPost from '../components/ItemPost/ItemPost';
 import Comments from '../components/Comments/Comments';
 import { PostTypes } from '../types';
+import SkeletonPost from '../components/Sceletons/PostSleleton';
+import { Group } from "@vkontakte/vkui";
 
 const Post = () => {
 
@@ -23,6 +25,14 @@ const Post = () => {
   useEffect(() => {
     fetchPost()
   }, [id])
+
+  if (!post) {
+    return (
+      <Group>
+       <SkeletonPost/>
+      </Group>
+    )
+  }
 
   return (
     <>

@@ -7,7 +7,9 @@ import { Link } from 'react-router-dom';
 import { Icon20ArticleOutline, Icon20NarrativeOutline, Icon20Info, Icon20MentionOutline, Icon20UsersOutline, Icon20PlaceOutline, Icon20LogoClipsOutline  } from '@vkontakte/icons';
 import { Group, Title, Text, Gradient, Avatar, Button, MiniInfoCell, useAppearance } from '@vkontakte/vkui';
 import { useParams } from 'react-router-dom'
-import { User } from '../redux/userSlice'
+import { User } from '../redux/userSlice';
+import { useQuery } from '@tanstack/react-query';
+
 
 const url = process.env.REACT_APP_URL
 
@@ -19,7 +21,6 @@ const UserProfile = () => {
     
   const [user, setUser] = useState<User>() 
 
-  const [postsUser, setPostsUser] = useState([])
 
   const { id } = useParams()
 
@@ -35,14 +36,17 @@ const UserProfile = () => {
   const fetchUserPosts = async () => { 
     try {
       const { data } = await axios.get(`posts/userposts/${id}`)
-      setPostsUser(data)
+      return data
     } catch (error) {
       console.log(error)
       throw error
     }
   };
 
-  console.log(user)
+  const { data, isLoading, isError } = useQuery({
+    queryKey: [`user_post_${id}`],
+    queryFn: fetchUserPosts
+  });
 
   useEffect(() => {
     getUser()
@@ -132,8 +136,8 @@ const UserProfile = () => {
 
         </Group>
       </Group>
-      {postsUser && postsUser.length > 0 && <div>
-          {postsUser.map((item: PostTypes) => (
+      {data && data.length > 0 && <div>
+          {data.map((item: PostTypes) => (
             <ItemPost
               key={item._id}
               _id={item._id}

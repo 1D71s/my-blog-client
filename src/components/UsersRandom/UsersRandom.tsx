@@ -24,7 +24,19 @@ export const UserItems = () => {
     }
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return (
+            <>
+                <HorizontalCell size="s" >
+                    <Avatar size={56} />
+                </HorizontalCell>
+                <HorizontalCell size="s" >
+                    <Avatar size={56} />
+                </HorizontalCell>
+                <HorizontalCell size="s" >
+                    <Avatar size={56} />
+                </HorizontalCell>
+            </>
+        )
     }
     
     if (isError) {

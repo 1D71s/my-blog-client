@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import ItemPost from '../components/ItemPost/ItemPost';
 import axios from '../utils/axios';
 import { PostTypes } from '../types';
@@ -9,13 +8,12 @@ import {
   Header,
   HorizontalScroll,
 } from "@vkontakte/vkui";
-import SkeletonChildren from '../components/Sceletons/PostSleleton';
-
+import SkeletonPost from '../components/Sceletons/PostSleleton';
 
 const Home = () => {
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['post'], // Используйте одинаковый ключ 'post'
+    queryKey: ['post'],
     queryFn: fetchPosts
   });
 
@@ -29,17 +27,22 @@ const Home = () => {
     }
   }
 
-  useEffect(() => {
-    fetchPosts();
-  }, []);
-
   if (isLoading) {
     return (
-      <Group>
-        <SkeletonChildren />
-        <SkeletonChildren />
-        <SkeletonChildren/>
-      </Group>
+      <>
+        <Group header={<Header>Recomendation:</Header>}>
+          <HorizontalScroll>
+            <div style={{ display: 'flex' }}>
+              <UserItems />
+            </div>
+          </HorizontalScroll>
+        </Group>
+        <Group>
+          <SkeletonPost />
+          <SkeletonPost />
+          <SkeletonPost />
+        </Group>
+      </>
     )
   }
 

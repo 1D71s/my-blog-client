@@ -57,7 +57,7 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
     mutationFn: likeItem,
     onSuccess: () => {
       client.invalidateQueries({
-        queryKey: ['post'] // Используйте одинаковый ключ 'post'
+        queryKey: ['post'] 
       });
     }
   });
@@ -66,7 +66,10 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
     mutationFn: () => removePost(_id),
     onSuccess: () => {
       client.invalidateQueries({
-        queryKey: ['post']
+        queryKey: ['post'],
+      });
+      client.invalidateQueries({
+        queryKey: [`user_post_${user?._id}`],
       });
     }
   });
