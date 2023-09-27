@@ -63,7 +63,9 @@ export type User = {
     firstName: string,
     lastName: string,
     sex: string,
-    fullInfo: FullInfoType
+    fullInfo: FullInfoType,
+    followers: string[],
+    following: string[],
 }
 
 export const registerUser = createAsyncThunk<RegisterResponse,FormForRegister >('user/registerUser', async (user) => {

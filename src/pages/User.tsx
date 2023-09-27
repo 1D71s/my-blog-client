@@ -33,6 +33,15 @@ const UserProfile = () => {
     }
   }
 
+  const following = async () => {
+    try {
+      await axios.put(`user/follow/${id}`)
+      getUser()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   const fetchUserPosts = async () => { 
     try {
       const { data } = await axios.get(`posts/userposts/${id}`)
@@ -89,16 +98,23 @@ const UserProfile = () => {
               </Button>
             </Link>
           ) : (
-            me?._id && <Button>
-              Follow
-            </Button>
+              me?._id && user?.followers?.includes(me?._id) ?
+                <Button
+                  mode="secondary"
+                  onClick={following}
+                >unFollowing</Button> :
+                <Button 
+                  onClick={following}
+                >
+                Following
+              </Button>
           )}
 
           <MiniInfoCell
             style={{marginTop: '20px'}}
             before={<Icon20UsersOutline />}
           >
-            0 Followers · 0 Following
+            {user?.followers.length} Followers · {user?.following.length} Following
           </MiniInfoCell>
         </div>
       </Group>
