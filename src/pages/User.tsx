@@ -110,12 +110,44 @@ const UserProfile = () => {
               </Button>
           )}
 
-          <MiniInfoCell
-            style={{marginTop: '20px'}}
-            before={<Icon20UsersOutline />}
-          >
-            {user?.followers.length} Followers · {user?.following.length} Following
-          </MiniInfoCell>
+          <div className='user-global-stat'>
+            <Button mode='tertiary'  style={{margin: '10px', width: '90px'}}>
+              <Title style={{ marginBottom: 8, marginTop: 20 }} level="2" weight="2">
+                  {data?.length || '0'}
+                </Title>
+                <Text
+                  style={{
+                    marginBottom: 24,
+                    color: 'var(--vkui--color_text_secondary)',
+                  }}>Posts</Text>
+            </Button>
+            <Link to={`/user/following/${id}`} style={{margin: '10px' ,width: '90px'}}>
+              <Button mode='tertiary'>
+                <Title style={{ marginBottom: 8, marginTop: 20 }} level="2" weight="2">
+                  {user?.following.length}
+                </Title>
+                <Text
+                  style={{
+                    marginBottom: 24,
+                    color: 'var(--vkui--color_text_secondary)',
+                  }}>Following</Text>
+              </Button>
+            </Link>
+            <Link to={`/user/followers/${id}`} style={{margin: '10px' ,width: '90px'}}>
+              <Button mode='tertiary'>
+                <Title style={{ marginBottom: 8, marginTop: 20 }} level="2" weight="2">
+                  {user?.followers.length}
+                </Title>
+                <Text
+                  style={{
+                    marginBottom: 24,
+                    color: 'var(--vkui--color_text_secondary)',
+                  }}>Followers</Text>
+              </Button>
+            </Link>
+          </div>
+
+    
         </div>
       </Group>
       <Group mode="plain">
@@ -152,6 +184,7 @@ const UserProfile = () => {
 
         </Group>
       </Group>
+
       {data && data.length > 0 && <div>
           {data.map((item: PostTypes) => (
             <ItemPost

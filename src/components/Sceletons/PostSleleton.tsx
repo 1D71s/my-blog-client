@@ -75,7 +75,7 @@ function Post() {
         <div style={{ paddingTop: '57%' }} />
       </Skeleton>
 
-      <Box sx={{ width: '200%', padding: '10px', marginTop: '15px' }}>
+      <Box sx={{ width: '100%', padding: '10px', marginTop: '15px' }}>
         <Skeleton width="100px" style={{ background: `${apperance === 'dark' ? '#232324' : '#f5f5f5'}`}}>
           <Typography>...</Typography>
         </Skeleton>
