@@ -327,12 +327,7 @@ li {
     display: block;
 }
 
-.btn-none {
-    position: relative;
-    top: 10px;
-    border: none;
-    background: none;
-}
+
 
 .icon-menu {
     position: relative;
@@ -393,8 +388,8 @@ li {
 
 .count {
     margin-top: 15px;
-    position: relative;
-    right: -25px;
+    display: flex;
+    justify-content: flex-end;
 }
 
 @media (max-width: 770px) {
@@ -406,11 +401,10 @@ li {
     }
 
     .cont-likes-comm-views {
+        width: 100%;
         padding: 10px 0px;
         display: flex;
         justify-content: space-between;
-        position: relative;
-        left: -15px;
     }
 
     .post-text-title-tags {
@@ -424,10 +418,6 @@ li {
 
     .img-post-item {
         border-radius: 5px;
-    }
-
-    .count {
-        right: -55px;
     }
 
     .btn-menu-post {

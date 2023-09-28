@@ -21,7 +21,6 @@ const UserProfile = () => {
     
   const [user, setUser] = useState<User>() 
 
-
   const { id } = useParams()
 
   const getUser = async () => {
@@ -36,7 +35,8 @@ const UserProfile = () => {
   const following = async () => {
     try {
       await axios.put(`user/follow/${id}`)
-      getUser()
+      await getUser()
+      console.log(user)
     } catch (error) {
       console.log(error)
     }
@@ -98,16 +98,18 @@ const UserProfile = () => {
               </Button>
             </Link>
           ) : (
-              me?._id && user?.followers?.includes(me?._id) ?
-                <Button
+              <div>
+                {me?._id && !user?.followers?.includes(me?._id) ?
+                (<Button
                   mode="secondary"
                   onClick={following}
-                >unFollowing</Button> :
-                <Button 
+                >unFollowing</Button>) :
+                (<Button 
                   onClick={following}
                 >
                 Following
-              </Button>
+              </Button>)}
+              </div>
           )}
 
           <div className='user-global-stat'>
@@ -124,7 +126,7 @@ const UserProfile = () => {
             <Link to={`/user/following/${id}`} style={{margin: '10px' ,width: '90px'}}>
               <Button mode='tertiary'>
                 <Title style={{ marginBottom: 8, marginTop: 20 }} level="2" weight="2">
-                  {user?.following.length}
+                  {user?.following.length || '0'}
                 </Title>
                 <Text
                   style={{
@@ -136,7 +138,7 @@ const UserProfile = () => {
             <Link to={`/user/followers/${id}`} style={{margin: '10px' ,width: '90px'}}>
               <Button mode='tertiary'>
                 <Title style={{ marginBottom: 8, marginTop: 20 }} level="2" weight="2">
-                  {user?.followers.length}
+                  {user?.followers.length || '0'}
                 </Title>
                 <Text
                   style={{
@@ -146,7 +148,6 @@ const UserProfile = () => {
               </Button>
             </Link>
           </div>
-
     
         </div>
       </Group>

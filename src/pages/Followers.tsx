@@ -35,7 +35,7 @@ const Followers = () => {
 
     useEffect(() => {
         fetchFollowers();
-    }, []);
+    }, [id]);
 
     const fetchFollowers = async () => {
         try {
