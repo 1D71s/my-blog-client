@@ -3,6 +3,7 @@ import { User } from '../../redux/userSlice';
 import { useQuery } from '@tanstack/react-query';
 import axios from "../../utils/axios";
 import { Link } from "react-router-dom";
+import { SkeletonAvatar } from "../Sceletons/PostSleleton";
 
 const url = process.env.REACT_APP_URL
 
@@ -27,13 +28,13 @@ export const UserItems = () => {
         return (
             <>
                 <HorizontalCell size="s" >
-                    <Avatar size={56} />
+                    <SkeletonAvatar/>
                 </HorizontalCell>
                 <HorizontalCell size="s" >
-                    <Avatar size={56} />
+                    <SkeletonAvatar/>
                 </HorizontalCell>
                 <HorizontalCell size="s" >
-                    <Avatar size={56} />
+                    <SkeletonAvatar/>
                 </HorizontalCell>
             </>
         )

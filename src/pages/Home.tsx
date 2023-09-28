@@ -8,7 +8,7 @@ import {
   Header,
   HorizontalScroll,
 } from "@vkontakte/vkui";
-import SkeletonPost from '../components/Sceletons/PostSleleton';
+import { SkeletonPost } from '../components/Sceletons/PostSleleton';
 
 const Home = () => {
 

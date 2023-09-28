@@ -1,19 +1,15 @@
-import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import axios from '../utils/axios';
 import {
-  Banner,
   Image,
-  Header,
   Group,
-  GridAvatar,
   SimpleCell,
   Text
 } from "@vkontakte/vkui";
-import {  Icon20BasketballOutline, Icon20EducationOutline, Icon20WorkOutline, Icon20ArticleBoxOutline, Icon20BubbleLolOutline  } from '@vkontakte/icons';
 import { useQuery } from '@tanstack/react-query';
 import ItemPost from '../components/ItemPost/ItemPost';
 import { PostTypes } from '../types';
+import { SkeletonPost } from '../components/Sceletons/PostSleleton';
 
 const url = process.env.REACT_APP_URL
 
@@ -36,7 +32,6 @@ const HashtagPost = () => {
       throw error;
     }
   }
-  
  
   return (
     <>
@@ -49,7 +44,11 @@ const HashtagPost = () => {
         </SimpleCell>
       </Group>
 
-      {data && data.map((item: PostTypes) => (
+      {isLoading ?
+      <Group>
+        <SkeletonPost/>
+      </Group> :
+      data && data.map((item: PostTypes) => (
         <ItemPost
         key={item._id}
         _id={item._id}

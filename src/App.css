@@ -16,6 +16,24 @@ li {
     font-size: 20px;
 }
 
+.search-header {
+    display: block;
+    max-width: 500px;
+    margin-top: 3px;
+}
+
+@media (max-width: 700px) {
+    .search-header {
+        display: none;
+    }
+}
+
+@media (max-width: 1050px) {
+    .search-header {
+        max-width: 400px;
+    }
+}
+
 /*Form for register and loading*/
 .log-in {
     max-width: 400px;
@@ -365,7 +383,13 @@ li {
     color: #0077FF;
 }
 
-@media (max-width: 700px) {
+.count {
+    margin-top: 15px;
+    position: relative;
+    right: -25px;
+}
+
+@media (max-width: 770px) {
 
     .cont-head-item {
         margin-top: 10px;
@@ -395,9 +419,7 @@ li {
     }
 
     .count {
-        margin-top: 20px;
-        position: relative;
-        right: -40px;
+        right: -55px;
     }
 
     .btn-menu-post {

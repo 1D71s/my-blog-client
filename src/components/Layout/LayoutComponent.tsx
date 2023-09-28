@@ -12,6 +12,7 @@ import {
   TabbarItem,
   Platform,
   useAdaptivityConditionalRender,
+  useAppearance
 } from "@vkontakte/vkui";
 import {
   Icon28NewsfeedOutline,
@@ -19,7 +20,12 @@ import {
   Icon24UserAddOutline,
   Icon24Write,
   Icon28UserCircleOutline,
-  Icon24DoorArrowRightOutline
+  Icon24DoorArrowRightOutline,
+  Icon24UsersOutline,
+  Icon24BookmarkCheckBadge,
+  Icon24UserAdded,
+  Icon24GearOutline,
+  Icon24Search
 } from "@vkontakte/icons";
 import { useNavigate } from "react-router-dom";
 import "./LayoutComponent.css"
@@ -47,6 +53,17 @@ const Example: React.FC<ExampleProps> = ({ Content }) => {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
 
+  const apperance = useAppearance()
+
+  const leftMenu = {
+    marginRight: '20px',
+    color: apperance === 'light' ? '#0077FF' : '#71aaeb'
+  }
+
+  const bottomMenu = {
+    color: apperance === 'light' ? '#0077FF' : '#71aaeb'
+  }
+
   const logOutAccount = () => {
     dispatch(logOut())
     navigate('/login')
@@ -72,47 +89,99 @@ const Example: React.FC<ExampleProps> = ({ Content }) => {
         <SplitCol className={viewWidth.tabletPlus.className} fixed width={280} maxWidth={280}>
           <Panel>
             {isVKCOM && <PanelHeader />}
-            {isAuthUser ? <Group>
-              <div
-                data-story="/"
-                onClick={onStoryChange}
-                className='menu-item'
-              >
-                <Icon28NewsfeedOutline className='menu-icons'/>
-                <span>feed</span>
-              </div>
-              <div
-                data-story={`/user/${me?._id}`}
-                onClick={onStoryChange}
-                className='menu-item'
-              >
-                <Icon28UserCircleOutline className='menu-icons'/>
-                <span>profile</span>
-              </div>
-              <div
-                data-story="create"
-                onClick={onStoryChange}
-                className='menu-item'
-              >
-                <Icon24Write className='menu-icons'/>
-                <span>create post</span>
-              </div>
-              <div
-                data-story="create"
-                onClick={logOutAccount}
-                className='menu-item'
-              >
-                <Icon24DoorArrowRightOutline className='menu-icons'/>
-                <span>log out</span>
-              </div> 
-            </Group> :
+            {isAuthUser ? 
+              <>
+                <Group>
+                  <div
+                    data-story="/"
+                    onClick={onStoryChange}
+                    className='menu-item'
+                  >
+                    <Icon28NewsfeedOutline style={leftMenu}/>
+                    <span>feed</span>
+                  </div>
+                  <div
+                    data-story={`/user/${me?._id}`}
+                    onClick={onStoryChange}
+                    className='menu-item'
+                  >
+                    <Icon28UserCircleOutline style={leftMenu}/>
+                    <span>profile</span>
+                  </div>
+
+                  <div
+                    data-story={`/user/following/${me?._id}`}
+                    onClick={onStoryChange}
+                    className='menu-item'
+                  >
+                    <Icon24UserAdded style={leftMenu}/>
+                    <span>following</span>
+                  </div>
+
+                  <div
+                    data-story={`/user/followers/${me?._id}`}
+                    onClick={onStoryChange}
+                    className='menu-item'
+                  >
+                    <Icon24UsersOutline style={leftMenu}/>
+                    <span>followers</span>
+                  </div>
+
+                  <div
+                    data-story={`/user/favorite/${me?._id}`}
+                    onClick={onStoryChange}
+                    className='menu-item'
+                  >
+                    <Icon24BookmarkCheckBadge style={leftMenu}/>
+                    <span>favorite</span>
+                  </div>
+
+                  <div
+                    data-story={`/search`}
+                    onClick={onStoryChange}
+                    className='menu-item'
+                  >
+                    <Icon24Search style={leftMenu}/>
+                    <span>search</span>
+                  </div>
+
+                  <div
+                    data-story="create"
+                    onClick={onStoryChange}
+                    className='menu-item'
+                  >
+                    <Icon24Write style={leftMenu}/>
+                    <span>create post</span>
+                  </div>                
+                </Group>
+            
+                <Group>
+                  <div
+                    data-story={`/user/settings/${me?._id}`}
+                    onClick={onStoryChange}
+                    className='menu-item'
+                  >
+                    <Icon24GearOutline style={leftMenu}/>
+                    <span>settings</span>
+                  </div>
+                  <div
+                    onClick={logOutAccount}
+                    className='menu-item'
+                  >
+                    <Icon24DoorArrowRightOutline style={leftMenu}/>
+                    <span>log out</span>
+                  </div>
+                </Group>
+              </>
+              :
+
             <Group>
                 <div
                 data-story="login"
                 onClick={onStoryChange}
                 className='menu-item'
               >
-                <Icon24DoorArrowLeftOutline className='menu-icons'/>
+                <Icon24DoorArrowLeftOutline style={leftMenu}/>
                 <span>sign in</span>
               </div>
               <div
@@ -120,7 +189,7 @@ const Example: React.FC<ExampleProps> = ({ Content }) => {
                 onClick={onStoryChange}
                 className='menu-item'
               >
-                <Icon24UserAddOutline className='menu-icons'/>
+                <Icon24UserAddOutline style={leftMenu}/>
                 <span>sign up</span>
               </div>
             </Group>}
@@ -139,28 +208,28 @@ const Example: React.FC<ExampleProps> = ({ Content }) => {
                   data-story="/"
                   text="Feed"
                 >
-                  <Icon28NewsfeedOutline className='menu-bottom-icons'/>
+                  <Icon28NewsfeedOutline style={bottomMenu}/>
                 </TabbarItem>
                 <TabbarItem
                   onClick={onStoryChange}
                   data-story={`/user/${me?._id}`}
                   text="Profile"
                 >
-                  <Icon28UserCircleOutline className='menu-bottom-icons'/>
+                  <Icon28UserCircleOutline style={bottomMenu}/>
                 </TabbarItem>
                 <TabbarItem
                   onClick={onStoryChange}
                   data-story="create"
                   text="Create"
                 >
-                  <Icon24Write className='menu-bottom-icons'/>
+                  <Icon24Write style={bottomMenu}/>
                 </TabbarItem>
                 <TabbarItem
                   onClick={logOutAccount}
                   data-story="/"
                   text="Log Out"
                 >
-                  <Icon24DoorArrowRightOutline className='menu-bottom-icons'/>
+                  <Icon24DoorArrowRightOutline style={bottomMenu}/>
                 </TabbarItem>
 
               </Tabbar> : 
@@ -170,14 +239,14 @@ const Example: React.FC<ExampleProps> = ({ Content }) => {
                   data-story="login"
                   text="Sign In"
                 >
-                  <Icon24DoorArrowLeftOutline className='menu-bottom-icons'/>
+                  <Icon24DoorArrowLeftOutline style={bottomMenu}/>
                 </TabbarItem>
                 <TabbarItem
                   onClick={onStoryChange}
                   data-story="register"
                   text="Sign Up"
                 >
-                  <Icon24UserAddOutline className='menu-bottom-icons'/>
+                  <Icon24UserAddOutline style={bottomMenu}/>
                 </TabbarItem>
               </Tabbar>
             )

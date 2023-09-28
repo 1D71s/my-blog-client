@@ -14,6 +14,12 @@ import { EditPost } from './pages/EditPost';
 import { EditProfile } from './pages/EditProfile';
 import { UserFullInfo } from './pages/UserFullInfo';
 import { HashtagPost } from './pages/HashtagPost';
+import { Followers } from './pages/Followers';
+import { Following } from './pages/Following';
+import { Favorite } from './pages/Favorite';
+import { Settings } from './pages/Settings';
+import { Search } from './pages/Search';
+
 
 import { Layout } from './components/Layout';
 import { getMe } from './redux/userSlice';
@@ -39,7 +45,12 @@ function App() {
           <Route path='/tag/:id' element={<HashtagPost />} />
           <Route path='/edit/:id' element={<EditPost />} />
           <Route path='/user/:id/edit' element={<EditProfile />} />
-          <Route path='/user/fullinfo/:id' element={<UserFullInfo/>} />
+          <Route path='/user/fullinfo/:id' element={<UserFullInfo />} />
+          <Route path='/user/followers/:id' element={<Followers />} />
+          <Route path='/user/following/:id' element={<Following />} />
+          <Route path='/user/favorite/:id' element={<Favorite />} />
+          <Route path='/user/settings/:id' element={<Settings />} />
+          <Route path='/search' element={<Search/>} />
         </Route>
       </Routes>
 

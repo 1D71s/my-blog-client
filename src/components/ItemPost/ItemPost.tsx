@@ -8,7 +8,7 @@ import axios from "../../utils/axios";
 import { useMutation } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { Cell, Avatar, Group, CardGrid, Text, useAppearance, Button, SplitLayout } from '@vkontakte/vkui';
+import { Cell, Avatar, Group, CardGrid, Text, useAppearance, Button, SplitLayout, Footnote } from '@vkontakte/vkui';
 import { Icon24Message, Icon24Like, Icon24LikeOutline, Icon28MoreHorizontal } from '@vkontakte/icons';
 import { CustomPopout } from '../Modals/ModalsMenuPost';
 
@@ -31,28 +31,29 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
   const fetchLike = async () => {
     try {
       const { data } = await axios.post(`like/add/${_id}`);
-      setLikesCount(data.count)
-      setLikesPost(data.status)
-      setLoading(false)
+      setLikesCount((prevLikesCount) => {
+        return data.count !== prevLikesCount ? data.count : prevLikesCount;
+      });
+      setLikesPost((prevLikesPost) => {
+        return data.status !== prevLikesPost ? data.status : prevLikesPost;
+      });
+      setLoading(false);
     } catch (error) {
       console.log(error);
       throw error;
     }
   }
-
+  
   const likeItem = async () => {
     if (user && !loading) {
-      setLoading(true)
-      setLikesPost(!likesPost)
-      if (likesPost) {
-        setLikesCount(likesCount - 1)
-      } else {
-        setLikesCount(likesCount + 1)
-      }
-      fetchLike()
+      await setLoading(true);
+      setLikesPost((prevLikesPost) => !prevLikesPost);
+      setLikesCount((prevLikesCount) => (likesPost ? prevLikesCount - 1 : prevLikesCount + 1));
+      await fetchLike();
+      toLike();
     }
   }
-
+  
   const { mutate: toLike } = useMutation({
     mutationFn: likeItem,
     onSuccess: () => {
@@ -61,6 +62,8 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
       });
     }
   });
+  
+  
 
   const { mutate: remove } = useMutation({
     mutationFn: () => removePost(_id),
@@ -126,8 +129,9 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
           <div className='cont-likes-comm-views'>
             <div className='likes-comm-views'>
               <Button
+                disabled={loading}
                 mode="secondary"
-                style={{ padding: '5px 20px', width: '100px'}}
+                style={{ padding: '5px 20px', width: '80px'}}
                 onClick={() => toLike()}
                 after={likesCount > 0 ? likesCount : ''}
                 before={ user && likesPost ? <Icon24Like /> :
@@ -135,7 +139,7 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
               />
               <Link to={`/posts/${_id}`}>
                 <Button
-                  style={{marginLeft: '20px', padding: '5px 20px', width: '100px'}}
+                  style={{marginLeft: '20px', padding: '5px 20px', width: '80px'}}
                   mode="secondary"
                   after={comments.length > 0 ? comments.length : ''}
                   before={<Icon24Message />}
@@ -143,8 +147,12 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
               </Link>
             </div>
             <span className='likes-comm-views count'>
-              <AiFillEye className='icons-lcv'/>
-              <span className='count-icons'>{views.length}</span>
+              <Button
+                  disabled
+                  mode="tertiary"
+                  after={<Footnote style={{marginTop: '5px'}}>{views.length}</Footnote>}
+                  before={<AiFillEye />}
+                />
             </span>
           </div>
         </div>

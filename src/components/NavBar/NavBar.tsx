@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import './NavBar.css';
-import { useAppearance } from '@vkontakte/vkui';
+import { useAppearance, Search, PanelHeader } from '@vkontakte/vkui';
 import { Icon28MoonOutline, Icon28SunOutline } from '@vkontakte/icons';
 import { useAppDispatch, useAppSelector } from '../../utils/hooks';
 import { changeTheme } from '../../redux/userSlice';
@@ -18,6 +18,10 @@ const NavBar = () => {
             <div className='hounter'>
                 <Link to='/'><b style={{ color: appearance === 'light' ? 'black' : 'white' }}>My_Blog</b></Link>
             </div>
+
+            <div className='search-header'>
+                <Search/>
+            </div>
     
             <div className='contain'>
                 <button
@@ -26,7 +30,7 @@ const NavBar = () => {
                 >
                     {theme ?
                         <Icon28MoonOutline style={{ color: '#0077FF' }}/> :
-                        <Icon28SunOutline style={{ color: '#0077FF' }} />}
+                        <Icon28SunOutline style={{ color: '#71aaeb' }} />}
                 </button>
             </div>
         </div>
