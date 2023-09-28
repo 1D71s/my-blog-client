@@ -26,7 +26,8 @@ const UserProfile = () => {
   const getUser = async () => {
     try {
       const { data } = await axios.get(`user/fullinfo/${id}`)
-      setUser(data)
+      await setUser(data)
+      console.log(user)
     } catch (error) {
       console.log(error)
     }
@@ -35,8 +36,7 @@ const UserProfile = () => {
   const following = async () => {
     try {
       await axios.put(`user/follow/${id}`)
-      await getUser()
-      console.log(user)
+      getUser()
     } catch (error) {
       console.log(error)
     }
@@ -99,11 +99,11 @@ const UserProfile = () => {
             </Link>
           ) : (
               <div>
-                {me?._id && !user?.followers?.includes(me?._id) ?
+                {me?._id && user?.followers?.includes(me?._id) ?
                 (<Button
                   mode="secondary"
                   onClick={following}
-                >unFollowing</Button>) :
+                >Unfollow</Button>) :
                 (<Button 
                   onClick={following}
                 >

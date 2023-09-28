@@ -68,19 +68,15 @@ const Followers = () => {
                             caption={`${user.fullInfo.country} ${user.fullInfo.sity}`}
                             bottom={user.username}
                             actions={
-                                me?._id && user?.followers?.includes(me?._id) ?
                                 <Button
-                                mode="secondary"
-                                onClick={() => following(user._id)}
-                                >unFollowing</Button> :
-                                <Button 
+                                    style={{ display: `${user._id === me?._id ? 'none' : ''}` }}
+                                    mode="secondary"
                                     onClick={() => following(user._id)}
-                                >
-                                Following
-                            </Button>
+                                    >
+                                    {me?._id && user?.followers?.includes(me?._id) ? 'Unfollow' : 'Follow'}
+                                </Button>
                             }
-                            disabled
-                        >
+                            disabled>
                             {user.firstName} {user.lastName}
                         </RichCell>
                     </Group>
