@@ -11,7 +11,8 @@ import {
     Input,
     File,
     Button,
-    Group
+    Group,
+    Spinner
 } from "@vkontakte/vkui";
 import {Icon24Camera} from "@vkontakte/icons";
 
@@ -22,6 +23,8 @@ const EditPost = () => {
     const [text, setText] = useState('')
     const [title, setTitle] = useState('')
     const [tags, setTags] = useState('')
+
+    const [loading, setLoading] = useState(false)
 
     const [image, setImage] = useState('');
 
@@ -81,12 +84,14 @@ const EditPost = () => {
 
     const addPost = async () => {
         if (text && title) {
+            await setLoading(true)
             try {
                 const hashtags = tags.split('#').filter(item => item !== '').map(i => i.split('').filter(a => a !== ' ').join('').toLowerCase())
                 const post = { image, text, title, tags: hashtags };
                 const { data } = await axios.post(`posts/edit/${id}`, post);
                 toast(data.message)
                 navigate('/')
+                setLoading(false)
             } catch (error) {
                 console.log(error);
                 throw error;
@@ -137,9 +142,12 @@ const EditPost = () => {
             </FormItem>
             <FormItem style={{marginBottom: '20px'}}>
                 <Button
+                    disabled={!text || !title || loading}
                     onClick={addPost}
                     style={{ padding: '3px', marginTop: '10px' }}
-                >Update post</Button>
+                >
+                    {loading ? <Spinner style={{width: '20px', height: '20px'}}/> : 'Create post'}
+                </Button>
             </FormItem>
         </Group>
     )

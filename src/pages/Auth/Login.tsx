@@ -15,7 +15,8 @@ import {
   Title,
   useAppearance,
 } from "@vkontakte/vkui";
-import { Spinner } from '@chakra-ui/react'
+import { Spinner } from '@chakra-ui/react';
+import '../../style/Auth.css'
 
 const Login = () => {
   

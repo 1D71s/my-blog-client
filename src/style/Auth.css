@@ -1,0 +1,98 @@
+
+/*Form for register and loading*/
+.log-in {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.btn-register {
+    background: #4bb34b;
+    color: white;
+    max-width: 400px;
+}
+
+.input-error-dark {
+    color:#ff5c5c;
+    margin-bottom: -5px;
+    background-color: #522e2e;
+    border: 1px solid #ff5c5c;
+    border-radius: 8px;
+    padding: 10px;
+    max-width: max-content;
+}
+
+.input-error-light {
+    color: #ff5c5c;
+    margin-bottom: -5px;
+    background-color: #ff919136;
+    border: 1px solid #ff5c5c;
+    border-radius: 8px;
+    padding: 10px;
+    max-width: max-content;
+}
+
+.input-register-light {
+    color: black;
+    padding: 7px 10px;
+    border-radius: 8px;
+    width: 100%;
+    background-color: #f2f3f5;
+    font-size: 16px;
+    line-height: 20px;
+    position: relative;
+    border: 1px solid rgba(71, 71, 71, 0.175);
+}
+
+.input-register-dark {
+    color: #e1e3e6;
+    padding: 7px 10px;
+    border-radius: 8px;
+    width: 100%;
+    background-color: #232324;
+    font-size: 16px;
+    line-height: 20px;
+    position: relative;
+    border: 1px solid rgb(61, 61, 61);
+}
+
+.input-register-light:hover {
+    border: 1px solid rgb(186, 186, 186);
+}
+
+.input-register-dark:hover {
+    border: 1px solid #5a5a5aa5;
+}
+
+.input-register-light:focus {
+    outline: none;
+    box-shadow: none; 
+    border: 1px solid #0054b5;
+}
+
+.input-register-dark:focus {
+    outline: none;
+    box-shadow: none; 
+    border: 1px solid #7dbaff;
+}
+
+.input-items-error-dark {
+    background-color: #522e2e;
+    border: 1px solid #ff5c5c;
+}
+
+.input-items-error-light {
+    background-color: #ff919136;
+    border: 1px solid #ff5c5c;
+}
+
+.error-item-text-dark {
+    margin-top: 3px;
+    color: #ff5c5c;
+    font-size: 13px;
+}
+
+.error-item-text-light {
+    margin-top: 3px;
+    color: #e64646;
+    font-size: 13px;
+}

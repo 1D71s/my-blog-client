@@ -1,0 +1,88 @@
+/*POSTS*/
+
+.img-post-item {
+    display: block;
+    max-width: 100%;
+    margin: 0 auto;
+    max-height: 90vh;
+    border-radius: 20px;
+}
+.likes-comm-views {
+    margin-top: 15px;
+}
+.title-post {
+    display: block;
+    margin: 5px 0px;
+}
+
+.cont-head-item {
+    display: flex;
+    justify-content: space-between;
+}
+
+.post-text-title-tags {
+    display: block;
+}
+.tags {
+    margin-top: 15px;
+    margin-left: 20px;
+    margin-bottom: 15px;
+}
+.item-tag {
+    display: inline-block;
+    margin-right: 5px;
+    color: #0077FF;
+}
+.count {
+    display: flex;
+    justify-content: flex-end;
+    height: 20px;
+    margin-top: 10px;
+}
+
+.bottom-menu {
+    display: flex;
+    margin-top: 10px;
+    justify-content: space-between;
+}
+
+@media (max-width: 770px) {
+
+    .cont-head-item {
+        margin-top: 10px;
+        position: relative;
+        left: -15px;
+    }
+
+    .post-text-title-tags {
+        display: block;
+        margin: 0 -30px;
+    }
+
+    .ava-menu-cont {
+        margin: -20px;
+        margin-bottom: 0;
+    }
+
+    .img-post-item {
+        border-radius: 5px;
+    }
+
+    .btn-menu-post {
+        margin: -20px -30px;
+    }
+    
+    .title-post {
+        position: relative;
+        left: -7px;
+    }
+
+    .tags {
+        position: relative;
+        left: -7px;
+    }
+
+    .bottom-menu {
+        margin: 0px -20px;
+    }
+}

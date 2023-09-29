@@ -22,6 +22,7 @@ const Following: React.FC = () => {
 
     useEffect(() => {
         fetchFollowing();
+        window.scrollTo(0, 0);
     }, []);
 
     const fetchFollowing = async () => {

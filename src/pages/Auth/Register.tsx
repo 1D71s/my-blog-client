@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 import { Panel, FormItem, FormLayout, FormLayoutGroup, Button, Title, SegmentedControl, useAppearance, Group } from "@vkontakte/vkui";
 import { useForm } from 'react-hook-form'
 import { Spinner } from '@chakra-ui/react'
+import '../../style/Auth.css'
 
 type FormType = {
   firstName: string,
@@ -216,7 +217,7 @@ const Register = () => {
             
             <FormItem type='submit'>
               <Button
-                disabled={loading}
+                disabled={!isValid || loading}
                 onClick={registration}
                 size="l"
                 stretched>

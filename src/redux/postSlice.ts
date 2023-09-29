@@ -64,6 +64,7 @@ const postSlice = createSlice({
             })
             .addCase(createPost.fulfilled, (state, action) => {
                 state.status = action.payload.message
+                state.loading = false
             })
 
             //Errors

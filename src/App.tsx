@@ -1,5 +1,5 @@
 import { Routes, Route  } from 'react-router-dom';
-import './App.css';
+import './style/App.css';
 import { useEffect } from 'react';
 import { useAppDispatch } from './utils/hooks';
 import { ToastContainer } from 'react-toastify'

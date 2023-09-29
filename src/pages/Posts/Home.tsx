@@ -51,7 +51,7 @@ const Home = () => {
   }
 
   return (
-    <div className='home'>
+    <div>
       <Group header={<Header>Recomendation:</Header>}>
         <HorizontalScroll>
           <div style={{ display: 'flex' }}>

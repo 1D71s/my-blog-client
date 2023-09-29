@@ -21,6 +21,7 @@ const Followers: React.FC = () => {
 
     useEffect(() => {
         fetchFollowers();
+        window.scrollTo(0, 0);
     }, [id]);
 
     const fetchFollowers = async () => {

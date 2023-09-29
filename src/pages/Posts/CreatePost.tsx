@@ -10,7 +10,8 @@ import {
   Input,
   File,
   Button,
-  Group
+  Group,
+  Spinner
 } from "@vkontakte/vkui";
 import {Icon24Camera} from "@vkontakte/icons";
 
@@ -25,6 +26,7 @@ const CreatePost = () => {
   const [image, setImage] = useState('');
 
   const status = useAppSelector(state => state.post.status)
+  const loading = useAppSelector(state => state.post.loading)
 
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -68,7 +70,6 @@ const CreatePost = () => {
       tags: hashtags
     }
     console.log(post)
-
     dispatch(createPost(post))
   }
   
@@ -106,9 +107,11 @@ const CreatePost = () => {
       </FormItem>
       <FormItem style={{marginBottom: '20px'}}>
         <Button
-          disabled={!text || !title}
+          disabled={!text || !title || loading}
           onClick={addPost}
-          style={{ padding: '3px', marginTop: '10px' }}>Create post</Button>
+          style={{ padding: '3px', marginTop: '10px' }}>
+          {loading ? <Spinner style={{width: '20px', height: '20px'}}/> : 'Create post'}
+        </Button>
       </FormItem>
     </Group>
   )

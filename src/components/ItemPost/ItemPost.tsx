@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import '../../style/Post.css'
 import { AiFillEye } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../utils/hooks";
@@ -8,9 +9,10 @@ import axios from "../../utils/axios";
 import { useMutation } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { Cell, Avatar, Group, CardGrid, Text, useAppearance, Button, SplitLayout, Footnote } from '@vkontakte/vkui';
+import { Cell, Avatar, Group, CardGrid, Text, useAppearance, Button, SplitLayout, Footnote, Spinner, TabsItem, Counter } from '@vkontakte/vkui';
 import { Icon24Message, Icon24Like, Icon24LikeOutline, Icon28MoreHorizontal } from '@vkontakte/icons';
 import { CustomPopout } from '../Modals/ModalsMenuPost';
+
 
 const url = process.env.REACT_APP_URL
 
@@ -63,8 +65,6 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
     }
   });
   
-  
-
   const { mutate: remove } = useMutation({
     mutationFn: () => removePost(_id),
     onSuccess: () => {
@@ -115,7 +115,7 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
           </div>}
         </div>
       
-        <div className="info-post">
+        <div>
           <Link to={`/posts/${_id}`} className="post-text-title-tags">
             <Text className='title-post' weight="1"  style={{color: `${apperance === 'dark' ? 'white' : 'black'}`, margin: '20px'}}>{title}</Text>
             <Text className='title-post' style={{color: `${apperance === 'dark' ? 'white' : 'black'}`, marginLeft: '20px'}}>{text}</Text>
@@ -126,17 +126,26 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
             </div>}
             {image && <img className='img-post-item' src={`${url}${image}`} />}
           </Link>
-          <div className='cont-likes-comm-views'>
+
+
+          <div className='bottom-menu'>
             <div className='likes-comm-views'>
-              <Button
-                disabled={loading}
-                mode="secondary"
-                style={{ padding: '5px 20px', width: '80px'}}
-                onClick={() => toLike()}
-                after={likesCount > 0 ? likesCount : ''}
-                before={ user && likesPost ? <Icon24Like /> :
-                <Icon24LikeOutline />}
-              />
+              {loading ?
+                <Button
+                  mode="secondary"
+                  style={{ padding: '5px 20px', width: '80px'}}
+                  before={<Spinner style={{width: '20px', height: '20px'}}/>}
+                />:
+                <Button
+                  disabled={loading}
+                  mode="secondary"
+                  style={{ padding: '5px 20px', width: '80px'}}
+                  onClick={() => toLike()}
+                  after={likesCount > 0 ? likesCount : ''}
+                  before={ user && likesPost ? <Icon24Like /> :
+                  <Icon24LikeOutline />}
+                />
+              }
               <Link to={`/posts/${_id}`}>
                 <Button
                   style={{marginLeft: '20px', padding: '5px 20px', width: '80px'}}
@@ -147,16 +156,14 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
               </Link>
             </div>
             <span className='likes-comm-views count'>
-              <Button
-                  disabled
-                  mode="tertiary"
-                  after={<Footnote style={{marginTop: '5px'}}>{views.length}</Footnote>}
-                  before={<AiFillEye />}
-                />
+              <TabsItem disabled before={<AiFillEye />}>
+                <Footnote style={{marginTop: '3px'}}>{views.length}</Footnote>
+              </TabsItem>
             </span>
           </div>
-        </div>
 
+
+        </div>
       </Group>
     </CardGrid>      
   )

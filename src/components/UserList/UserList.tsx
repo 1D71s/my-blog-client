@@ -4,6 +4,7 @@ import { Avatar, List, Group, RichCell, Button, Placeholder, Spinner } from "@vk
 import { useAppSelector } from "../../utils/hooks";
 import { Icon56ErrorOutline } from '@vkontakte/icons';
 
+
 interface User {
   useravatar: string;
   username: string;
@@ -37,13 +38,13 @@ const UserList: React.FC<UserListProps> = ({ users, loading, onFollowClick }) =>
                             }
                             caption={`${user.firstName} ${user.lastName} `}
                             after={
-                            <Button
-                                style={{ display: `${user._id === me?._id ? "none" : ""}` }}
-                                mode="secondary"
-                                onClick={() => onFollowClick(user._id)}
-                            >
-                                {me?._id && user?.followers?.includes(me?._id) ? "Unfollow" : "Follow"}
-                            </Button>
+                                <Button
+                                    style={{ display: `${user._id === me?._id ? "none" : ""}` }}
+                                    mode={user?.followers?.includes(me?._id) ? "secondary" : undefined}
+                                    onClick={() => onFollowClick(user._id)}
+                                >
+                                    {me?._id && user?.followers?.includes(me?._id) ? "Unfollow" : "Follow"}
+                                </Button>
                             }
                             disabled
                         >

@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useAppSelector } from '../../utils/hooks'
+import '../../style/User.css'
 import ItemPost from '../../components/ItemPost/ItemPost'
 import { PostTypes } from '../../types'
 import axios from '../../utils/axios'
 import { Link } from 'react-router-dom';
-import { Icon20ArticleOutline, Icon20NarrativeOutline, Icon20Info, Icon20MentionOutline, Icon20UsersOutline, Icon20PlaceOutline, Icon20LogoClipsOutline  } from '@vkontakte/icons';
+import { Icon20ArticleOutline, Icon20NarrativeOutline, Icon20Info, Icon20MentionOutline, Icon20PlaceOutline, Icon20LogoClipsOutline  } from '@vkontakte/icons';
 import { Group, Title, Text, Gradient, Avatar, Button, MiniInfoCell, useAppearance } from '@vkontakte/vkui';
 import { useParams } from 'react-router-dom'
 import { User } from '../../redux/userSlice';
@@ -18,6 +19,7 @@ type StyleType = React.CSSProperties;
 const UserProfile = () => {
 
   const me = useAppSelector(state => state.auth.user)
+  const token = useAppSelector(state => state.auth.token)
 
   const [loading, setLoading] = useState(false)
     
@@ -71,6 +73,10 @@ const UserProfile = () => {
   }, [id])
 
   const apperance = useAppearance()
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   
   const styles: StyleType = {
     backgroundImage: `url(${url}${user?.useravatar})`,
@@ -88,42 +94,44 @@ const UserProfile = () => {
        </Gradient>
         <div className='me-global'>
           <Avatar size={200}  src={`${url}${user?.useravatar}`} style={{border: `9px solid ${apperance === 'dark' ? '#19191a' : 'white'}`}}/>
-          <Title style={{ marginBottom: 8, marginTop: 20 }} level="2" weight="2">
-            {user?.firstName} {user?.lastName}
-          </Title>
-          <Text
-            style={{
-              marginBottom: 24,
-              color: 'var(--vkui--color_text_secondary)',
-            }}
-          >
-            {user?.username}
-          </Text>
-          {me?._id === user?._id ? (
-            <Link to='edit'> 
-              <Button size="m" mode="secondary">
-                Edit profile
-              </Button>
-            </Link>
-          ) : (
-              <div>
-                {me?._id && user?.followers?.includes(me?._id) ?
-                  (<Button
-                      disabled={loading}
-                      mode="secondary"
-                      onClick={following}
-                  >{loading ? <Spinner color='red.500' style={{width: '20px', height: '20px', marginTop: '5px'}}/> : 'Unfollow'}
-                  </Button>) :
-                  (<Button 
-                    disabled={loading}
-                    onClick={following}
-                >
-                  {loading ? <Spinner color='red.500' style={{width: '20px', height: '20px', marginTop: '5px'}}/> : 'Follow'}
-                </Button>)}
-              </div>
-
-          )}
-
+          {user && <>
+            <Title style={{ marginBottom: 8, marginTop: 20 }} level="2" weight="2">
+              {user?.firstName} {user?.lastName}
+            </Title>
+            <Text
+              style={{
+                marginBottom: 24,
+                color: 'var(--vkui--color_text_secondary)',
+              }}
+            >
+              {user?.username}
+            </Text>
+            {token && <>
+              {me?._id === user?._id ? (
+                <Link to='edit'> 
+                  <Button size="m" mode="secondary">
+                    Edit profile
+                  </Button>
+                </Link>
+              ) : (
+                  <div>
+                    {me?._id && user?.followers?.includes(me?._id) ?
+                      (<Button
+                          disabled={loading}
+                          mode="secondary"
+                          onClick={following}
+                      >{loading ? <Spinner color='red.500' style={{width: '20px', height: '20px', marginTop: '5px'}}/> : 'Unfollow'}
+                      </Button>) :
+                      (<Button 
+                        disabled={loading}
+                        onClick={following}
+                    >
+                      {loading ? <Spinner color='red.500' style={{width: '20px', height: '20px', marginTop: '5px'}}/> : 'Follow'}
+                    </Button>)}
+                  </div>
+              )}
+            </>}
+          </>}
           <div className='user-global-stat'>
             <Button mode='tertiary'  style={{margin: '10px', width: '90px'}} href="#posts">
               <Title style={{ marginBottom: 8, marginTop: 20 }} level="2" weight="2">
@@ -163,7 +171,7 @@ const UserProfile = () => {
     
         </div>
       </Group>
-      <Group mode="plain">
+      {user?.fullInfo && <Group mode="plain">
         <Group style={{ padding: '20px 0px' }}>
           {user?.fullInfo?.myStatus && <MiniInfoCell before={<Icon20ArticleOutline />} textWrap="short">
             {user?.fullInfo?.myStatus}
@@ -196,7 +204,7 @@ const UserProfile = () => {
           </Link>
 
         </Group>
-      </Group>
+      </Group>}
 
       {data && data.length > 0 && <div id="posts">
           {data.map((item: PostTypes) => (
