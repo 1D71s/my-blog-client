@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../utils/hooks'
-import { clearStatus } from '../redux/postSlice'
+import { useAppDispatch, useAppSelector } from '../../utils/hooks'
+import { clearStatus } from '../../redux/postSlice'
 import { toast } from 'react-toastify'
-import axios from '../utils/axios'
+import axios from '../../utils/axios'
 import { useNavigate } from 'react-router-dom'
-import { getMe } from '../redux/userSlice'
+import { getMe } from '../../redux/userSlice'
 import {
     FormItem,
     Textarea,

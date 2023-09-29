@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
-import { useAppSelector } from '../utils/hooks'
-import ItemPost from '../components/ItemPost/ItemPost'
-import { PostTypes } from '../types'
-import axios from '../utils/axios'
+import { useAppSelector } from '../../utils/hooks'
+import ItemPost from '../../components/ItemPost/ItemPost'
+import { PostTypes } from '../../types'
+import axios from '../../utils/axios'
 import { Link } from 'react-router-dom';
 import { Icon20ArticleOutline, Icon20NarrativeOutline, Icon20Info, Icon20MentionOutline, Icon20UsersOutline, Icon20PlaceOutline, Icon20LogoClipsOutline  } from '@vkontakte/icons';
 import { Group, Title, Text, Gradient, Avatar, Button, MiniInfoCell, useAppearance } from '@vkontakte/vkui';
 import { useParams } from 'react-router-dom'
-import { User } from '../redux/userSlice';
+import { User } from '../../redux/userSlice';
 import { useQuery } from '@tanstack/react-query';
-
+import { Spinner } from '@chakra-ui/react'
 
 const url = process.env.REACT_APP_URL
 
@@ -18,6 +18,8 @@ type StyleType = React.CSSProperties;
 const UserProfile = () => {
 
   const me = useAppSelector(state => state.auth.user)
+
+  const [loading, setLoading] = useState(false)
     
   const [user, setUser] = useState<User>() 
 
@@ -33,13 +35,19 @@ const UserProfile = () => {
     }
   }
 
-  const following = async () => {
+  const letFollow = async () => {
     try {
       await axios.put(`user/follow/${id}`)
-      getUser()
+      await getUser()
+      setLoading(false)
     } catch (error) {
       console.log(error)
     }
+  }
+
+  const following = async () => {
+    await setLoading(true)
+    letFollow()
   }
 
   const fetchUserPosts = async () => { 
@@ -100,20 +108,24 @@ const UserProfile = () => {
           ) : (
               <div>
                 {me?._id && user?.followers?.includes(me?._id) ?
-                (<Button
-                  mode="secondary"
-                  onClick={following}
-                >Unfollow</Button>) :
-                (<Button 
-                  onClick={following}
+                  (<Button
+                      disabled={loading}
+                      mode="secondary"
+                      onClick={following}
+                  >{loading ? <Spinner color='red.500' style={{width: '20px', height: '20px', marginTop: '5px'}}/> : 'Unfollow'}
+                  </Button>) :
+                  (<Button 
+                    disabled={loading}
+                    onClick={following}
                 >
-                Following
-              </Button>)}
+                  {loading ? <Spinner color='red.500' style={{width: '20px', height: '20px', marginTop: '5px'}}/> : 'Follow'}
+                </Button>)}
               </div>
+
           )}
 
           <div className='user-global-stat'>
-            <Button mode='tertiary'  style={{margin: '10px', width: '90px'}}>
+            <Button mode='tertiary'  style={{margin: '10px', width: '90px'}} href="#posts">
               <Title style={{ marginBottom: 8, marginTop: 20 }} level="2" weight="2">
                   {data?.length || '0'}
                 </Title>
@@ -186,7 +198,7 @@ const UserProfile = () => {
         </Group>
       </Group>
 
-      {data && data.length > 0 && <div>
+      {data && data.length > 0 && <div id="posts">
           {data.map((item: PostTypes) => (
             <ItemPost
               key={item._id}

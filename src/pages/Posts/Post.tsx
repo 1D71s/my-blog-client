@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import axios from '../utils/axios'
-import ItemPost from '../components/ItemPost/ItemPost';
-import Comments from '../components/Comments/Comments';
-import { PostTypes } from '../types';
-import { SkeletonComment, SkeletonPost } from '../components/Sceletons/PostSleleton';
+import axios from '../../utils/axios'
+import ItemPost from '../../components/ItemPost/ItemPost';
+import Comments from '../../components/Comments/Comments';
+import { PostTypes } from '../../types';
+import { SkeletonComment, SkeletonPost } from '../../components/Sceletons/PostSleleton';
 import { Group } from "@vkontakte/vkui";
 
 const Post = () => {

@@ -529,3 +529,8 @@ li {
         padding: 20px;
     }
 }
+
+.list-users-item {
+    display: flex;
+    justify-content: space-between;
+}

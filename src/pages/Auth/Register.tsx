@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../utils/hooks'
+import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 import { useNavigate } from 'react-router-dom'
-import { registerUser } from '../redux/userSlice'
+import { registerUser } from '../../redux/userSlice'
 import { toast } from 'react-toastify'
-import { clearStatus } from '../redux/userSlice'
+import { clearStatus } from '../../redux/userSlice'
 import { Link } from 'react-router-dom'
 import { Panel, FormItem, FormLayout, FormLayoutGroup, Button, Title, SegmentedControl, useAppearance, Group } from "@vkontakte/vkui";
 import { useForm } from 'react-hook-form'

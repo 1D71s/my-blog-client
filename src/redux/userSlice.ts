@@ -25,7 +25,9 @@ export type FormForRegister = {
     firstName: string,
     lastName: string,
     sex: string,
-    fullInfo?: FullInfoType 
+    fullInfo?: FullInfoType,
+    followers?: string[],
+    following?: string[]
 }
 
 type FormForLogin = {

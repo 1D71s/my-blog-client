@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import axios from '../utils/axios';
+import axios from '../../utils/axios';
 import {
   Image,
   Group,
@@ -7,9 +7,9 @@ import {
   Text
 } from "@vkontakte/vkui";
 import { useQuery } from '@tanstack/react-query';
-import ItemPost from '../components/ItemPost/ItemPost';
-import { PostTypes } from '../types';
-import { SkeletonPost } from '../components/Sceletons/PostSleleton';
+import ItemPost from '../../components/ItemPost/ItemPost';
+import { PostTypes } from '../../types';
+import { SkeletonPost } from '../../components/Sceletons/PostSleleton';
 
 const url = process.env.REACT_APP_URL
 

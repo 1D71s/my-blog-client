@@ -4,24 +4,24 @@ import { useEffect } from 'react';
 import { useAppDispatch } from './utils/hooks';
 import { ToastContainer } from 'react-toastify'
 
-import { Home } from './pages/Home';
-import { UserProfile } from './pages/User';
-import { Login } from './pages/Login';
-import { Register } from './pages/Register';
-import { CreatePost } from './pages/CreatePost';
-import { Post } from './pages/Post';
-import { EditPost } from './pages/EditPost';
-import { EditProfile } from './pages/EditProfile';
-import { UserFullInfo } from './pages/UserFullInfo';
-import { HashtagPost } from './pages/HashtagPost';
-import { Followers } from './pages/Followers';
-import { Following } from './pages/Following';
-import { Favorite } from './pages/Favorite';
-import { Settings } from './pages/Settings';
-import { Search } from './pages/Search';
+import { Home } from './pages/Posts/Home';
+import { UserProfile } from './pages/Users/User';
+import { Login } from './pages/Auth/Login';
+import { Register } from './pages/Auth/Register';
+import { CreatePost } from './pages/Posts/CreatePost';
+import { Post } from './pages/Posts/Post';
+import { EditPost } from './pages/Posts/EditPost';
+import { EditProfile } from './pages/Users/EditProfile';
+import { UserFullInfo } from './pages/Users/UserFullInfo';
+import { HashtagPost } from './pages/Posts/HashtagPost';
+import { Followers } from './pages/Users/Followers';
+import { Following } from './pages/Users/Following';
+import { Favorite } from './pages/Users/Favorite';
+import { Settings } from './pages/Auth/Settings';
+import { Search } from './pages/Other/Search';
 
 
-import { Layout } from './components/Layout';
+import { Layout } from './components/Layout/Layout';
 import { getMe } from './redux/userSlice';
 
 function App() {

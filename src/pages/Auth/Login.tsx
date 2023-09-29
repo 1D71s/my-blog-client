@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../utils/hooks'
+import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 import { Link, useNavigate } from 'react-router-dom'
-import { loginUser } from '../redux/userSlice'
+import { loginUser } from '../../redux/userSlice'
 import { toast } from 'react-toastify'
-import { clearStatus } from '../redux/userSlice'
-import { getMe } from '../redux/userSlice'
+import { clearStatus } from '../../redux/userSlice'
+import { getMe } from '../../redux/userSlice'
 import {
   Panel,
   Group,

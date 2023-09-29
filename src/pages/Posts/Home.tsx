@@ -1,14 +1,14 @@
-import ItemPost from '../components/ItemPost/ItemPost';
-import axios from '../utils/axios';
-import { PostTypes } from '../types';
-import { UserItems } from '../components/UsersRandom/UsersRandom';
+import ItemPost from '../../components/ItemPost/ItemPost';
+import axios from '../../utils/axios';
+import { PostTypes } from '../../types';
+import { UserItems } from '../../components/UsersRandom/UsersRandom';
 import { useQuery } from '@tanstack/react-query';
 import {
   Group,
   Header,
   HorizontalScroll,
 } from "@vkontakte/vkui";
-import { SkeletonPost } from '../components/Sceletons/PostSleleton';
+import { SkeletonPost } from '../../components/Sceletons/PostSleleton';
 
 const Home = () => {
 
