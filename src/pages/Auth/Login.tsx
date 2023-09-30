@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks'
 import { Link, useNavigate } from 'react-router-dom'
-import { loginUser } from '../../redux/userSlice'
+import { loginUser, getMe } from '../../redux/userSlice'
 import { toast } from 'react-toastify'
 import { clearStatus } from '../../redux/userSlice'
-import { getMe } from '../../redux/userSlice'
 import {
   Panel,
   Group,
@@ -33,6 +32,7 @@ const Login = () => {
   const status = useAppSelector(state => state.auth.status)
   const loading = useAppSelector(state => state.auth.loading)
   const token = useAppSelector(state => state.auth.token)
+  const user = useAppSelector(state => state.auth.user)
   
   if (token) navigate('/')
 
@@ -52,7 +52,7 @@ const Login = () => {
     if (status === 'You are logged in!') {
       toast(status)
       dispatch(getMe())
-      navigate('/')
+      if (token) navigate(`/`)
     } else {
       setErrorForm(status)
     }

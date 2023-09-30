@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import '../../style/Post.css'
 import { AiFillEye } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import { useAppSelector } from "../../utils/hooks";
+import { useAppSelector} from "../../utils/hooks";
 import { PostTypes } from "../../types";
 import { getTimeMakingPost } from "../../utils/Functions";
 import axios from "../../utils/axios";
@@ -27,7 +27,6 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
   const [loading, setLoading] = useState(false)
 
   const apperance = useAppearance()
-
   const client = useQueryClient()
 
   const fetchLike = async () => {
@@ -87,6 +86,24 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
     }
   }
 
+  const doFavoriteApi = async () => {
+    try {
+      await axios.put(`user/favorite/${_id}`)
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+  }
+
+  const { mutate: doFavorite } = useMutation({
+    mutationFn: doFavoriteApi,
+    onSuccess: () => {
+      client.invalidateQueries({
+        queryKey: ['favorite'],
+      });;
+    }
+  });
+
   useEffect(() => {
     setLikesPost(likes.includes(user?._id))
     setLikesCount(likes.length)
@@ -94,7 +111,7 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
 
   const [popout, setPopout] = useState<React.ReactNode | null>(null);
 
-  const onClick = () => setPopout(<CustomPopout onClose={() => setPopout(null)} _id={_id} author={author} user={user}  remove={remove}/>);
+  const onClick = () => setPopout(<CustomPopout onClose={() => setPopout(null)} _id={_id} author={author} user={user} remove={remove} doFavorite={doFavorite} />);
 
   return (
     <CardGrid size="l">

@@ -20,14 +20,6 @@ export type FormForRegister = {
     username: string,
     email: string,
     password: string,
-    useravatar: string,
-    _id?: string | any,
-    firstName: string,
-    lastName: string,
-    sex: string,
-    fullInfo?: FullInfoType,
-    followers?: string[],
-    following?: string[]
 }
 
 type FormForLogin = {
@@ -47,7 +39,7 @@ type RegisterResponse = {
 }
 
 type ForInitialState = {
-    user: null | FormForRegister,
+    user: null | User,
     loading: boolean,
     token: null | string,
     status: null | string,
@@ -56,7 +48,7 @@ type ForInitialState = {
 }
 
 export type User = {
-    _id: string,
+    _id: string | any,
     username: string,
     email: string,
     password: string,
@@ -68,7 +60,8 @@ export type User = {
     fullInfo: FullInfoType,
     followers: string[],
     following: string[],
-    message?: string
+    favorite: string[]
+    message?: string,
 }
 
 export const registerUser = createAsyncThunk<RegisterResponse,FormForRegister >('user/registerUser', async (user) => {
