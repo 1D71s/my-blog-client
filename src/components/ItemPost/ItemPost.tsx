@@ -9,7 +9,7 @@ import axios from "../../utils/axios";
 import { useMutation } from "@tanstack/react-query";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
-import { Cell, Avatar, Group, CardGrid, Text, useAppearance, Button, SplitLayout, Footnote, Spinner, TabsItem, Counter } from '@vkontakte/vkui';
+import { Cell, Avatar, Group, CardGrid, Text, useAppearance, Button, SplitLayout, Footnote, Spinner, TabsItem } from '@vkontakte/vkui';
 import { Icon24Message, Icon24Like, Icon24LikeOutline, Icon28MoreHorizontal } from '@vkontakte/icons';
 import { CustomPopout } from '../Modals/ModalsMenuPost';
 
@@ -32,7 +32,7 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
 
   const fetchLike = async () => {
     try {
-      const { data } = await axios.post(`like/add/${_id}`);
+      const { data } = await axios.post(`posts/like/${_id}`);
       setLikesCount((prevLikesCount) => {
         return data.count !== prevLikesCount ? data.count : prevLikesCount;
       });

@@ -115,7 +115,7 @@ const EditPost = () => {
                         style={{padding: '3px'}}
                         onClick={deleteImage}
                     >Delete image</Button>
-                    <img className='img-foradd' src={`${url}${image}`} />
+                    <img style={{marginTop: '30px'}} className='img-post-item' src={`${url}${image}`} />
                 </div>}
             </FormItem>
             <FormItem top="Title*">

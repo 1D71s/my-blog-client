@@ -67,7 +67,6 @@ const Example: React.FC<ExampleProps> = ({ Content }) => {
   const logOutAccount = () => {
     dispatch(logOut())
     navigate('/login')
-    window.localStorage.removeItem('token')
     toast('You are logged out of your account!')
   }
 

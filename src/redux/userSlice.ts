@@ -68,6 +68,7 @@ export type User = {
     fullInfo: FullInfoType,
     followers: string[],
     following: string[],
+    message?: string
 }
 
 export const registerUser = createAsyncThunk<RegisterResponse,FormForRegister >('user/registerUser', async (user) => {
@@ -102,6 +103,7 @@ export const getMe = createAsyncThunk<User>('user/getMe', async () => {
         if (data.token) {
             window.localStorage.setItem('token', data.token)
         } 
+
         return data;
     } catch (error) {
         console.log(error);
@@ -128,6 +130,7 @@ const userSlice = createSlice({
             state.user = null
             state.token = null
             state.status = 'You are logged out of your account!'
+            window.localStorage.removeItem('token')
         },
         clearStatus(state) {
             state.status = null
@@ -163,16 +166,24 @@ const userSlice = createSlice({
                 state.getMeStateLoading = true
             })
             .addCase(getMe.fulfilled, (state, action) => {
-                state.loading = false
-                state.getMeStateLoading = false
-                state.user = action.payload
-                state.token = action.payload.token
+                state.loading = false;
+                state.getMeStateLoading = false;
+                if (action.payload.message === 'User is not found!') {
+                    state.loading = false;
+                    window.localStorage.removeItem('token');
+                    logOut();
+                } else {
+                    state.user = action.payload;
+                    state.token = action.payload.token;
+                }
             })
 
             //Errors
-            .addMatcher(isRejectedWithValue(registerUser, loginUser), (state, action) => {
+            .addMatcher(isRejectedWithValue(registerUser, loginUser, getMe), (state, action) => {
                 state.status = action.payload as string
                 state.loading = false
+                window.localStorage.removeItem('token')
+                logOut()
             })
     }
 })

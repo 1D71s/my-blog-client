@@ -24,13 +24,14 @@ const UserList: React.FC<UserListProps> = ({ users, loading, onFollowClick }) =>
     const url = process.env.REACT_APP_URL || "";
     
     const me = useAppSelector(state => state.auth.user)
+    const token = useAppSelector(state => state.auth.token)
 
     return (
         <>
             <List>
-                {users.map((user) => (
+                {users.length > 0 && users.map((user) => (
                     <Group key={user._id}>
-                        <RichCell
+                        {<RichCell
                             before={
                             <Link to={`/user/${user._id}`}>
                                 <Avatar size={72} src={`${url}${user.useravatar}`} />
@@ -38,7 +39,7 @@ const UserList: React.FC<UserListProps> = ({ users, loading, onFollowClick }) =>
                             }
                             caption={`${user.firstName} ${user.lastName} `}
                             after={
-                                <Button
+                                token && <Button
                                     style={{ display: `${user._id === me?._id ? "none" : ""}` }}
                                     mode={user?.followers?.includes(me?._id) ? "secondary" : undefined}
                                     onClick={() => onFollowClick(user._id)}
@@ -46,10 +47,11 @@ const UserList: React.FC<UserListProps> = ({ users, loading, onFollowClick }) =>
                                     {me?._id && user?.followers?.includes(me?._id) ? "Unfollow" : "Follow"}
                                 </Button>
                             }
+                            
                             disabled
                         >
                             {user.username}
-                        </RichCell>
+                        </RichCell>}
                     </Group>
                 ))}
             </List> 
