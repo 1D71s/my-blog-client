@@ -7,8 +7,12 @@ import {
   Group,
   Header,
   HorizontalScroll,
+  Tabs,
+  TabsItem,
 } from "@vkontakte/vkui";
+
 import { SkeletonPost } from '../../components/Sceletons/PostSleleton';
+import { useEffect, useState } from 'react';
 
 const Home = () => {
 
@@ -20,12 +24,16 @@ const Home = () => {
   async function fetchPosts() {
     try {
       const response = await axios.get('/posts/allposts');
-      return response.data.posts; 
+      return response.data; 
     } catch (error) {
       console.log(error);
       throw error;
     }
   }
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [])
 
   if (isLoading) {
     return (

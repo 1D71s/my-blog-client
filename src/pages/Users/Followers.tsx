@@ -45,19 +45,19 @@ const Followers: React.FC = () => {
 
     return (
         <>
-        <Group header={<Header mode="secondary">users:</Header>}>
-            <Tabs>
-                <Link to={`/user/followers/${id}`}>
-                    <TabsItem selected after={<Counter size="s">{users.length}</Counter>}>
-                    Followers
-                    </TabsItem>
-                </Link>
-                <Link to={`/user/following/${id}`}>
-                    <TabsItem>Following</TabsItem>
-                </Link>
-            </Tabs>
-        </Group>
-        <UserList loading={loading} users={users} onFollowClick={following} />
+            <Group header={<Header mode="secondary">users:</Header>}>
+                <Tabs>
+                    <Link to={`/user/followers/${id}`}>
+                        <TabsItem selected after={<Counter size="s">{users.length}</Counter>}>
+                        Followers
+                        </TabsItem>
+                    </Link>
+                    <Link to={`/user/following/${id}`}>
+                        <TabsItem>Following</TabsItem>
+                    </Link>
+                </Tabs>
+            </Group>
+            <UserList loading={loading} users={users} onFollowClick={following} />
         </>
     );
 };

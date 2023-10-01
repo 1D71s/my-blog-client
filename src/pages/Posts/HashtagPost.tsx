@@ -10,6 +10,7 @@ import { useQuery } from '@tanstack/react-query';
 import ItemPost from '../../components/ItemPost/ItemPost';
 import { PostTypes } from '../../types';
 import { SkeletonPost } from '../../components/Sceletons/PostSleleton';
+import { useEffect } from 'react';
 
 const url = process.env.REACT_APP_URL
 
@@ -32,6 +33,10 @@ const HashtagPost = () => {
       throw error;
     }
   }
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [])
  
   return (
     <>

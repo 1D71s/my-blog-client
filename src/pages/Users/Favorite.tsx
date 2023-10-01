@@ -15,9 +15,9 @@ const Favorite = () => {
     const { data, isLoading, isError } = useQuery({
         queryKey: ['favorite'],
         queryFn: fetchPosts
-      });
+    });
     
-      async function fetchPosts() {
+    async function fetchPosts() {
         try {
             const { data } = await axios.get('/user/favorite');
             return data; 

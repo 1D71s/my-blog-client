@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import '../../style/Post.css'
 import { AiFillEye } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import { useAppSelector} from "../../utils/hooks";
+import { useAppSelector, useAppDispatch} from "../../utils/hooks";
 import { PostTypes } from "../../types";
 import { getTimeMakingPost } from "../../utils/Functions";
 import axios from "../../utils/axios";
@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import { Cell, Avatar, Group, CardGrid, Text, useAppearance, Button, SplitLayout, Footnote, Spinner, TabsItem } from '@vkontakte/vkui';
 import { Icon24Message, Icon24Like, Icon24LikeOutline, Icon28MoreHorizontal } from '@vkontakte/icons';
 import { CustomPopout } from '../Modals/ModalsMenuPost';
-
+import { getMe } from '../../redux/userSlice';
 
 const url = process.env.REACT_APP_URL
 
@@ -26,6 +26,7 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
   const [likesCount, setLikesCount] = useState(likes.length)
   const [loading, setLoading] = useState(false)
 
+  const dispatch = useAppDispatch()
   const apperance = useAppearance()
   const client = useQueryClient()
 
@@ -89,6 +90,7 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
   const doFavoriteApi = async () => {
     try {
       await axios.put(`user/favorite/${_id}`)
+      dispatch(getMe())
     } catch (error) {
         console.log(error)
         throw error
@@ -100,7 +102,10 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
     onSuccess: () => {
       client.invalidateQueries({
         queryKey: ['favorite'],
-      });;
+      });
+      client.invalidateQueries({
+        queryKey: ['posts'],
+      });
     }
   });
 
