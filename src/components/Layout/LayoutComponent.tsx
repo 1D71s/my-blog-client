@@ -18,14 +18,14 @@ import {
   Icon28NewsfeedOutline,
   Icon24DoorArrowLeftOutline,
   Icon24UserAddOutline,
-  Icon24Write,
   Icon28UserCircleOutline,
   Icon24DoorArrowRightOutline,
   Icon24UsersOutline,
   Icon24BookmarkCheckBadge,
   Icon24UserAdded,
   Icon24GearOutline,
-  Icon24Search
+  Icon24Search,
+  Icon24MenuOutline
 } from "@vkontakte/icons";
 import { useNavigate } from "react-router-dom";
 import "./LayoutComponent.css"
@@ -33,7 +33,7 @@ import { useAppDispatch, useAppSelector } from '../../utils/hooks';
 import { logOut } from '../../redux/userSlice';
 import { NavBar } from '../NavBar/NavBar';
 import { toast } from 'react-toastify'
-
+import { Icon28WriteSquareOutline } from '@vkontakte/icons';
 
 interface ExampleProps {
     Content: React.ReactNode;
@@ -149,7 +149,7 @@ const Example: React.FC<ExampleProps> = ({ Content }) => {
                     onClick={onStoryChange}
                     className='menu-item'
                   >
-                    <Icon24Write style={leftMenu}/>
+                    <Icon28WriteSquareOutline style={leftMenu}/>
                     <span>create post</span>
                   </div>                
                 </Group>
@@ -160,8 +160,8 @@ const Example: React.FC<ExampleProps> = ({ Content }) => {
                     onClick={onStoryChange}
                     className='menu-item'
                   >
-                    <Icon24GearOutline style={leftMenu}/>
-                    <span>settings</span>
+                    <Icon24MenuOutline style={leftMenu}/>
+                    <span>menu</span>
                   </div>
                   <div
                     onClick={logOutAccount}
@@ -221,14 +221,14 @@ const Example: React.FC<ExampleProps> = ({ Content }) => {
                   data-story="create"
                   text="Create"
                 >
-                  <Icon24Write style={bottomMenu}/>
+                  <Icon28WriteSquareOutline style={bottomMenu}/>
                 </TabbarItem>
                 <TabbarItem
-                  onClick={logOutAccount}
-                  data-story="/"
-                  text="Log Out"
+                  data-story={`/user/settings/${me?._id}`}
+                  onClick={onStoryChange}
+                  text="Menu"
                 >
-                  <Icon24DoorArrowRightOutline style={bottomMenu}/>
+                  <Icon24MenuOutline style={bottomMenu}/>
                 </TabbarItem>
 
               </Tabbar> : 

@@ -32,7 +32,6 @@ const Login = () => {
   const status = useAppSelector(state => state.auth.status)
   const loading = useAppSelector(state => state.auth.loading)
   const token = useAppSelector(state => state.auth.token)
-  const user = useAppSelector(state => state.auth.user)
   
   if (token) navigate('/')
 

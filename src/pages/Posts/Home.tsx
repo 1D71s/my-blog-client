@@ -7,12 +7,9 @@ import {
   Group,
   Header,
   HorizontalScroll,
-  Tabs,
-  TabsItem,
 } from "@vkontakte/vkui";
-
 import { SkeletonPost } from '../../components/Sceletons/PostSleleton';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 
 const Home = () => {
 
