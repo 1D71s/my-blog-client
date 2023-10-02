@@ -38,9 +38,9 @@ const UserList: React.FC<UserListProps> = ({ users, loading, onFollowClick }) =>
                             </Link>
                             }
                             caption={
-                                <Link to={`/user/${user._id}`}>
+                                <>
                                     {user.firstName} {user.lastName}
-                                </Link>
+                                </>
                             }
                             after={
                                 token && <Button
@@ -54,9 +54,7 @@ const UserList: React.FC<UserListProps> = ({ users, loading, onFollowClick }) =>
                             
                             disabled
                         >
-                            <Link to={`/user/${user._id}`}>
-                                {user.username}
-                            </Link>
+                            {user.username}
                         </RichCell>}
                     </Group>
                 ))}
