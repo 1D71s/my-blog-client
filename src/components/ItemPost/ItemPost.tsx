@@ -13,6 +13,7 @@ import { Cell, Avatar, Group, CardGrid, Text, useAppearance, Button, SplitLayout
 import { Icon24Message, Icon24Like, Icon24LikeOutline, Icon28MoreHorizontal } from '@vkontakte/icons';
 import { CustomPopout } from '../Modals/ModalsMenuPost';
 import { getMe } from '../../redux/userSlice';
+import { useNavigate } from 'react-router-dom';
 
 const url = process.env.REACT_APP_URL
 
@@ -29,6 +30,8 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
   const dispatch = useAppDispatch()
   const apperance = useAppearance()
   const client = useQueryClient()
+
+  const navigate = useNavigate()
 
   const fetchLike = async () => {
     try {
@@ -47,12 +50,15 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
   }
   
   const likeItem = async () => {
-    if (user && !loading) {
+    if (user?._id && !loading) {
       await setLoading(true);
       setLikesPost((prevLikesPost) => !prevLikesPost);
       setLikesCount((prevLikesCount) => (likesPost ? prevLikesCount - 1 : prevLikesCount + 1));
       await fetchLike();
       toLike();
+    } 
+    if (!user?._id) {
+      navigate('/login')
     }
   }
   

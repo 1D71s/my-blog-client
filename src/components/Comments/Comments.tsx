@@ -27,10 +27,11 @@ export type CommentTypes = {
 
 type Props = {
     comments: CommentTypes[],
-    id: string | undefined
+    id: string | undefined,
+    fetchPost: () => void
 }
 
-const Comments = ({ comments, id }: Props) => {
+const Comments = ({ comments, id, fetchPost }: Props) => {
 
     const token = useAppSelector(state => state.auth.token)
     
@@ -44,6 +45,7 @@ const Comments = ({ comments, id }: Props) => {
                 const { data } = await axios.post(`comments/create/${id}`, { text: comment })
                 toast(data.message)
                 setComment('')
+                fetchPost()
             } catch (error) {
                 toast('Ошибка при добавления комментария!')
             }

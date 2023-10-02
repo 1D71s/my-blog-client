@@ -18,7 +18,7 @@ import { Followers } from './pages/Users/Followers';
 import { Following } from './pages/Users/Following';
 import { Favorite } from './pages/Users/Favorite';
 import { Settings } from './pages/Auth/Settings';
-import { Search } from './pages/Other/Search';
+import { SearchPage } from './pages/Other/Search';
 import { ChangePass } from './pages/Auth/ChangePass';
 
 
@@ -51,7 +51,7 @@ function App() {
           <Route path='/user/following/:id' element={<Following />} />
           <Route path='/user/favorite/:id' element={<Favorite />} />
           <Route path='/user/settings/:id' element={<Settings />} />
-          <Route path='/search' element={<Search />} />
+          <Route path='/search' element={<SearchPage />} />
           <Route path='/change/pass/:id' element={<ChangePass/>} />
         </Route>
       </Routes>

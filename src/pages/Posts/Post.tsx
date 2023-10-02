@@ -63,7 +63,7 @@ const Post = () => {
         createdAt={post.createdAt}
       />
       
-      <Comments comments={post.comments} id={id} />
+        <Comments comments={post.comments} id={id} fetchPost={fetchPost} />
     </div>}
     </>
   );
