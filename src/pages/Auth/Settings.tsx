@@ -64,9 +64,11 @@ const Settings = () => {
                 </Link>
             </Group>
             <Group header={<Header mode="secondary">System</Header>}>
-                <SimpleCell before={<Icon24GearOutline style={{width: '40px', height: '40px'}}/>}>
-                    Change password
-                </SimpleCell>
+                <Link to={`/change/pass/${me?._id}`}>
+                    <SimpleCell before={<Icon24GearOutline style={{width: '40px', height: '40px'}}/>}>
+                        Change password
+                    </SimpleCell>
+                </Link>
                 <SimpleCell onClick={logOutAccount} before={<Icon24DoorArrowRightOutline style={{width: '40px', height: '40px'}}/>}>
                     Log out
                 </SimpleCell>

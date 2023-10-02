@@ -37,7 +37,11 @@ const UserList: React.FC<UserListProps> = ({ users, loading, onFollowClick }) =>
                                 <Avatar size={72} src={`${url}${user.useravatar}`} />
                             </Link>
                             }
-                            caption={`${user.firstName} ${user.lastName} `}
+                            caption={
+                                <Link to={`/user/${user._id}`}>
+                                    {user.firstName} {user.lastName}
+                                </Link>
+                            }
                             after={
                                 token && <Button
                                     style={{ display: `${user._id === me?._id ? "none" : ""}` }}
@@ -50,7 +54,9 @@ const UserList: React.FC<UserListProps> = ({ users, loading, onFollowClick }) =>
                             
                             disabled
                         >
-                            {user.username}
+                            <Link to={`/user/${user._id}`}>
+                                {user.username}
+                            </Link>
                         </RichCell>}
                     </Group>
                 ))}
