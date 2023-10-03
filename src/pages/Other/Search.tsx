@@ -1,9 +1,10 @@
-import { Cell, Group, Search, Header, List, Avatar } from "@vkontakte/vkui";
-import { useState } from 'react';
-import { UserItems } from "../../components/UsersRandom/UsersRandom";
+import { Cell, Group, Search, Header, List, Avatar, Placeholder, Spinner } from "@vkontakte/vkui";
+import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from "../../utils/axios";
 import { Link } from "react-router-dom";
+import { Icon56ErrorOutline } from '@vkontakte/icons';
+
 
 const url = process.env.REACT_APP_URL
 
@@ -14,6 +15,30 @@ type ItemType = {
 }
 
 const SearchPage = () => {
+
+    const [search, setSearch] = useState('')
+
+    const [result, setResult] = useState([])
+
+    const [loading, setLoading] = useState(false)
+
+    const searchFetch = async () => {
+        try {
+            const { data } = await axios.post('/user/search', {search})
+            setLoading(false)
+            setResult(data.users)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
+    useEffect(() => {
+        if (search.length > 0) {
+            searchFetch()
+            setLoading(true)
+        }
+    }, [search])
 
     const { data, isLoading, isError } = useQuery({
         queryKey: ['users'],
@@ -33,21 +58,41 @@ const SearchPage = () => {
     return (
         <>
             <Group>
-                <Search/>
+                <Search value={search} onChange={e => setSearch(e.target.value)}/>
             </Group>
-            <Group header={<Header>Recomendation:</Header>}>
-                <List>
-                    {data?.map((item: ItemType) => {
-                        return (
-                            <Link to={`/user/${item?._id}`}>
-                                <Cell before={<Avatar src={`${url}${item.useravatar}`} />}>
-                                    {item.username}
-                                </Cell>
-                            </Link>
-                        )
-                    })}
-                </List>
-            </Group>
+            
+            {loading ?
+                <Spinner size="large" style={{ margin: '20px 0' }} /> : 
+
+                <>
+                    {result.length > 0 &&
+                    <Group header={<Header>Result: {result.length}</Header>}>
+                        <List>
+                            {result.length !== 0 && result?.map((item: ItemType) => {
+                                return (
+                                    <Link to={`/user/${item?._id}`}>
+                                        <Cell before={<Avatar src={`${url}${item.useravatar}`} />}>
+                                            {item.username}
+                                        </Cell>
+                                    </Link>
+                                )
+                            })}
+                        </List>
+                    </Group>}
+                </>}
+                <Group header={<Header>Recomendation:</Header>}>
+                    <List>
+                        {data?.map((item: ItemType) => {
+                            return (
+                                <Link to={`/user/${item?._id}`}>
+                                    <Cell before={<Avatar src={`${url}${item.useravatar}`} />}>
+                                        {item.username}
+                                    </Cell>
+                                </Link>
+                            )
+                        })}
+                    </List>
+                </Group>
         </>
     )
 };

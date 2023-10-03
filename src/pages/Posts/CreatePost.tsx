@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks'
-import { createPost, clearStatus } from '../../redux/postSlice'
+import { useState } from 'react'
 import { toast } from 'react-toastify'
 import axios from '../../utils/axios'
 import { useNavigate } from 'react-router-dom'
@@ -17,6 +15,13 @@ import {Icon24Camera} from "@vkontakte/icons";
 
 const url = process.env.REACT_APP_URL
 
+type PostForCreate = {
+  image: string;
+  text: string;
+  title: string;
+}
+
+
 const CreatePost = () => {
 
   const [text, setText] = useState('')
@@ -25,11 +30,10 @@ const CreatePost = () => {
 
   const [image, setImage] = useState('');
 
-  const status = useAppSelector(state => state.post.status)
-  const loading = useAppSelector(state => state.post.loading)
+  
+  const [loading, setLoading] = useState(false)
 
   const navigate = useNavigate()
-  const dispatch = useAppDispatch()
 
   const deleteImage = () => {
     setImage('')
@@ -53,13 +57,16 @@ const CreatePost = () => {
     }
   }
 
-  useEffect(() => {
-    if (status === 'Пост добавлен!') {
-      toast(status)
+  const createPost = async (params: PostForCreate) => {
+    try {
+      await axios.post('posts/create', params)
+      setLoading(false)
       navigate('/')
-      dispatch(clearStatus())
+    } catch (error) {
+      console.log(error)
+      throw error
     }
-  }, [status])
+  }
 
   const addPost = async () => {
     const hashtags = tags.split('#').filter(item => item !== '').map(i => i.split('').filter(a => a !== ' ').join('').toLowerCase())
@@ -70,7 +77,8 @@ const CreatePost = () => {
       tags: hashtags
     }
     console.log(post)
-    dispatch(createPost(post))
+    createPost(post)
+    setLoading(true)
   }
   
   return (

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks'
-import { clearStatus } from '../../redux/postSlice'
+import { useAppDispatch } from '../../utils/hooks'
 import { toast } from 'react-toastify'
 import axios from '../../utils/axios'
 import { useNavigate } from 'react-router-dom'
@@ -28,10 +27,7 @@ const EditPost = () => {
 
     const [image, setImage] = useState('');
 
-    const status = useAppSelector(state => state.post.status)
-
     const navigate = useNavigate()
-    const dispatch = useAppDispatch()
     const { id } = useParams()
 
     const getPost = async () => {
@@ -73,14 +69,6 @@ const EditPost = () => {
             toast('Ошибка при загрузке файла!')
         }
     }
-
-    useEffect(() => {
-        if (status === 'Пост добавлен!') {
-            toast(status)
-            navigate('/')
-            dispatch(clearStatus())
-        }
-    }, [status])
 
     const addPost = async () => {
         if (text && title) {

@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../utils/hooks'
-import { clearStatus } from '../../redux/postSlice'
 import { toast } from 'react-toastify'
 import axios from '../../utils/axios'
 import { useNavigate } from 'react-router-dom'
@@ -16,7 +15,8 @@ import {
     useAppearance,
     FormLayoutGroup,
     Select,
-    Group
+    Group,
+    Spinner
 } from "@vkontakte/vkui";
 import { Icon24Camera } from "@vkontakte/icons";
 import { useForm } from 'react-hook-form'
@@ -52,12 +52,13 @@ const EditProfile = () => {
     const [job, setJob] = useState(me?.fullInfo?.job);
     const [about, setAbout] = useState(me?.fullInfo?.about);
 
+    const [loading, setLoading] = useState(false)
+
     const [firstName, setFirstName] = useState(me?.firstName)
     const [lastName, setLastName] = useState(me?.lastName)
 
     const [image, setImage] = useState(me?.useravatar);
 
-    const status = useAppSelector(state => state.post.status)
 
     const { register, formState: { errors, isValid } } = useForm({ mode: 'onChange' })
 
@@ -96,18 +97,10 @@ const EditProfile = () => {
         }
     }
 
-    useEffect(() => {
-        if (status === 'Пост добавлен!') {
-            toast(status)
-            navigate('/')
-            dispatch(clearStatus())
-        }
-    }, [status])
-
     const updateProfile = async (user: UserUpdate) => {
         try {
             const { data } = await axios.put('user/change', user)
-            console.log(data)
+            setLoading(false)
             toast(data.message)
             dispatch(getMe())
             if (data.message === 'Профиль обновлен!') navigate(`/user/${me?._id}`)
@@ -126,6 +119,7 @@ const EditProfile = () => {
             firstName,
             fullInfo: {myStatus, birthday, country, sity, hobby, university, job, about}
         }
+        setLoading(true)
         updateProfile(user)
     }
 
@@ -329,7 +323,7 @@ const EditProfile = () => {
                     disabled={!isValid}
                     onClick={addInfo}
                     style={{ padding: '3px', marginTop: '10px' }}
-                >Update profile</Button>
+                >{loading ? <Spinner style={{width: '20px', height: '20px'}}/> : 'Update profile'}</Button>
             </FormItem>
         </Group>
     )

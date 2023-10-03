@@ -15,8 +15,8 @@ import { CustomPopout } from '../Modals/ModalsMenuPost';
 import { getMe } from '../../redux/userSlice';
 import { useNavigate } from 'react-router-dom';
 
-const url = process.env.REACT_APP_URL
 
+const url = process.env.REACT_APP_URL
 
 const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, author, createdAt }: PostTypes) => {
 

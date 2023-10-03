@@ -6,7 +6,7 @@ import { BiExpand } from "react-icons/bi";
 import { GoBookmark, GoBookmarkFill } from "react-icons/go";
 import { BiTrash } from "react-icons/bi";
 import { useAppSelector } from "../../utils/hooks";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 type CustomPopoutProps = {
   onClose: () => void;
