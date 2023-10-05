@@ -1,4 +1,4 @@
-import { Cell, Group, Search, Header, List, Avatar, Placeholder, Spinner } from "@vkontakte/vkui";
+import { Cell, Group, Search, Header, List, Avatar, Placeholder, Spinner, Panel, View } from "@vkontakte/vkui";
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from "../../utils/axios";

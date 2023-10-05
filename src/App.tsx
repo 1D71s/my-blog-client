@@ -20,10 +20,19 @@ import { Favorite } from './pages/Users/Favorite';
 import { Settings } from './pages/Auth/Settings';
 import { SearchPage } from './pages/Other/Search';
 import { ChangePass } from './pages/Auth/ChangePass';
+import { MessagesList } from './pages/Messages/MessagesList';
+import { Messages } from './pages/Messages/Messages';
 
 
 import { Layout } from './components/Layout/Layout';
 import { getMe } from './redux/userSlice';
+
+import { io, Socket  } from 'socket.io-client';
+
+type SocketType = Socket;
+const url = process.env.REACT_APP_URL
+
+const socket: SocketType | undefined = url ? io(url) : undefined;
 
 function App() {
 
@@ -52,7 +61,13 @@ function App() {
           <Route path='/user/favorite/:id' element={<Favorite />} />
           <Route path='/user/settings/:id' element={<Settings />} />
           <Route path='/search' element={<SearchPage />} />
-          <Route path='/change/pass/:id' element={<ChangePass/>} />
+          <Route path='/change/pass/:id' element={<ChangePass />} />
+          
+          <Route
+            path='/direct/:me/:companion'
+            element={socket ? <Messages socket={socket} /> : null}
+          />
+          <Route path='/messages/:id' element={<MessagesList/>} />
         </Route>
       </Routes>
 

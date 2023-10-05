@@ -114,20 +114,27 @@ const UserProfile = () => {
                   </Button>
                 </Link>
               ) : (
-                  <div>
-                    {me?._id && user?.followers?.includes(me?._id) ?
-                      (<Button
-                          disabled={loading}
-                          mode="secondary"
+                  <div className='menu-user'>
+                    <div>
+                      {me?._id && user?.followers?.includes(me?._id) ?
+                        (<Button
+                            disabled={loading}
+                            mode="secondary"
                           onClick={following}
-                      >{loading ? <Spinner color='red.500' style={{width: '20px', height: '20px', marginTop: '5px'}}/> : 'Unfollow'}
-                      </Button>) :
-                      (<Button 
-                        disabled={loading}
-                        onClick={following}
-                    >
-                      {loading ? <Spinner color='red.500' style={{width: '20px', height: '20px', marginTop: '5px'}}/> : 'Follow'}
-                    </Button>)}
+                          style={{ width: '100px', height: '30px' }}
+                        >{loading ? <Spinner color='red.500' style={{width: '20px', height: '20px', marginTop: '5px'}}/> : 'Unfollow'}
+                        </Button>) :
+                        (<Button 
+                          disabled={loading}
+                          onClick={following}
+                          style={{ width: '100px', height: '30px' }}
+                      >
+                        {loading ? <Spinner color='red.500' style={{width: '20px', height: '20px', marginTop: '5px'}}/> : 'Follow'}
+                        </Button>)}
+                    </div>
+                    <Link to={`/direct/${me?._id}/${user?._id}`}>
+                      <Button style={{marginLeft: '10px', maxHeight: 'max-content'}}>Send Message</Button>
+                    </Link>
                   </div>
               )}
             </>}

@@ -16,6 +16,11 @@
     justify-content: center;
 }
 
+.menu-user {
+    width: max-content;
+    display: flex;
+    justify-content: space-between;
+}
 
 /*User List*/
 .list-users-item {
