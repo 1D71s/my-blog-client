@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef} from 'react';
 import { Socket } from 'socket.io-client'; 
 import '../../style/Message.css'
 import axios from '../../utils/axios'
@@ -39,44 +39,62 @@ interface MessagesProps {
 const Messages: React.FC<MessagesProps> = ({ socket }) => {
 
     const [user, setUser] = useState<User | null>()
+    const [messages, setMessages] = useState<{ content: string; sender: string }[] | null>(null);
 
-    const { companion } = useParams()
+    const [text, setText] = useState<string>('');
 
-    const platform = usePlatform();
+    const { companion, me } = useParams()
+
+    const lastMessageRef = useRef<HTMLDivElement | null>(null);
+
 
     useEffect(() => {
-        socket.emit('message', () => {
-            console.log('mes')
+        socket.emit('connectToChat', {
+            user1: me,
+            user2: companion
         });
-    }, []);
+        socket.on('sendAllMessage', (data) => {
+            setMessages(data)
+        })
+        socket.on('sendNewMessage', (data) => {
+            setMessages(data);
+        });
+    }, [socket, messages]);
+
+
+
+
+    const sendMessage = () => {
+        if (text.trim() !== '') {
+            socket.emit('writeMessage', {
+                user1: me,
+                user2: companion,
+                text
+            });
+            setText(''); 
+        }
+    }
 
     const getUser = async () => {
         try {
-          const { data } = await axios.get(`user/fullinfo/${companion}`)
-          await setUser(data)
-          console.log(user)
+            const { data } = await axios.get(`user/fullinfo/${companion}`)
+            await setUser(data)
         } catch (error) {
-          console.log(error)
+            console.log(error)
         }
     }
 
     useEffect(() => {
         getUser()
-      }, [companion])
+    }, [companion])
 
-    const CameraOutlineIcon = (
-        <AdaptiveIconRenderer
-          IconCompact={platform === Platform.IOS ? Icon28CameraOutline : Icon24CameraOutline}
-          IconRegular={Icon28CameraOutline}
-        />
-    );
     
     useEffect(() => {
         window.scrollTo(0, document.body.scrollHeight);
-    }, []);
+    }, [socket]);
       
     return (
-        <View activePanel="fixedLayout">
+        <View activePanel="fixedLayout" style={{background: 'rgb(242, 242, 242)'}}>
             <Panel id="fixedLayout">
                 <PanelHeader fixed>Fixed layout</PanelHeader>
                 <FixedLayout vertical="top" filled style={{padding: '20px'}}>
@@ -90,33 +108,29 @@ const Messages: React.FC<MessagesProps> = ({ socket }) => {
                     </Link>
                 </FixedLayout>
                 <Div style={{
+                    background: 'rgb(242, 242, 242)',
+                    minHeight: '75vh',
                     marginTop: '10px',
                     display: 'flex',
-                    flexDirection: 'column-reverse',
+                    flexDirection: 'column-reverse'
                 }}>
-                    <div className='message-to-me'>gbgb</div>
-                    <div className='message-to-me'>dfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgb</div>
-                    <div className='message-from-me'>dfgb</div>
-                    <div className='message-to-me'>dfgbdf</div>
-                    <div className='message-from-me'>dfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgb</div>
-                    <div className='message-to-me'>dfgbdfgbdfgb</div>
-                    <div className='message-to-me'>dfgb</div>
-                    <div className='message-to-me'>dfgbdf</div>
-                    <div className='message-to-me'>gbgb</div>
-                    <div className='message-to-me'>dfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgb</div>
-                    <div className='message-from-me'>dfgb</div>
-                    <div className='message-to-me'>dfgbdf</div>
-                    <div className='message-from-me'>dfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgbdfgb</div>
-                    <div className='message-to-me'>dfgbdfgbdfgb</div>
-                    <div className='message-to-me'>dfgb</div>
-                    <div className='message-to-me'>dfgbdf</div>
-                    
+
+{messages
+    ?.slice()
+    .reverse()
+    .map((mess, index) => (
+        <div key={index} className={mess.sender === me ? 'message-from-me' : 'message-to-me'}>
+            {mess.content}
+        </div>
+    ))}
                 </Div>
                 <FixedLayout filled vertical="bottom">
                     <WriteBar
+                        value={text}
+                        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setText(e.target.value)}
                         after={
                             <WriteBarIcon>
-                                <Icon28Send/>
+                                <Icon28Send onClick={sendMessage}/>
                             </WriteBarIcon>
                         }
                         placeholder="Message"
