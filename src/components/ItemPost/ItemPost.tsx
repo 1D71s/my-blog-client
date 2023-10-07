@@ -87,6 +87,7 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
     try {
       const { data } = await axios.delete(`posts/delete/${id}`)
       toast(data.message)
+      navigate(`/user/${user?._id}`)
     } catch (error) {
         console.log(error)
         throw error

@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef} from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Socket } from 'socket.io-client'; 
 import '../../style/Message.css'
 import axios from '../../utils/axios'
@@ -7,9 +7,6 @@ import { Link } from 'react-router-dom';
 import {
     WriteBarIcon,
     Avatar,
-    usePlatform,
-    AdaptiveIconRenderer,
-    Platform,
     PanelHeaderContent,
     WriteBar,
     Panel,
@@ -17,8 +14,8 @@ import {
     View,
     PanelHeader,
     Div,
+    useAppearance
 } from "@vkontakte/vkui";
-import { Icon28CameraOutline, Icon24CameraOutline } from '@vkontakte/icons';
 import { Icon28Send } from '@vkontakte/icons';
 
 
@@ -45,8 +42,7 @@ const Messages: React.FC<MessagesProps> = ({ socket }) => {
 
     const { companion, me } = useParams()
 
-    const lastMessageRef = useRef<HTMLDivElement | null>(null);
-
+    const apperance = useAppearance()
 
     useEffect(() => {
         socket.emit('connectToChat', {
@@ -59,10 +55,8 @@ const Messages: React.FC<MessagesProps> = ({ socket }) => {
         socket.on('sendNewMessage', (data) => {
             setMessages(data);
         });
+        
     }, [socket, messages]);
-
-
-
 
     const sendMessage = () => {
         if (text.trim() !== '') {
@@ -86,15 +80,38 @@ const Messages: React.FC<MessagesProps> = ({ socket }) => {
 
     useEffect(() => {
         getUser()
-    }, [companion])
+    }, [])
 
-    
     useEffect(() => {
         window.scrollTo(0, document.body.scrollHeight);
-    }, [socket]);
+    }, []);
+    
+
+    const messageFromMe = {
+        backgroundColor: '#0077FF',
+        color: 'white',
+        alignSelf: 'flex-end',
+        borderBottomRightRadius: '0px'
+    };
+
+    const messageToMe = {
+        backgroundColor: `${apperance === 'light' ? 'rgb(224, 224, 224)' : 'rgb(32, 32, 33)'}`,
+        color: `${apperance === 'dark' ? 'white' : 'black'}`,
+        alignSelf: 'flex-start',
+        borderBottomLeftRadius: '0px',
+    };
+
+    const messageStyles = {
+        margin: '10px',
+        width: 'max-content',
+        padding: '10px',
+        borderRadius: '10px',
+        maxWidth: '80%',
+    };
+    
       
     return (
-        <View activePanel="fixedLayout" style={{background: 'rgb(242, 242, 242)'}}>
+        <View activePanel="fixedLayout">
             <Panel id="fixedLayout">
                 <PanelHeader fixed>Fixed layout</PanelHeader>
                 <FixedLayout vertical="top" filled style={{padding: '20px'}}>
@@ -103,26 +120,31 @@ const Messages: React.FC<MessagesProps> = ({ socket }) => {
                             status={`${user?.firstName} ${user?.lastName}`}
                             before={<Avatar size={50} src={`${url}${user?.useravatar}`} />}
                         >
-                            {user?.username}
+                            <span style={{color: `${apperance === 'dark' ? '#71aaeb' : 'black'}`}}>{user?.username}</span>
                         </PanelHeaderContent>
                     </Link>
                 </FixedLayout>
                 <Div style={{
-                    background: 'rgb(242, 242, 242)',
+                    background: `${apperance === 'light' ? 'rgb(242, 242, 242)' : 'black'}`,
                     minHeight: '75vh',
                     marginTop: '10px',
                     display: 'flex',
                     flexDirection: 'column-reverse'
                 }}>
-
-{messages
-    ?.slice()
-    .reverse()
-    .map((mess, index) => (
-        <div key={index} className={mess.sender === me ? 'message-from-me' : 'message-to-me'}>
-            {mess.content}
-        </div>
-    ))}
+                    {messages
+                        ?.slice()
+                        .reverse()
+                        .map((mess, index) => (
+                            <div
+                                key={index}
+                                style={
+                                    mess.sender === me
+                                        ? { ...messageFromMe, ...messageStyles }
+                                        : { ...messageToMe, ...messageStyles }
+                                }>
+                                {mess.content}
+                            </div>
+                        ))}
                 </Div>
                 <FixedLayout filled vertical="bottom">
                     <WriteBar
