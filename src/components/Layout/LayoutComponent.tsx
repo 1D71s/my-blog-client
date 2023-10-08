@@ -26,7 +26,7 @@ import {
   Icon24MessageOutline,
   Icon24Search,
   Icon24MenuOutline,
-  Icon24Message
+  Icon28MessageOutline 
 } from "@vkontakte/icons";
 import { useNavigate } from "react-router-dom";
 import "./LayoutComponent.css"
@@ -114,7 +114,7 @@ const Example: React.FC<ExampleProps> = ({ Content }) => {
                     onClick={onStoryChange}
                     className='menu-item'
                   >
-                    <Icon24Message style={leftMenu}/>
+                    <Icon28MessageOutline  style={leftMenu}/>
                     <span>direct</span>
                   </div>
                   <div
@@ -231,7 +231,7 @@ const Example: React.FC<ExampleProps> = ({ Content }) => {
                   data-story={`/messages/${me?._id}`}
                   text="Direct"
                 >
-                  <Icon24MessageOutline style={bottomMenu}/>
+                  <Icon28MessageOutline  style={bottomMenu}/>
                 </TabbarItem>
 
                 <TabbarItem

@@ -52,7 +52,6 @@ const Messages: React.FC<MessagesProps> = ({ socket }) => {
         });
         socket.on('sendAllMessage', (data) => {
             setMessages(data)
-            console.log(data)
         })
         socket.on('sendNewMessage', (data) => {
             setMessages(data);
