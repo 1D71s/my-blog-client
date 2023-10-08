@@ -17,6 +17,7 @@ import {
     useAppearance
 } from "@vkontakte/vkui";
 import { Icon28Send } from '@vkontakte/icons';
+import { getTimeMakingPost } from '../../utils/Functions';
 
 
 const url = process.env.REACT_APP_URL
@@ -36,7 +37,7 @@ interface MessagesProps {
 const Messages: React.FC<MessagesProps> = ({ socket }) => {
 
     const [user, setUser] = useState<User | null>()
-    const [messages, setMessages] = useState<{ content: string; sender: string }[] | null>(null);
+    const [messages, setMessages] = useState<{ content: string; sender: string; createdAt: string }[] | null>(null);
 
     const [text, setText] = useState<string>('');
 
@@ -51,11 +52,12 @@ const Messages: React.FC<MessagesProps> = ({ socket }) => {
         });
         socket.on('sendAllMessage', (data) => {
             setMessages(data)
+            console.log(data)
         })
         socket.on('sendNewMessage', (data) => {
             setMessages(data);
+            window.scrollTo(0, document.body.scrollHeight);
         });
-        
     }, [socket, messages]);
 
     const sendMessage = () => {
@@ -82,39 +84,30 @@ const Messages: React.FC<MessagesProps> = ({ socket }) => {
         getUser()
     }, [])
 
+
     useEffect(() => {
-        window.scrollTo(0, document.body.scrollHeight);
-    }, []);
+        setTimeout(() => {
+            window.scrollTo(0, document.body.scrollHeight);
+        }, 100)
+    }, [user]);
     
 
     const messageFromMe = {
         backgroundColor: '#0077FF',
         color: 'white',
-        alignSelf: 'flex-end',
-        borderBottomRightRadius: '0px'
     };
 
     const messageToMe = {
         backgroundColor: `${apperance === 'light' ? 'rgb(224, 224, 224)' : 'rgb(32, 32, 33)'}`,
         color: `${apperance === 'dark' ? 'white' : 'black'}`,
-        alignSelf: 'flex-start',
-        borderBottomLeftRadius: '0px',
     };
-
-    const messageStyles = {
-        margin: '10px',
-        width: 'max-content',
-        padding: '10px',
-        borderRadius: '10px',
-        maxWidth: '80%',
-    };
-    
       
     return (
         <View activePanel="fixedLayout">
             <Panel id="fixedLayout">
-                <PanelHeader fixed>Fixed layout</PanelHeader>
-                <FixedLayout vertical="top" filled style={{padding: '20px'}}>
+                <PanelHeader fixed
+                >Fixed layout</PanelHeader>
+                <FixedLayout vertical="top" filled style={{padding: '15px', width: '100%'}}>
                     <Link to={`/user/${user?._id}`}>
                         <PanelHeaderContent
                             status={`${user?.firstName} ${user?.lastName}`}
@@ -137,12 +130,16 @@ const Messages: React.FC<MessagesProps> = ({ socket }) => {
                         .map((mess, index) => (
                             <div
                                 key={index}
+                                className={mess.sender === me ? 'message-from-me' : 'message-to-me'}
                                 style={
                                     mess.sender === me
-                                        ? { ...messageFromMe, ...messageStyles }
-                                        : { ...messageToMe, ...messageStyles }
+                                        ? { ...messageFromMe }
+                                        : { ...messageToMe }
                                 }>
                                 {mess.content}
+                                <div style={{fontSize: '11px', marginTop: '10px'}}>
+                                    {getTimeMakingPost(mess.createdAt)}
+                                </div>
                             </div>
                         ))}
                 </Div>

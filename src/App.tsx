@@ -67,7 +67,7 @@ function App() {
             path='/direct/:me/:companion'
             element={socket ? <Messages socket={socket} /> : null}
           />
-          <Route path='/messages/:id' element={<MessagesList/>} />
+          <Route path='/messages/:id' element={socket ? <MessagesList socket={socket}/> : null} />
         </Route>
       </Routes>
 
