@@ -1,7 +1,7 @@
 import { Routes, Route  } from 'react-router-dom';
 import './style/App.css';
 import { useEffect } from 'react';
-import { useAppDispatch } from './utils/hooks';
+import { useAppDispatch, useAppSelector } from './utils/hooks';
 import { ToastContainer } from 'react-toastify'
 
 import { Home } from './pages/Posts/Home';
@@ -25,9 +25,12 @@ import { Messages } from './pages/Messages/Messages';
 
 
 import { Layout } from './components/Layout/Layout';
-import { getMe } from './redux/userSlice';
+import { getMe, changeCountMessage } from './redux/userSlice';
 
-import { io, Socket  } from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
+
+import { Dialog } from './pages/Messages/MessagesList';
+
 
 type SocketType = Socket;
 const url = process.env.REACT_APP_URL
@@ -36,11 +39,23 @@ const socket: SocketType | undefined = url ? io(url) : undefined;
 
 function App() {
 
+  const me = useAppSelector(state => state.auth.user)
+  const messages = useAppSelector(state => state.auth.messages)
+
   const dispatch = useAppDispatch()
 
   useEffect(() => {
     dispatch(getMe())
   }, [])
+
+  useEffect(() => {
+    socket?.emit('getAllDialogs', me?._id);
+
+    socket?.on('sendAllDialog', (data) => {
+        const newCount = data.reduce((acc: number, dialog: Dialog) => acc + dialog.counter, 0);
+        dispatch(changeCountMessage(newCount))
+    })
+  }, [me, socket, messages]);
 
   return (
     <>

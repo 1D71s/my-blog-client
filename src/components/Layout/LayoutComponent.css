@@ -5,3 +5,10 @@
     margin: 20px;
     cursor: pointer;
 }
+
+.menu-item-c {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+    cursor: pointer;
+}

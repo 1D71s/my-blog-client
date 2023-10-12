@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, isRejectedWithValue } from "@reduxjs/toolkit";
 import axios from '../utils/axios';
+import { message } from "antd";
 
 type Token = {
     token: string | null;
@@ -44,7 +45,8 @@ type ForInitialState = {
     token: null | string,
     status: null | string,
     getMeStateLoading: boolean,
-    theme: boolean
+    theme: boolean,
+    messages: null | number
 }
 
 export type User = {
@@ -112,7 +114,8 @@ const initialState: ForInitialState  = {
     loading: false,
     status: null,
     getMeStateLoading: false,
-    theme: true
+    theme: true,
+    messages: null
 }
 
 const userSlice = createSlice({
@@ -130,6 +133,9 @@ const userSlice = createSlice({
         },
         changeTheme(state) {
             state.theme = !state.theme
+        },
+        changeCountMessage(state, action) {
+            state.messages = action.payload
         }
     },
     extraReducers: (builder) => {
@@ -181,7 +187,7 @@ const userSlice = createSlice({
     }
 })
 
-export const { logOut, clearStatus, changeTheme } = userSlice.actions
+export const { logOut, clearStatus, changeTheme, changeCountMessage } = userSlice.actions
 
 export const checkIsAuth = (state: Token): boolean => Boolean(state.token) 
 

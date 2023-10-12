@@ -16,7 +16,7 @@ import {
     Div,
     useAppearance
 } from "@vkontakte/vkui";
-import { Icon28Send } from '@vkontakte/icons';
+import { Icon28Send, Icon16CheckOutline, Icon16CheckDoubleOutline } from '@vkontakte/icons';
 import { getTimeMakingPost } from '../../utils/Functions';
 
 
@@ -30,6 +30,14 @@ type User = {
     lastName: string
 }
 
+type Message = {
+    _id: string;
+    content: string;
+    sender: string;
+    createdAt: string;
+    read: boolean
+}
+
 interface MessagesProps {
   socket: Socket;
 }
@@ -37,7 +45,11 @@ interface MessagesProps {
 const Messages: React.FC<MessagesProps> = ({ socket }) => {
 
     const [user, setUser] = useState<User | null>()
-    const [messages, setMessages] = useState<{ content: string; sender: string; createdAt: string }[] | null>(null);
+    const [messages, setMessages] = useState<Message[] | null>(null);
+
+    const [dialog, setDialog] = useState('')
+
+    const [status, setStatus] = useState('')
 
     const [text, setText] = useState<string>('');
 
@@ -51,12 +63,16 @@ const Messages: React.FC<MessagesProps> = ({ socket }) => {
             user2: companion
         });
         socket.on('sendAllMessage', (data) => {
-            setMessages(data)
+            setMessages(data.messages)
+            setDialog(data._id)
         })
         socket.on('sendNewMessage', (data) => {
             setMessages(data);
-            window.scrollTo(0, document.body.scrollHeight);
+            setTimeout(() => {
+                window.scrollTo(0, document.body.scrollHeight);
+            }, 500)
         });
+
     }, [socket, messages]);
 
     const sendMessage = () => {
@@ -83,13 +99,17 @@ const Messages: React.FC<MessagesProps> = ({ socket }) => {
         getUser()
     }, [])
 
-
     useEffect(() => {
         setTimeout(() => {
             window.scrollTo(0, document.body.scrollHeight);
         }, 100)
     }, [user]);
     
+    const readMessage = (mess: Message) => {
+        if (mess.sender !== me && !mess.read) {
+            socket.emit('readed', {id: mess._id, dialog } )
+        }
+    }
 
     const messageFromMe = {
         backgroundColor: '#0077FF',
@@ -112,9 +132,17 @@ const Messages: React.FC<MessagesProps> = ({ socket }) => {
                             status={`${user?.firstName} ${user?.lastName}`}
                             before={<Avatar size={50} src={`${url}${user?.useravatar}`} />}
                         >
-                            <span style={{color: `${apperance === 'dark' ? '#71aaeb' : 'black'}`}}>{user?.username}</span>
+                            <span style={{ color: `${apperance === 'dark' ? '#71aaeb' : 'black'}` }}>{user?.username}
+                            </span>
                         </PanelHeaderContent>
                     </Link>
+                    {status && <div
+                        style={{
+                            color: `${apperance === 'dark' ? 'rgb(242, 242, 242)' : 'black'}`,
+                            marginTop: '15px'
+                        }}
+                    >is typing...</div>}
+                    <>{status}</>
                 </FixedLayout>
                 <Div style={{
                     background: `${apperance === 'light' ? 'rgb(242, 242, 242)' : 'black'}`,
@@ -128,6 +156,7 @@ const Messages: React.FC<MessagesProps> = ({ socket }) => {
                         .reverse()
                         .map((mess, index) => (
                             <div
+                                onMouseEnter={() => readMessage(mess)}
                                 key={index}
                                 className={mess.sender === me ? 'message-from-me' : 'message-to-me'}
                                 style={
@@ -136,11 +165,14 @@ const Messages: React.FC<MessagesProps> = ({ socket }) => {
                                         : { ...messageToMe }
                                 }>
                                 {mess.content}
-                                <div style={{fontSize: '11px', marginTop: '10px'}}>
-                                    {getTimeMakingPost(mess.createdAt)}
+                                <div style={{fontSize: '11px', marginTop: '10px', display: 'flex'}}>
+                                    <span>{getTimeMakingPost(mess.createdAt)}</span>
+                                    <span style={{ marginLeft: '10px' }}>
+                                        {mess.read ? <Icon16CheckDoubleOutline/> : <Icon16CheckOutline/>}
+                                    </span>
                                 </div>
                             </div>
-                        ))}
+                    ))}
                 </Div>
                 <FixedLayout filled vertical="bottom">
                     <WriteBar

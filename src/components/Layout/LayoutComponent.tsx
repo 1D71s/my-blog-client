@@ -12,7 +12,8 @@ import {
   TabbarItem,
   Platform,
   useAdaptivityConditionalRender,
-  useAppearance
+  useAppearance,
+  Counter
 } from "@vkontakte/vkui";
 import {
   Icon28NewsfeedOutline,
@@ -23,7 +24,6 @@ import {
   Icon24UsersOutline,
   Icon24BookmarkCheckBadge,
   Icon24UserAdded,
-  Icon24MessageOutline,
   Icon24Search,
   Icon24MenuOutline,
   Icon28MessageOutline 
@@ -48,7 +48,8 @@ const Example: React.FC<ExampleProps> = ({ Content }) => {
 
   const isAuthUser = useAppSelector(state => state.auth.token);
   const me = useAppSelector(state => state.auth.user);
-    
+  const countMessage = useAppSelector(state => state.auth.messages);
+
   const theme = useAppSelector(state => state.auth.theme)
 
   const dispatch = useAppDispatch()
@@ -112,10 +113,15 @@ const Example: React.FC<ExampleProps> = ({ Content }) => {
                   <div
                     data-story={`/messages/${me?._id}`}
                     onClick={onStoryChange}
-                    className='menu-item'
+                    className='menu-item-c'
                   >
-                    <Icon28MessageOutline  style={leftMenu}/>
-                    <span>direct</span>
+                    <span style={{display: 'flex'}}>
+                      <Icon28MessageOutline  style={leftMenu}/>
+                      <span>direct</span>
+                    </span>
+                    {countMessage && countMessage > 0 ? <Counter mode='prominent'>
+                      {countMessage} 
+                    </Counter> : ''}
                   </div>
                   <div
                     data-story={`/user/following/${me?._id}`}
@@ -230,6 +236,12 @@ const Example: React.FC<ExampleProps> = ({ Content }) => {
                   onClick={onStoryChange}
                   data-story={`/messages/${me?._id}`}
                   text="Direct"
+                  indicator={
+                    countMessage && countMessage > 0 ? <Counter size="s" mode="prominent">
+                      {countMessage}
+                    </Counter> : ''
+                  }
+
                 >
                   <Icon28MessageOutline  style={bottomMenu}/>
                 </TabbarItem>

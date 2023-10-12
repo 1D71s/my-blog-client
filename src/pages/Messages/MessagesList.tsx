@@ -7,13 +7,12 @@ import {
     RichCell,
     Group,
     Counter,
-    Spinner,
-    Placeholder,
-    useAppearance
+    useAppearance,
+    TabsItem
 } from "@vkontakte/vkui";
-import { useAppSelector } from '../../utils/hooks';
-import { Icon56ErrorOutline } from '@vkontakte/icons';
-
+import { useAppSelector, useAppDispatch } from '../../utils/hooks';
+import { changeCountMessage } from '../../redux/userSlice';
+import { Dialog } from '@mui/material';
 
 const url = process.env.REACT_APP_URL
 
@@ -21,7 +20,7 @@ interface MessagesProps {
     socket: Socket;
 }
 
-interface Dialog {
+export interface Dialog {
     _id: string;
     messages: {
         content: string;
@@ -32,6 +31,7 @@ interface Dialog {
         username: string;
         useravatar: string;
     };
+    counter: number
 }
 
 const MessagesList: React.FC<MessagesProps>  = ({ socket }) => {
@@ -41,42 +41,47 @@ const MessagesList: React.FC<MessagesProps>  = ({ socket }) => {
     const me = useAppSelector(state => state.auth.user)
 
     const apperance = useAppearance()
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         socket.emit('getAllDialogs', me?._id);
 
         socket.on('sendAllDialog', (data) => {
             setDialogs(data)
-            console.log(data)
+            const newCount = data.reduce((acc: number, dialog: Dialog) => acc + dialog.counter, 0);
+            dispatch(changeCountMessage(newCount))
         })
     }, [socket , me?._id, dialogs]);
 
     return (
         <>
-            <>
-                <Group>
-                    {dialogs.map((item) => (
-                        <Link to={`/direct/${me?._id}/${item.who._id}`}>
-                            <RichCell
-                                before={<Avatar
-                                    src={`${url}${item.who.useravatar}`}
-                                    size={60} />}
-                                caption={<>
-                                    {item.messages.sender === me?._id && <b style={{color: `${apperance === 'light' ? '#0077FF' : '#71aaeb'}`}}>{me?.username}: </b>}
-                                    {item.messages.content}
-                                </>}
-                                after={
-                                <Counter>
-                                    
+            <Group>
+                <TabsItem  after={<Counter size="s"></Counter>}>
+                    Direct
+                </TabsItem>
+            </Group>
+            {dialogs.length !== 0 && <Group>
+                {dialogs.map((item) => (
+                    <Link to={`/direct/${me?._id}/${item.who._id}`}>
+                        <RichCell
+                            before={<Avatar
+                                src={`${url}${item.who.useravatar}`}
+                                size={60} />}
+                            caption={<>
+                                {item.messages.sender === me?._id && <b style={{color: `${apperance === 'light' ? '#0077FF' : '#71aaeb'}`}}>{me?.username}: </b>}
+                                {item.messages.content}
+                            </>}
+                            after={
+                                item.counter > 0 && <Counter style={{backgroundColor: `${apperance === 'light' ? '#0077FF' : '#71aaeb'}`}}>
+                                    {item.counter}
                                 </Counter>
-                                }
-                            >
-                                {item.who.username}
+                            }
+                        >
+                            {item.who.username}
                         </RichCell>
-                    </Link>
-                    ))}
-                </Group> 
-            </>
+                </Link>
+                ))}
+            </Group> }
         </>
     )
 }
