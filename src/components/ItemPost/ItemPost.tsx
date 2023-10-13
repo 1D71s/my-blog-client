@@ -190,8 +190,6 @@ const ItemPost = ({ _id, image, title, text, tags, comments, likes, views, autho
               </TabsItem>
             </span>
           </div>
-
-
         </div>
       </Group>
     </CardGrid>      

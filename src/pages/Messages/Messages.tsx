@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { Socket } from 'socket.io-client'; 
 import '../../style/Message.css'
 import axios from '../../utils/axios'
@@ -16,9 +16,8 @@ import {
     Div,
     useAppearance
 } from "@vkontakte/vkui";
-import { Icon28Send, Icon16CheckOutline, Icon16CheckDoubleOutline } from '@vkontakte/icons';
-import { getTimeMakingPost } from '../../utils/Functions';
-
+import { Icon28Send } from '@vkontakte/icons';
+import { ChatMessage } from '../../components/MessageItem/MessageItem';
 
 const url = process.env.REACT_APP_URL
 
@@ -30,7 +29,7 @@ type User = {
     lastName: string
 }
 
-type Message = {
+export type Message = {
     _id: string;
     content: string;
     sender: string;
@@ -115,16 +114,6 @@ const Messages: React.FC<MessagesProps> = ({ socket }) => {
             socket.emit('readed', {id: mess._id, dialog } )
         }
     }
-
-    const messageFromMe = {
-        backgroundColor: '#0077FF',
-        color: 'white',
-    };
-
-    const messageToMe = {
-        backgroundColor: `${apperance === 'light' ? 'rgb(224, 224, 224)' : 'rgb(32, 32, 33)'}`,
-        color: `${apperance === 'dark' ? 'white' : 'black'}`,
-    };
       
     return (
         <View activePanel="fixedLayout">
@@ -153,29 +142,19 @@ const Messages: React.FC<MessagesProps> = ({ socket }) => {
                         ?.slice()
                         .reverse()
                         .map((mess, index) => (
-                            <div
-                                onMouseEnter={() => readMessage(mess)}
-                                key={index}
-                                className={mess.sender === me ? 'message-from-me' : 'message-to-me'}
-                                style={
-                                    mess.sender === me
-                                        ? { ...messageFromMe }
-                                        : { ...messageToMe }
-                                }>
-                                {mess.content}
-                                <div style={{fontSize: '11px', marginTop: '10px', display: 'flex'}}>
-                                    <span>{getTimeMakingPost(mess.createdAt)}</span>
-                                    <span style={{ marginLeft: '10px' }}>
-                                        {mess.read ? <Icon16CheckDoubleOutline/> : <Icon16CheckOutline/>}
-                                    </span>
-                                </div>
-                            </div>
+                            <ChatMessage mess={mess} key={index} read={() => readMessage(mess)} me={me} />
                     ))}
                 </Div>
                 <FixedLayout filled vertical="bottom">
                     <WriteBar
                         value={text}
                         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setText(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' && !e.shiftKey) {
+                              e.preventDefault();
+                              sendMessage();
+                            }
+                        }}
                         after={
                             <WriteBarIcon>
                                 <Icon28Send onClick={sendMessage}/>
