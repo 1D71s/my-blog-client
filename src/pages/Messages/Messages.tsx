@@ -49,7 +49,6 @@ const Messages: React.FC<MessagesProps> = ({ socket }) => {
 
     const [dialog, setDialog] = useState('')
 
-    const [status, setStatus] = useState('')
 
     const [text, setText] = useState<string>('');
 
@@ -102,6 +101,12 @@ const Messages: React.FC<MessagesProps> = ({ socket }) => {
     useEffect(() => {
         setTimeout(() => {
             window.scrollTo(0, document.body.scrollHeight);
+        }, 500)
+    }, [messages?.length])
+
+    useEffect(() => {
+        setTimeout(() => {
+            window.scrollTo(0, document.body.scrollHeight);
         }, 100)
     }, [user]);
     
@@ -136,13 +141,6 @@ const Messages: React.FC<MessagesProps> = ({ socket }) => {
                             </span>
                         </PanelHeaderContent>
                     </Link>
-                    {status && <div
-                        style={{
-                            color: `${apperance === 'dark' ? 'rgb(242, 242, 242)' : 'black'}`,
-                            marginTop: '15px'
-                        }}
-                    >is typing...</div>}
-                    <>{status}</>
                 </FixedLayout>
                 <Div style={{
                     background: `${apperance === 'light' ? 'rgb(242, 242, 242)' : 'black'}`,

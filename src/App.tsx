@@ -2,7 +2,6 @@ import { Routes, Route  } from 'react-router-dom';
 import './style/App.css';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from './utils/hooks';
-import { ToastContainer } from 'react-toastify'
 
 import { Home } from './pages/Posts/Home';
 import { UserProfile } from './pages/Users/User';
@@ -48,14 +47,14 @@ function App() {
     dispatch(getMe())
   }, [])
 
-  useEffect(() => {
+  setInterval(() => {
     socket?.emit('getAllDialogs', me?._id);
 
     socket?.on('sendAllDialog', (data) => {
         const newCount = data.reduce((acc: number, dialog: Dialog) => acc + dialog.counter, 0);
         dispatch(changeCountMessage(newCount))
     })
-  }, [me, socket, messages]);
+  }, 2000);
 
   return (
     <>
@@ -86,7 +85,6 @@ function App() {
         </Route>
       </Routes>
 
-      <ToastContainer position='bottom-right'/>
     </>
   );
 }

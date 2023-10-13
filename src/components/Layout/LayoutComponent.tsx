@@ -33,7 +33,6 @@ import "./LayoutComponent.css"
 import { useAppDispatch, useAppSelector } from '../../utils/hooks';
 import { logOut } from '../../redux/userSlice';
 import { NavBar } from '../NavBar/NavBar';
-import { toast } from 'react-toastify'
 import { Icon28WriteSquareOutline } from '@vkontakte/icons';
 
 interface ExampleProps {
@@ -69,7 +68,6 @@ const Example: React.FC<ExampleProps> = ({ Content }) => {
   const logOutAccount = () => {
     dispatch(logOut())
     navigate('/login')
-    toast('You are logged out of your account!')
   }
 
   const onStoryChange = (e: React.MouseEvent<HTMLDivElement>) => {
