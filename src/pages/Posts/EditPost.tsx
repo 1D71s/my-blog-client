@@ -134,7 +134,7 @@ const EditPost = () => {
                     onClick={addPost}
                     style={{ padding: '3px', marginTop: '10px' }}
                 >
-                    {loading ? <Spinner style={{width: '20px', height: '20px'}}/> : 'Create post'}
+                    {loading ? <Spinner style={{width: '20px', height: '20px'}}/> : 'Update post'}
                 </Button>
             </FormItem>
         </Group>

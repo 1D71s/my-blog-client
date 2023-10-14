@@ -49,7 +49,7 @@ const ItemPostFollowers = () => {
 
     return (
         <>
-            {data.map((item: PostTypes) => (
+            {data.reverse().map((item: PostTypes) => (
                 <ItemPost
                     key={item._id}
                     _id={item._id}
