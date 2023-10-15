@@ -17,7 +17,11 @@ import { Link } from "react-router-dom";
 
 const url = process.env.REACT_APP_URL
 
-const CommentItem = ({ text, author, createdAt, _id, idPost }: CommentTypes) => {
+interface CommentItemType extends CommentTypes {
+    fetchPost: () => void
+}
+
+const CommentItem = ({ text, author, createdAt, _id, idPost, fetchPost }: CommentItemType) => {
     
     const user = useAppSelector(state => state.auth.user)
 
@@ -28,7 +32,7 @@ const CommentItem = ({ text, author, createdAt, _id, idPost }: CommentTypes) => 
     const deleteComment = async () => {
         try {
             const { data } = await axios.delete(`comments/remove/${_id}/post${idPost}`)
-            toast(data.message)
+            fetchPost()
         } catch (error) {
             toast('Ошибка при удалении комментария!')
         }

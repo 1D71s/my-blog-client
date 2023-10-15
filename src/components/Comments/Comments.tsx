@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import CommentItem from "./CommentItem";
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "../../utils/axios";
 import { useAppSelector } from "../../utils/hooks";
@@ -8,7 +8,6 @@ import {
     Group,
     Textarea,
     Button,
-    Title
 } from "@vkontakte/vkui";
 
 export type AuthorTypes = {
@@ -89,6 +88,7 @@ const Comments = ({ comments, id, fetchPost }: Props) => {
                         text={item.text}
                         author={item.author}
                         createdAt={item.createdAt}
+                        fetchPost={fetchPost}
                     />
                 ))}
             </Group>}

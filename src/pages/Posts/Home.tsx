@@ -54,8 +54,6 @@ const Home = () => {
         </Group>
         <Group>
           <SkeletonPost />
-          <SkeletonPost />
-          <SkeletonPost />
         </Group>
       </>
     )
